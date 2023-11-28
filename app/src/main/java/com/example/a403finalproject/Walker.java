@@ -5,18 +5,18 @@ public class Walker {
     String name;
     String sDesc;
     double distanceAway;
-    double price;
+    double Charge;
     String lDesc;
     String PhoneNumber;
     String Email;
     String Schedule;
 
 
-    public Walker(String name, String sDesc, double distanceAway, double price, String lDesc, String phoneNumber, String email, String schedule) {
+    public Walker(String name, String sDesc, double distanceAway, double Charge, String lDesc, String phoneNumber, String email, String schedule) {
         this.name = name;
         this.sDesc = sDesc;
         this.distanceAway = distanceAway;
-        this.price = price;
+        this.Charge = Charge;
         this.lDesc = lDesc;
         PhoneNumber = phoneNumber;
         Email = email;

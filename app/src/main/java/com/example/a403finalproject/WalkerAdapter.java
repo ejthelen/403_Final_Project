@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,16 @@ public class WalkerAdapter extends BaseAdapter {
         view =  LayoutInflater.from(context).inflate(R.layout.layout_walker,parent,false);
         Walker walker = walkers.get(i);
 
-        //apply values here
+        TextView txtName = view.findViewById(R.id.txtName);
+        TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
+        TextView txtDistanceAway = view.findViewById(R.id.txtDistanceAway);
+        TextView txtCharge = view.findViewById(R.id.txtCharge);
+
+        txtName.setText("Name: "+walker.name);
+        txtShortDesc.setText("Name: "+walker.sDesc);
+        txtDistanceAway.setText("Name: "+walker.distanceAway);
+        txtCharge.setText("Name: "+walker.Charge);
+
 
         return view;
     }
