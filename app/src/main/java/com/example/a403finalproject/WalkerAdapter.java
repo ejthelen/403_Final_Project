@@ -46,9 +46,9 @@ public class WalkerAdapter extends BaseAdapter {
         TextView txtDistanceAway = view.findViewById(R.id.txtDistanceAway);
         TextView txtCharge = view.findViewById(R.id.txtCharge);
 
-        txtName.setText("Name: "+walker.name);
+        txtName.setText("Name: "+walker.fName+" "+walker.lName);
         txtShortDesc.setText("Name: "+walker.sDesc);
-        txtDistanceAway.setText("Name: "+walker.distanceAway);
+        //txtDistanceAway.setText("Name: "+walker.distanceAway);
         txtCharge.setText("Name: "+walker.Charge);
 
 
