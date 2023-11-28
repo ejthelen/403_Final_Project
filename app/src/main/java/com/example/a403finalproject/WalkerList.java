@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +25,8 @@ public class WalkerList extends AppCompatActivity {
     EditText edFilter;
 
     Button btnFilter;
+    WalkerAdapter adapter;
+    ArrayList<Walker> walker;
 
     Button btnLocation;
     RequestQueue queue;
@@ -38,7 +41,22 @@ public class WalkerList extends AppCompatActivity {
         btnFilter = findViewById(R.id.btnFilter);
         btnLocation = findViewById(R.id.btnLocation);
 
+        queue = Volley.newRequestQueue(this);
 
+        walker = new ArrayList<>();
+
+        //Walker f = new Walker("john","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1);
+
+        walker.add(new Walker("1","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        walker.add(new Walker("2","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        walker.add(new Walker("3","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        walker.add(new Walker("4","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+
+        getData();
+        adapter = new WalkerAdapter(this,walker);
+
+        lstWalkers.setAdapter(adapter);
 
 
     }
@@ -48,7 +66,6 @@ public class WalkerList extends AppCompatActivity {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        List<Walker> walkers = new ArrayList<>();
 
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject walkerObj = response.getJSONObject(i);
@@ -74,27 +91,27 @@ public class WalkerList extends AppCompatActivity {
                             double longitude = walkerObj.getDouble("longitude");
 
                             // Create a Walker object
-                            Walker walker = new Walker();
-                            walker.setTUID(tuId);
-                            walker.setfName(firstName);
-                            walker.setlName(lastName);
-                            walker.setPhoneNumber(phoneNumber);
-                            walker.setEmail(email);
-                            walker.setAddress(streetAddress);
-                            walker.setCity(city);
-                            walker.setState(state);
-                            walker.setCountry(country);
-                            walker.setWalker(isWalker);
-                            walker.setWalkRate(walkRate);
-                            walker.setsDesc(shortDescription);
-                            walker.setlDesc(longDescription);
+                            Walker w = new Walker();
+                            w.setTUID(tuId);
+                            w.setfName(firstName);
+                            w.setlName(lastName);
+                            w.setPhoneNumber(phoneNumber);
+                            w.setEmail(email);
+                            w.setAddress(streetAddress);
+                            w.setCity(city);
+                            w.setState(state);
+                            w.setCountry(country);
+                            w.setWalker(isWalker);
+                            w.setWalkRate(walkRate);
+                            w.setsDesc(shortDescription);
+                            w.setlDesc(longDescription);
                             //walker.setPassword(password);
                             //walker.setUsername(username);
 
-                            walker.setLatitude(latitude);
-                            walker.setLongitude(longitude);
+                            w.setLatitude(latitude);
+                            w.setLongitude(longitude);
 
-                            walkers.add(walker);
+                            walker.add(w);
                         }
 
                         // Process the list of walkers as needed
@@ -104,7 +121,7 @@ public class WalkerList extends AppCompatActivity {
                         Log.e("Error", "Error parsing JSON response", e);
                     }
                 },
-                error -> Log.e("Error", "Error fetching data: " + error.toString()));
+                error -> Log.e("Error", "Error fetching data: " + error));
 
         // Add the request to the request queue
         queue.add(request);

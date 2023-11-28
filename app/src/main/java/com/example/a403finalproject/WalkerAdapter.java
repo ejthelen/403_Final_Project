@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,12 +24,12 @@ public class WalkerAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return walkers.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return walkers.get(position);
     }
 
     @Override
@@ -51,6 +52,11 @@ public class WalkerAdapter extends BaseAdapter {
         //txtDistanceAway.setText("Name: "+walker.distanceAway);
         txtCharge.setText("Name: "+walker.Charge);
 
+        Button btnExpand = view.findViewById(R.id.btnExpand);
+
+        btnExpand.setOnClickListener(e->{
+
+        });
 
         return view;
     }

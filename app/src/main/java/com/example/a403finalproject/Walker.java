@@ -39,6 +39,9 @@ public class Walker {
         this.TUID = TUID;
     }
 
+    public Walker() {
+    }
+
 
     public String getfName() {
         return fName;
