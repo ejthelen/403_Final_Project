@@ -34,7 +34,7 @@ public class WalkerList extends AppCompatActivity {
 
 /*
     public void getData(){
-        String url = "https://opentdb.com/api_category.php";
+        String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetAllWalkers";
         JsonObjectRequest r = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
 
