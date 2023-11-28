@@ -30,4 +30,32 @@ public class WalkerList extends AppCompatActivity {
 
 
     }
+
+
+/*
+    public void getData(){
+        String url = "https://opentdb.com/api_category.php";
+        JsonObjectRequest r = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+
+                    try {
+                        JSONArray categoriesArray = response.getJSONArray("trivia_categories");
+                        for(int i = 0; i < categoriesArray.length(); i++){
+                            JSONObject categoryObj = categoriesArray.getJSONObject(i);
+                            int id = categoryObj.getInt("id");
+                            String name = categoryObj.getString("name");
+                            Category c = new Category(name, id);
+                            category.add(c);
+                        }
+                        adapter.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                },
+                error -> Log.d("DDD",error.toString()));
+        queue.add(r);
+    }
+    */
+
 }
