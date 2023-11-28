@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONException;
@@ -25,6 +26,7 @@ public class WalkerList extends AppCompatActivity {
     Button btnFilter;
 
     Button btnLocation;
+    RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +59,37 @@ public class WalkerList extends AppCompatActivity {
                             String lastName = walkerObj.getString("last_name");
                             String phoneNumber = walkerObj.getString("phone_number");
                             String email = walkerObj.getString("email");
-                            // ... (similarly parse other fields)
+                            String streetAddress = walkerObj.getString("street_address");
+                            String city = walkerObj.getString("city");
+                            String state = walkerObj.getString("state");
+                            String country = walkerObj.getString("country");
+                            boolean isWalker = walkerObj.getBoolean("is_walker");
+                            double walkRate = walkerObj.getDouble("walk_rate");
+                            String shortDescription = walkerObj.getString("short_description");
+                            String longDescription = walkerObj.getString("long_description");
+                            String password = walkerObj.getString("password");
+                            String username = walkerObj.getString("username");
 
                             double latitude = walkerObj.getDouble("latitude");
                             double longitude = walkerObj.getDouble("longitude");
 
-                            // Create a Person object
-                            Walker walker = new Person();
-                            walker.setTuID(tuId);
-                            walker.setFirstName(firstName);
-                            walker.setLastName(lastName);
+                            // Create a Walker object
+                            Walker walker = new Walker();
+                            walker.setTUID(tuId);
+                            walker.setfName(firstName);
+                            walker.setlName(lastName);
                             walker.setPhoneNumber(phoneNumber);
                             walker.setEmail(email);
-                            // ... (similarly set other fields)
+                            walker.setAddress(streetAddress);
+                            walker.setCity(city);
+                            walker.setState(state);
+                            walker.setCountry(country);
+                            walker.setWalker(isWalker);
+                            walker.setWalkRate(walkRate);
+                            walker.setsDesc(shortDescription);
+                            walker.setlDesc(longDescription);
+                            //walker.setPassword(password);
+                            //walker.setUsername(username);
 
                             walker.setLatitude(latitude);
                             walker.setLongitude(longitude);
@@ -82,8 +102,6 @@ public class WalkerList extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         Log.e("Error", "Error parsing JSON response", e);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
                     }
                 },
                 error -> Log.e("Error", "Error fetching data: " + error.toString()));

@@ -5,6 +5,7 @@ public class Walker {
     String fName;
     String lName;
     String address;
+    String City;
     String state;
     String country;
     boolean isWalker;
@@ -15,14 +16,15 @@ public class Walker {
     String lDesc;
     String PhoneNumber;
     String Email;
-    double Lattitude;
+    double Latitude;
     double Longitude;
     int TUID;
 
-    public Walker(String fName, String lName, String address, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double lattitude, double longitude, int TUID) {
+    public Walker(String fName, String lName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double Latitude, double longitude, int TUID) {
         this.fName = fName;
         this.lName = lName;
         this.address = address;
+        City = city;
         this.state = state;
         this.country = country;
         this.isWalker = isWalker;
@@ -32,7 +34,7 @@ public class Walker {
         this.lDesc = lDesc;
         PhoneNumber = phoneNumber;
         Email = email;
-        Lattitude = lattitude;
+        Latitude = Latitude;
         Longitude = longitude;
         this.TUID = TUID;
     }
@@ -134,12 +136,12 @@ public class Walker {
         Email = email;
     }
 
-    public double getLattitude() {
-        return Lattitude;
+    public double getLatitude() {
+        return Latitude;
     }
 
-    public void setLattitude(double lattitude) {
-        Lattitude = lattitude;
+    public void setLatitude(double Latitude) {
+        Latitude = Latitude;
     }
 
     public double getLongitude() {
@@ -148,5 +150,21 @@ public class Walker {
 
     public void setLongitude(double longitude) {
         Longitude = longitude;
+    }
+
+    public int getTUID() {
+        return TUID;
+    }
+
+    public void setTUID(int TUID) {
+        this.TUID = TUID;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String city) {
+        City = city;
     }
 }
