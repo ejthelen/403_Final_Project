@@ -47,11 +47,11 @@ public class WalkerList extends AppCompatActivity {
 
         //Walker f = new Walker("john","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1);
 
-        walker.add(new Walker("1","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        walker.add(new Walker("2","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        walker.add(new Walker("3","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        walker.add(new Walker("4","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        //walker.add(new Walker("1","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        //walker.add(new Walker("2","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        //walker.add(new Walker("3","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        //walker.add(new Walker("4","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        //walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
 
         getData();
         adapter = new WalkerAdapter(this,walker);

@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import java.util.ArrayList;
 
 public class WalkerAdapter extends BaseAdapter {
@@ -46,6 +48,7 @@ public class WalkerAdapter extends BaseAdapter {
         TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
         TextView txtDistanceAway = view.findViewById(R.id.txtDistanceAway);
         TextView txtCharge = view.findViewById(R.id.txtCharge);
+        ConstraintLayout clHousing = view.findViewById(R.id.clHousing);
 
         txtName.setText("Name: "+walker.fName+" "+walker.lName);
         txtShortDesc.setText("Name: "+walker.sDesc);
@@ -55,7 +58,7 @@ public class WalkerAdapter extends BaseAdapter {
         Button btnExpand = view.findViewById(R.id.btnExpand);
 
         btnExpand.setOnClickListener(e->{
-
+            clHousing.setMaxHeight(500);
         });
 
         return view;
