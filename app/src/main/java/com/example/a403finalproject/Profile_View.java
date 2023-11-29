@@ -136,9 +136,41 @@ public class Profile_View extends AppCompatActivity {
 
             Toast.makeText(Profile_View.this, "Your profile was updated, and your walking account is now " + activeStatus, Toast.LENGTH_SHORT).show();
 
-            // Add/change info in database
 
-            // Change walking active status
+            // Change walking active status and update database info about user profile
+            JSONObject updatedData = new JSONObject();
+            try {
+                updatedData.put("first_name", edFirstName.getText() + "");
+                updatedData.put("last_name", edLastName.getText() + "");
+                updatedData.put("phone_number", edNumber.getText() + "");
+                updatedData.put("email", edMail.getText()+"");
+                updatedData.put("street_address", "");
+                updatedData.put("city", "");
+                updatedData.put("state", "");
+                updatedData.put("country", "");
+                updatedData.put("walk_rate", (double)skRate.getProgress());
+                updatedData.put("is_walker", walkingStatus);
+                updatedData.put("short_description", edShort.getText() + "");
+                updatedData.put("long_description", edLong.getText() + "");
+                updatedData.put("password", "");
+                updatedData.put("username", "testuserbob");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/UpdateUser";
+
+            JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, updatedData,
+                    response -> {
+                        // Handle successful update
+                        Log.d("Update", "Data updated successfully");
+                    },
+                    error -> {
+                        // Handle error
+                        Log.e("Update", "Error updating data: " + error.toString());
+                    });
+
+            queue.add(updateRequest);
         });
     }
 
