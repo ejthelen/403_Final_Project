@@ -49,16 +49,32 @@ public class WalkerAdapter extends BaseAdapter {
         TextView txtDistanceAway = view.findViewById(R.id.txtDistanceAway);
         TextView txtCharge = view.findViewById(R.id.txtCharge);
         ConstraintLayout clHousing = view.findViewById(R.id.clHousing);
+        Button btnBook = view.findViewById(R.id.btnBook);
+        TextView txtLongDesc = view.findViewById(R.id.txtLongDesc);
+        TextView txtEC = view.findViewById(R.id.txtExpand);
 
         txtName.setText("Name: "+walker.fName+" "+walker.lName);
-        txtShortDesc.setText("Name: "+walker.sDesc);
+        txtShortDesc.setText(""+walker.sDesc);
         //txtDistanceAway.setText("Name: "+walker.distanceAway);
-        txtCharge.setText("Name: "+walker.Charge);
+        txtCharge.setText("Price: "+walker.Charge);
+        txtLongDesc.setText(""+walker.lDesc);
 
-        Button btnExpand = view.findViewById(R.id.btnExpand);
+        clHousing.setMaxHeight(300);
 
-        btnExpand.setOnClickListener(e->{
-            clHousing.setMaxHeight(500);
+        clHousing.setOnClickListener(e->{
+            //clHousing.setMaxHeight(300);
+
+            if(clHousing.getMaxHeight()==300){
+                clHousing.setMaxHeight(900);
+                txtEC.setText("^");
+
+            }
+            else if(clHousing.getMaxHeight()==900){
+                clHousing.setMaxHeight(300);
+                txtEC.setText("v");
+
+            }
+
         });
 
         return view;
