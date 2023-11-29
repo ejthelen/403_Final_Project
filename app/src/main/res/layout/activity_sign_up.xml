@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUp">
+
+    <EditText
+        android:id="@+id/etSignUpEmail"
+        android:layout_width="330dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/etSignUpPhoneNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etFirst" />
+
+    <EditText
+        android:id="@+id/etState"
+        android:layout_width="319dp"
+        android:layout_height="47dp"
+        android:ems="10"
+        android:hint="@string/state"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etPasswordSignUp"
+        app:layout_constraintEnd_toEndOf="@+id/etCity"
+        app:layout_constraintTop_toBottomOf="@+id/etCity" />
+
+    <EditText
+        android:id="@+id/etStreetAddy"
+        android:layout_width="325dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="Postal Address"
+        android:inputType="textPostalAddress"
+        app:layout_constraintBottom_toTopOf="@+id/etCity"
+        app:layout_constraintEnd_toEndOf="@+id/etSignUpPhoneNumber"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/etSignUpPhoneNumber" />
+
+    <EditText
+        android:id="@+id/etLast"
+        android:layout_width="145dp"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:hint="@string/last_name"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etFirst"
+        app:layout_constraintEnd_toStartOf="@+id/chkWalker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etCity"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="@string/city_name"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etState"
+        app:layout_constraintEnd_toEndOf="@+id/etStreetAddy"
+        app:layout_constraintStart_toStartOf="@+id/etStreetAddy"
+        app:layout_constraintTop_toBottomOf="@+id/etStreetAddy" />
+
+    <EditText
+        android:id="@+id/etFirst"
+        android:layout_width="156dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="@string/first_name"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/etSignUpEmail"
+        app:layout_constraintEnd_toEndOf="@+id/etLast"
+        app:layout_constraintStart_toStartOf="@+id/etLast"
+        app:layout_constraintTop_toBottomOf="@+id/etLast" />
+
+    <EditText
+        android:id="@+id/etSignUpPhoneNumber"
+        android:layout_width="325dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:hint="@android:string/emptyPhoneNumber"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/etStreetAddy"
+        app:layout_constraintEnd_toEndOf="@+id/etSignUpEmail"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpEmail"
+        app:layout_constraintTop_toBottomOf="@+id/etSignUpEmail" />
+
+    <EditText
+        android:id="@+id/etPasswordSignUp"
+        android:layout_width="313dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/etConfirmPassWord"
+        app:layout_constraintEnd_toEndOf="@+id/etState"
+        app:layout_constraintStart_toStartOf="@+id/etState"
+        app:layout_constraintTop_toBottomOf="@+id/etState" />
+
+    <EditText
+        android:id="@+id/etConfirmPassWord"
+        android:layout_width="308dp"
+        android:layout_height="54dp"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/btnSignUpForeal"
+        app:layout_constraintEnd_toEndOf="@+id/etPasswordSignUp"
+        app:layout_constraintStart_toStartOf="@+id/etPasswordSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordSignUp" />
+
+    <Button
+        android:id="@+id/btnSignUpForeal"
+        android:layout_width="290dp"
+        android:layout_height="52dp"
+        android:backgroundTint="@color/primary_color"
+        android:text="Sign Up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/etConfirmPassWord"
+        app:layout_constraintStart_toStartOf="@+id/etConfirmPassWord"
+        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassWord" />
+
+    <CheckBox
+        android:id="@+id/chkWalker"
+        android:layout_width="145dp"
+        android:layout_height="53dp"
+        android:text="Are you a walker?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

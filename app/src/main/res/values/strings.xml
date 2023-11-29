@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">403 Final Project</string>
+    <string name="app_title">Waggin Tail</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="city_name">City</string>
+    <string name="state">State</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+
+
+
+
+
 </resources>
