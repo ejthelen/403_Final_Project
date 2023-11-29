@@ -1,6 +1,13 @@
 package com.example.a403finalproject;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,21 +67,38 @@ public class WalkerAdapter extends BaseAdapter {
         txtLongDesc.setText(""+walker.lDesc);
 
         clHousing.setMaxHeight(300);
+        btnBook.setVisibility(View.INVISIBLE);
+
+        txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
 
         clHousing.setOnClickListener(e->{
             //clHousing.setMaxHeight(300);
 
             if(clHousing.getMaxHeight()==300){
-                clHousing.setMaxHeight(900);
+                clHousing.setMaxHeight(1000);
+                Log.d("HESH",txtLongDesc.getHeight()+"");
                 txtEC.setText("^");
-
+                btnBook.setVisibility(View.VISIBLE);
             }
-            else if(clHousing.getMaxHeight()==900){
+            else if(clHousing.getMaxHeight()==1000){
                 clHousing.setMaxHeight(300);
                 txtEC.setText("v");
+                btnBook.setVisibility(View.INVISIBLE);
 
             }
 
+        });
+
+        btnBook.setOnClickListener(e->{
+            Intent intent = new Intent(context,ScheduleWalk.class);
+
+            Bundle b = new Bundle();
+
+            b.putString("TUID",""+walker.getTUID());
+            Log.d("HESH",""+walker.getTUID());
+
+            intent.putExtras(b);
+            startActivity(context,intent,b);
         });
 
         return view;
