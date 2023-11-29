@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">403 Final Project</string>
+    <string name="title_activity_walker_map">Walker_Map</string>
 </resources>
