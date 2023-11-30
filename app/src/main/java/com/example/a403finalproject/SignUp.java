@@ -18,9 +18,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.BreakIterator;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public class SignUp extends AppCompatActivity {
@@ -32,12 +29,11 @@ public class SignUp extends AppCompatActivity {
                     "(?=.*[a-z])" +         //at least 1 lower case letter
                     "(?=.*[A-Z])" +         //at least 1 upper case letter
                     "(?=.*[a-zA-Z])" +      //any letter
-                    "(?=.*[@#$%^&+=])" +    //at least 1 special character
                     "(?=\\S+$)" +           //no white spaces
                     ".{8,}" +               //at least 8sdfdsfds characters
                     "$");
     EditText etFirstName, etLastName, etEmail,etCountry, etPhone, etCity, etState, etAddress, etPassword,etShortDescription,etLongDescription,etSignUpUserName;
-    Button btnSignUpForeal;
+    Button btnResgister;
     RequestQueue requestQueue;
     TextView txtCheckStuff;
 
@@ -60,7 +56,7 @@ public class SignUp extends AppCompatActivity {
         etState = findViewById(R.id.etState);
         etAddress = findViewById(R.id.etStreetAddy);
         etPassword = findViewById(R.id.etPasswordSignUp);
-        btnSignUpForeal = findViewById(R.id.btnSignUpForeal);
+        btnResgister = findViewById(R.id.btnSignUpForeal);
         etShortDescription = findViewById(R.id.etShortDescription);
         etLongDescription = findViewById(R.id.etLongDescription);
         etSignUpUserName = findViewById(R.id.etSignUpUserName);
@@ -72,9 +68,16 @@ public class SignUp extends AppCompatActivity {
 
 
 
-        btnSignUpForeal.setOnClickListener((e -> {
-            setUser();
+        btnResgister.setOnClickListener((e -> {
+            boolean isValidEmail = validateEmail();
+            boolean isValidPassword = validatePassword();
+            boolean isValidPhoneNumber = validatePhoneNumber();
+
+            if (isValidEmail && isValidPassword&&isValidPhoneNumber) {
+                setUser();
+            }
         }));
+
 
 
     }
@@ -88,10 +91,9 @@ public class SignUp extends AppCompatActivity {
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             etEmail.setError("Enter a valid email address");
             return false;
-        } else {
-            etEmail.setError(null);
-            return false;
         }
+        return true;
+
     }
 
     //validates password based off PASSWORD_PATTERN regex
@@ -105,10 +107,8 @@ public class SignUp extends AppCompatActivity {
         } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
             etPassword.setError("Password is too weak");
             return false;
-        } else {
-            etPassword.setError(null);
-            return true;
         }
+        return true;
     }
     public void setUser() {
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/CreateUser";
@@ -162,69 +162,19 @@ public class SignUp extends AppCompatActivity {
         // Add the request to the request queue
         requestQueue.add(request);
     }
+    public boolean validatePhoneNumber(){
+        String phoneNumber = etPhone.getText().toString().trim();
+        if (phoneNumber.isEmpty()){
+            etPhone.setError("Field can't be empty");
+            return false;
+        } else if (!Patterns.PHONE.matcher(phoneNumber).matches()) {
+            etPhone.setError("Invalid phone number");
+            return false;
+        }
+        return true;
+    }
 
-//    public void setUser() {
-//
-//
-//
-//        String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/CreateUser";
-//
-//        // Prepare the JSON request data
-//        JSONObject jsonBody = new JSONObject();
-//        try {
-//
-//            jsonBody.put("first_name", firstName);
-//            jsonBody.put("last_name", lastName);
-//            jsonBody.put("phone_number", phone);
-//            jsonBody.put("email", email);
-//            jsonBody.put("street_address", address);
-//            jsonBody.put("city", city);
-//            jsonBody.put("state", state);
-//            jsonBody.put("country", country);
-//            jsonBody.put("walk_rate", 0.0);
-//            jsonBody.put("short_description", short_description);
-//            jsonBody.put("long_description", long_description);
-//            jsonBody.put("password", password);
-//            jsonBody.put("username", username);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            // Handle JSON exception
-//        }
-//
-//        // Create a new JsonObjectRequest with POST method
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
-//                response -> {
-//
-//                    // Handle the response, e.g., log success or update UI
-//                    Log.d("UserSet", "User created successfully");
-//                    Log.d("USER CREATED", jsonBody.toString());
-//
-//
-//                },
-//                error -> {
-//                    // Handle the error, e.g., log error or update UI
-//                    Log.d("UserSetError", "Error creating user: " + error.toString());
-//                });
-//
-//        // Add the request to the request queue
-//        requestQueue.add(request);
-//    }
-//    public boolean validateAddress(){
-//        String addy = etAddress.getText().toString().trim();
-//        if (addy.isEmpty()){
-//            etAddress.setText("Field can't be empty");
-//
-//        } else if (!Patterns.) {
-//
-//        }
-//
-//    }
-//    public boolean validateCity(){
-//
-//    }
-//    public boolean validateState (){
-//
-//    }
-//
+
+
 
 }
