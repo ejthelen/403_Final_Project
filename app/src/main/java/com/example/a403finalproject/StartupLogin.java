@@ -90,7 +90,7 @@ public class StartupLogin extends AppCompatActivity {
 //                requestData.put("short_description", "Test user");
 //                requestData.put("long_description", "This is a test user for Postman");
 //                requestData.put("password", "password1234");
-//                requestData.put("username", "testuserstan");
+//                requestData.put("username", "testuse rstan");
 //            } catch (JSONException e) {
 //                e.printStackTrace();
 //                // Handle JSON exception
@@ -115,42 +115,57 @@ public class StartupLogin extends AppCompatActivity {
         String username = etUserName.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
+        String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/IsValidPassword";
+
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("username", username);
             jsonBody.put("password", password);
-            Log.d("volley stuff", jsonBody.toString());
         } catch (JSONException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
-        String url="https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/IsValidPassword";
-
         JsonObjectRequest loginReq = new JsonObjectRequest(
-                Request.Method.POST, url,
+                Request.Method.POST,
+                url,
                 jsonBody,
                 response -> {
+                    // Handle the response as needed
                     try {
+                        boolean isValid = response.getBoolean("IsValid");
+                        // Set the response message to the textView
+                        String message = isValid ? "Login successful" : "Login failed";
+                        txtTestResponse.setText(message);
+                        Log.d("Response", response.toString());
 
-                        boolean success = response.getBoolean("success");
-                        if (success) {
-                            //
-                            String token = response.getString("token");
 
+
+
+                        if (isValid) {
+                            //stores the login state in sharedPref
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("token", token);
+                            editor.putBoolean("isLoggedIn", true);
                             editor.apply();
 
                             startActivity(new Intent(StartupLogin.this, Profile_View.class));
                             finish();
-                        } else {
-                            Log.d("Login Failed", "Login failed");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, error -> Log.d("Login Failed", "Error during failed login"));
-        requestQueue.add(loginReq);
+                },
+                error -> {
+                    Log.e("Login Failed", "Error during failed login: " + error.toString(), error);
 
+
+
+                    // Set an error message to the textView
+                    txtTestResponse.setText("Login failed. Please try again.");
+                });
+
+        requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(loginReq);
     }
+
 }

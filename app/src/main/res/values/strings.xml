@@ -8,9 +8,26 @@
     <string name="state">State</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="description">Description</string>
+    <string name="street_addy">Address</string>
+    <string name="country">Country</string>
+    <string name="walk_rate">Walk Rate</string>
+    <string name="phone_number">Phone Number</string>
 
-
-
+    <string name="short_desc">Short Description</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 
 
 </resources>
