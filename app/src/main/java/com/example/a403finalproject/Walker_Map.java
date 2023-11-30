@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.LayoutInflater;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,11 +48,36 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.setInfoWindowAdapter(new WalkerInfoWindow());
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        mMap.setOnMapLongClickListener(latLng -> {
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
+            marker.setTitle("");
+        });
+    }
+
+    class WalkerInfoWindow implements GoogleMap.InfoWindowAdapter {
+        @Nullable
+        @Override
+        public View getInfoContents(@NonNull Marker marker) {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public View getInfoWindow(@NonNull Marker marker) {
+            View v = LayoutInflater.from(Walker_Map.this).inflate(R.layout.layout_walker_window,
+                    null);
+            TextView txtWalkerName = v.findViewById(R.id.tvWalkerName);
+            TextView txtWalkerDistance = v.findViewById(R.id.tvWalkerDistance);
+            TextView txtPrice = v.findViewById(R.id.tvPrice);
+
+            return v;
+        }
     }
 
 }
