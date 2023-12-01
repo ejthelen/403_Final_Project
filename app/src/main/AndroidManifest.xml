@@ -21,10 +21,6 @@
             android:name=".AddPetActivity"
             android:exported="false"/>
         <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main" />
-        <activity
             android:name=".SignUp"
             android:exported="false" />
         <activity
@@ -33,9 +29,6 @@
         <activity
             android:name=".AppInfoActivity"
             android:exported="false" />
-        <activity
-            android:name=".Profile_View"
-            android:exported="false"/>
         <activity
             android:name=".WalkerList"
             android:exported="false" />
