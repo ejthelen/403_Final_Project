@@ -1,5 +1,6 @@
 package com.example.a403finalproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -14,10 +15,22 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AddressComponent;
+import com.google.android.libraries.places.api.model.AddressComponents;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class SignUp extends AppCompatActivity {
@@ -32,11 +45,14 @@ public class SignUp extends AppCompatActivity {
                     "(?=\\S+$)" +           //no white spaces
                     ".{8,}" +               //at least 8sdfdsfds characters
                     "$");
-    EditText etFirstName, etLastName, etEmail,etCountry, etPhone, etCity, etState, etAddress, etPassword,etShortDescription,etLongDescription,etSignUpUserName;
+    EditText etFirstName,etZipCode, etLastName,
+            etEmail,etCountry, etPhone, etCity, etState, etAddress,
+            etPassword,etShortDescription,etLongDescription,etSignUpUserName, etWalkRate;
     Button btnResgister;
     RequestQueue requestQueue;
     TextView txtCheckStuff;
-
+    public double latitude;
+    public double longitude;
 
 
 
@@ -46,6 +62,8 @@ public class SignUp extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+
 
         // Call the findById method for each EditText
         etFirstName = findViewById(R.id.etFirstName);
@@ -63,7 +81,65 @@ public class SignUp extends AppCompatActivity {
         etCountry = findViewById(R.id.etCountry);
         requestQueue = Volley.newRequestQueue(this);
         txtCheckStuff = findViewById(R.id.txtCheckStuff);
+        etZipCode = findViewById(R.id.etZipCode);
+        etWalkRate = findViewById(R.id.etWalkRate);
+        Places.initialize(getApplicationContext(), "AIzaSyB93L6kI1kDueyE7lBAJXBEMJqAzv-Ithw");
 
+
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS,Place.Field.ADDRESS_COMPONENTS,Place.Field.LAT_LNG));
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.e("GOOGLE STUFF", "Error fetching place predictions: " + status);
+
+            }
+
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // Handle the selected place
+                String address = place.getName();
+                String cityAddress = place.getAddress();
+                LatLng latLng = place.getLatLng();
+                // Get the address components
+                latitude = latLng.latitude;
+               longitude = latLng.longitude;
+
+               Log.d("COORDINATES", "" + longitude + "," + latitude);
+
+                // Check if address components are not null
+                if (place.getAddressComponents() != null) {
+                    // Extract components from the address
+                    List<AddressComponent> addressComponents = place.getAddressComponents().asList();
+
+                    String zipCode = getAddressComponent(addressComponents, "postal_code");
+                    String city = getAddressComponent(addressComponents, "locality");
+                    String country = getAddressComponent(addressComponents, "country");
+                    String state = getAddressComponent(addressComponents, "administrative_area_level_1");
+
+                    etAddress.setText(address);
+                    etCity.setText(city);
+                    etCountry.setText(country);
+                    etState.setText(state);
+                    etZipCode.setText(zipCode);
+
+                    //Log users address
+                    assert cityAddress != null;
+                    Log.d("USER ADDRESS",cityAddress);
+
+                    // Now you can use these individual components as needed
+                    // For example, update UI elements or perform other operations
+                }else {
+                    Log.e("components are NULL", "NULL");
+                }
+
+
+
+            }
+
+        });
 
 
 
@@ -72,8 +148,11 @@ public class SignUp extends AppCompatActivity {
             boolean isValidEmail = validateEmail();
             boolean isValidPassword = validatePassword();
             boolean isValidPhoneNumber = validatePhoneNumber();
+            boolean isValidLongDesc = validateLongDescription();
+            boolean isValidShortDesc = validateShortDescription();
+            boolean isValidWalkRate = validateWalkRate();
 
-            if (isValidEmail && isValidPassword&&isValidPhoneNumber) {
+            if (isValidEmail && isValidPassword&&isValidPhoneNumber&&isValidLongDesc&&isValidShortDesc&&isValidWalkRate) {
                 setUser();
             }
         }));
@@ -81,7 +160,18 @@ public class SignUp extends AppCompatActivity {
 
 
     }
-
+    // this method returns a part of the address depending on its type
+    private String getAddressComponent(List<AddressComponent> addressComponents, String type) {
+        for (AddressComponent component : addressComponents) {
+            for (String componentType : component.getTypes()) {
+                if (componentType.equals(type)) {
+                    Log.d("COMPONENTS", component.toString());
+                    return component.getName();
+                }
+            }
+        }
+        return null;
+    }
     //validates email address based off the regex expression in the Patterns class
     public boolean validateEmail() {
         String emailInput = etEmail.getText().toString().trim();
@@ -124,6 +214,11 @@ public class SignUp extends AppCompatActivity {
         String short_description = etShortDescription.getText().toString().trim();
         String long_description = etLongDescription.getText().toString().trim();
         String username = etSignUpUserName.getText().toString().trim();
+        String zipcode = etZipCode.getText().toString().trim();
+
+
+        String postal_address = address + "," + state + ","+zipcode+"," + country;
+
         // Prepare the JSON request data
         JSONObject requestData = new JSONObject();
         try {
@@ -136,11 +231,14 @@ public class SignUp extends AppCompatActivity {
             requestData.put("city", city);
             requestData.put("state", state);
             requestData.put("country", country);
+            requestData.put("zip_code", zipcode);
             requestData.put("walk_rate", 0.0);
             requestData.put("short_description", short_description);
             requestData.put("long_description", long_description);
             requestData.put("password", password);
             requestData.put("username", username);
+            requestData.put("longitude", longitude);
+            requestData.put("latitude", latitude);
         } catch (JSONException e) {
             e.printStackTrace();
             // Handle JSON exception
@@ -174,6 +272,31 @@ public class SignUp extends AppCompatActivity {
         return true;
     }
 
+    public boolean validateWalkRate(){
+        String walkRate = etWalkRate.getText().toString().trim();
+        if(walkRate.isEmpty()){
+        etWalkRate.setError("Field can't be empty");
+        return false;
+    }
+        return true;
+}
+
+    public boolean validateLongDescription(){
+        String longDescription = etLongDescription.getText().toString().trim();
+        if(longDescription.isEmpty()){
+            etLongDescription.setError("Field can't be empty");
+            return false;
+        }
+        return true;
+    }
+    public boolean validateShortDescription(){
+        String shortDescription = etShortDescription.getText().toString().trim();
+        if(shortDescription.isEmpty()){
+            etShortDescription.setError("Field can't be empty");
+            return false;
+        }
+        return true;
+    }
 
 
 

@@ -7,9 +7,22 @@
     android:layout_height="match_parent"
     tools:context=".SignUp">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etZipCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="ZipCode"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@+id/etState"
+            app:layout_constraintStart_toStartOf="@+id/etState"
+            app:layout_constraintTop_toBottomOf="@+id/etState" />
 
         <TextView
             android:id="@+id/txtCheckStuff"
@@ -76,7 +89,6 @@
             android:hint="@string/description"
             android:inputType="textMultiLine"
             android:maxLength="300"
-            android:text="my shiny teeth and me"
             app:layout_constraintEnd_toEndOf="@+id/etShortDescription"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/etShortDescription"
@@ -92,7 +104,6 @@
             android:hint="@string/short_desc"
             android:inputType="textMultiLine"
             android:maxLength="100"
-            android:text="doggies"
             app:layout_constraintBottom_toTopOf="@+id/etLongDescription"
             app:layout_constraintEnd_toEndOf="@+id/etWalkRate"
             app:layout_constraintHorizontal_bias="0.5"
@@ -107,10 +118,9 @@
             android:ems="10"
             android:hint="@string/walk_rate"
             android:inputType="numberDecimal"
-            android:text="0.0"
             app:layout_constraintBottom_toTopOf="@+id/etShortDescription"
             app:layout_constraintEnd_toEndOf="@+id/etCountry"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/etCountry"
             app:layout_constraintTop_toBottomOf="@+id/etCountry" />
 
@@ -118,17 +128,18 @@
             android:id="@+id/etCountry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:ems="10"
+            android:enabled="false"
             android:hint="@string/country"
             android:inputType="text"
             android:maxLength="25"
-            android:text="United States"
             app:layout_constraintBottom_toTopOf="@+id/etWalkRate"
             app:layout_constraintEnd_toEndOf="@+id/etState"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/etState"
-            app:layout_constraintTop_toBottomOf="@+id/etState" />
+            app:layout_constraintTop_toBottomOf="@+id/etZipCode" />
 
         <EditText
             android:id="@+id/etState"
@@ -136,10 +147,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:ems="10"
+            android:enabled="false"
             android:hint="@string/state"
             android:inputType="text"
-            android:maxLength="2"
-            android:text="MI"
+            android:maxLength="15"
             app:layout_constraintBottom_toTopOf="@+id/etCountry"
             app:layout_constraintEnd_toEndOf="@+id/etCity"
             app:layout_constraintHorizontal_bias="0.5"
@@ -152,10 +163,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:ems="10"
+            android:enabled="false"
             android:hint="@string/city_name"
             android:inputType="text"
             android:maxLength="30"
-            android:text="Saginaw"
             app:layout_constraintBottom_toTopOf="@+id/etState"
             app:layout_constraintEnd_toEndOf="@+id/etStreetAddy"
             app:layout_constraintHorizontal_bias="0.5"
@@ -166,16 +177,18 @@
             android:id="@+id/etStreetAddy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"
             android:ems="10"
+            android:enabled="false"
             android:hint="@string/street_addy"
             android:inputType="textPostalAddress"
             android:text="123 Forest Hill Drive"
             app:layout_constraintBottom_toTopOf="@+id/etCity"
-            app:layout_constraintEnd_toEndOf="@+id/etSignUpPhoneNumber"
+            app:layout_constraintEnd_toEndOf="@id/card_view"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/etSignUpPhoneNumber"
-            app:layout_constraintTop_toBottomOf="@+id/etSignUpPhoneNumber" />
+            app:layout_constraintStart_toStartOf="@id/card_view"
+            app:layout_constraintTop_toBottomOf="@id/card_view" />
 
         <EditText
             android:id="@+id/etSignUpPhoneNumber"
@@ -234,6 +247,28 @@
             android:text="Cosmo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <!-- AutocompleteSupportFragment for place autocomplete -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="5dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="@id/etSignUpPhoneNumber"
+            app:layout_constraintStart_toStartOf="@id/etSignUpPhoneNumber"
+            app:layout_constraintTop_toBottomOf="@id/etSignUpPhoneNumber">
+
+            <fragment
+                android:id="@+id/autocomplete_fragment"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
