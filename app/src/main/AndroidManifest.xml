@@ -15,16 +15,22 @@
         android:theme="@style/Theme._403FinalProject"
         tools:targetApi="31">
         <activity
-            android:name=".AddPetActivity"
-            android:exported="false" />
+            android:name=".PetsActivity"
+            android:exported="false"/>
         <activity
-            android:name=".PetsPageActivity"
+            android:name=".AddPetActivity"
             android:exported="false" />
         <activity
             android:name=".AppInfoActivity"
             android:exported="false" />
         <activity
             android:name=".Profile_View"
+            android:exported="false"/>
+        <activity
+            android:name=".WalkerList"
+            android:exported="false" />
+        <activity
+            android:name=".StartupLogin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".WalkerList"
-            android:exported="false" />
-        <activity
-            android:name=".StartupLogin"
-            android:exported="false" />
     </application>
 
 </manifest>
