@@ -129,8 +129,7 @@ public class SignUp extends AppCompatActivity {
                     assert cityAddress != null;
                     Log.d("USER ADDRESS",cityAddress);
 
-                    // Now you can use these individual components as needed
-                    // For example, update UI elements or perform other operations
+
                 }else {
                     Log.e("components are NULL", "NULL");
                 }
