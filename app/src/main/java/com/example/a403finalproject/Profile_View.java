@@ -31,13 +31,6 @@ public class Profile_View extends AppCompatActivity {
     RequestQueue queue;
 
     int tuid = 9;
-    String first = "";
-    String last = "";
-    String number = "";
-    String email = "";
-    String shortDes = "";
-    String longDes = "";
-    double walkRate = 0;
 
     TextView txtRate, txtRateChange;
 
@@ -64,7 +57,6 @@ public class Profile_View extends AppCompatActivity {
                                 edShort.setText(categoryObj.getString("short_description"));
                                 edLong.setText(categoryObj.getString("long_description"));
                                 skRate.setProgress((int)categoryObj.getDouble("walk_rate"));
-                                Log.d("gt", email);
 
                                 boolean isWalking = categoryObj.getBoolean("is_walker");
 
@@ -83,7 +75,6 @@ public class Profile_View extends AppCompatActivity {
                 error -> Log.d("DDD",error.toString()));
 
         queue.add(request);
-        Log.d("gt", email);
 
     }
 

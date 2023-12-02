@@ -43,10 +43,12 @@ public class PetAdaptor extends BaseAdapter {
         TextView txtBreed = view.findViewById(R.id.txtBreed);
         TextView txtDesc = view.findViewById(R.id.txtDesc);
 
+
+
         // Will update when we have to getPet api
-//        txtName.setText("Name: "+pet.name);
-//        txtBreed.setText("Breed: "+pet.breed+"");
-//        txtDesc.setText("Description: "+description.gpa+"");
+        txtName.setText("Name: "+pet.name);
+        txtBreed.setText("Breed: "+pet.breed+"");
+        txtDesc.setText("Description: "+pet.description+"");
 
         return view;
     }
