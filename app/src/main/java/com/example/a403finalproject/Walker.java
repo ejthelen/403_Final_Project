@@ -12,6 +12,15 @@ public class Walker {
     double walkRate;
 
     String sDesc;
+
+    @Override
+    public String toString() {
+        return "Walker{" +
+                "fName='" + fName + '\'' +
+                ", lName='" + lName + '\'' +
+                '}';
+    }
+
     double Charge;
     String lDesc;
     String PhoneNumber;
