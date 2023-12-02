@@ -27,7 +27,7 @@ public class AddPetActivity extends AppCompatActivity {
 
     // Will update when we figure out how to move name throughout activities
     // Maybe through preferences
-    String username = "john.doe@example.com";
+    String username = "testuserstan";
 
     ActivityResultLauncher resultLauncher;
 
@@ -43,33 +43,38 @@ public class AddPetActivity extends AppCompatActivity {
         edPetDesc = findViewById(R.id.edPetDesc);
         btnBackToPets = findViewById(R.id.btnBackToPets);
 
-        // Create a newPet object that will be put into the database
-        // Get info from the edit texts
-        JSONObject newPet = new JSONObject();
-        try {
-            newPet.put("person_username", username);
-            newPet.put("pet_name", edPetName.getText() + "");
-            newPet.put("pet_breed", edPetBreed.getText() + "");
-            newPet.put("pet_description", edPetDesc.getText()+"");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        btnAddPet = findViewById(R.id.btnAddPet);
 
-        // URL for Create Pet
-        String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/CreatePet";
+        btnAddPet.setOnClickListener(e -> {
+            // Create a newPet object that will be put into the database
+            // Get info from the edit texts
+            JSONObject newPet = new JSONObject();
+            try {
+                newPet.put("person_username", username);
+                newPet.put("pet_name", edPetName.getText() + "");
+                newPet.put("pet_breed", edPetBreed.getText() + "");
+                newPet.put("pet_description", edPetDesc.getText()+"");
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
 
-        // Send a post request with the newPet
-        JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, newPet,
-                response -> {
-                    // Handle successful update
-                    Log.d("Update", "Data updated successfully");
-                },
-                error -> {
-                    // Handle error
-                    Log.e("Update", "Error updating data: " + error.toString());
-                });
+            // URL for Create Pet
+            String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/CreatePet";
 
-        queue.add(updateRequest);
+            // Send a post request with the newPet
+            JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, newPet,
+                    response -> {
+                        // Handle successful update
+                        Log.d("Update", "Data updated successfully");
+                    },
+                    error -> {
+                        // Handle error
+                        Log.e("Update", "Error updating data: " + error.toString());
+                    });
+
+            queue.add(updateRequest);
+        });
+
 
         // Button to go back to pets page
         btnBackToPets.setOnClickListener(e -> {
