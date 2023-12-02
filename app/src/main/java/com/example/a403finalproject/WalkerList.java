@@ -1,13 +1,20 @@
 package com.example.a403finalproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,6 +45,16 @@ public class WalkerList extends AppCompatActivity {
     String streetAddress;
     String City;
     String State;
+
+    Context context;
+
+    ConstraintLayout clFilter;
+    SeekBar sbDistance;
+    SeekBar sbSpeed;
+    TextView edDistance;
+    TextView edSpeed;
+    EditText edMaxPrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,27 +70,152 @@ public class WalkerList extends AppCompatActivity {
         edFilter = findViewById(R.id.edFilter);
         btnFilter = findViewById(R.id.btnFilter);
         btnLocation = findViewById(R.id.btnLocation);
+        sbDistance = findViewById(R.id.sbDistance);
+        sbSpeed = findViewById(R.id.sbSpeed);
+        edDistance = findViewById(R.id.edDistance);
+        edSpeed = findViewById(R.id.edSpeed);
+        clFilter = findViewById(R.id.clFilter);
+        edMaxPrice = findViewById(R.id.edMaxPrice);
 
         queue = Volley.newRequestQueue(this);
+
+        context = this;
 
         walker = new ArrayList<>();
 
         //Walker f = new Walker("john","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1);
 
-        //walker.add(new Walker("1","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        //walker.add(new Walker("2","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        //walker.add(new Walker("3","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        //walker.add(new Walker("4","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walk","989 989 8998","a@aol.com",45.75,88.75,7));
+        walker.add(new Walker("1","johnson","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        walker.add(new Walker("2","johnson","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,2));
+        walker.add(new Walker("3","johnson","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,3));
+        walker.add(new Walker("4","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,4));
+        //walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walk","989 989 8998","a@aol.com",45.75,88.75,7));
 
         getData();
         adapter = new WalkerAdapter(this,walker);
 
         lstWalkers.setAdapter(adapter);
+        lstWalkers.setTextFilterEnabled(true);
+
+        clFilter.setMaxHeight(0);
+        btnFilter.setOnClickListener(e->{
+            if(clFilter.getMaxHeight()==1440){
+                clFilter.setMaxHeight(0);
+
+            }else{
+                clFilter.setMaxHeight(1440);
+            }
+
+        });
+
+        edMaxPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ArrayList<Walker> f = new ArrayList<>();
+                try {
+                    for (int i = 0; i < walker.size(); i++) {
+                        if (walker.get(i).Charge < Integer.parseInt(edMaxPrice.getText() + "")) {
+                            f.add(walker.get(i));
+
+                        }
+
+                    }
+                    //Log.d("HESH",f.toString());
+
+                    adapter = new WalkerAdapter(context, f);
+                    lstWalkers.setAdapter(adapter);
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ArrayList<Walker> f = new ArrayList<>();
+                for(int i = 0;i<walker.size();i++){
+                    if(walker.get(i).lName.contains(edFilter.getText()+"")||walker.get(i).fName.contains(edFilter.getText()+"")){
+                        f.add(walker.get(i));
+
+                    }
+
+                }
+                //Log.d("HESH",f.toString());
+
+                adapter = new WalkerAdapter(context,f);
+                lstWalkers.setAdapter(adapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        sbDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
 
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                edDistance.setText(""+progress);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        sbSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
 
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                edSpeed.setText(""+progress);
+                ArrayList<Walker> f = new ArrayList<>();
+                for(int i = 0;i<=walker.size();i++){
+                    if(walker.get(i).walkRate < progress){
+                        f.add(walker.get(i));
+
+                    }
+
+                }
+                //Log.d("HESH",f.toString());
+
+                adapter = new WalkerAdapter(context,f);
+                lstWalkers.setAdapter(adapter);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     public void getData() {
