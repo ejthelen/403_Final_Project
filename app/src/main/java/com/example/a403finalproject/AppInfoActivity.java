@@ -1,18 +1,52 @@
 package com.example.a403finalproject;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class AppInfoActivity extends AppCompatActivity {
-
+    ActivityResultLauncher resultLauncher;
     TextView txtPurpose, txtInstructions, txtCredits;
+
+    ImageButton btnToAptFromInfo, btnToPetsFromInfo, btnToHomeFromInfo, btnToProfileFromInfo, btnToInfoFromInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_info);
+
+        btnToAptFromInfo = findViewById(R.id.btnToAptFromInfo);
+        btnToHomeFromInfo = findViewById(R.id.btnToHomeFromInfo);
+        btnToProfileFromInfo = findViewById(R.id.btnToProfileFromInfo);
+        btnToPetsFromInfo = findViewById(R.id.btnToPetsFromInfo);
+
+        //        btnToAptFromInfo.setOnClickListener(e -> {
+//
+//            Intent i = new Intent(this, Appointments.class);
+//
+//            resultLauncher.launch(i);
+//        });
+
+        btnToHomeFromInfo.setOnClickListener(e -> {
+            Intent i = new Intent(this, WalkerList.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToPetsFromInfo.setOnClickListener(e -> {
+            Intent i = new Intent(this, PetsActivity.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToProfileFromInfo.setOnClickListener(e -> {
+            Intent i = new Intent(this, Profile_View.class);
+            resultLauncher.launch(i);
+        });
 
         txtPurpose = findViewById(R.id.txtPurpose);
         txtInstructions = findViewById(R.id.txtInstructions);
@@ -32,6 +66,18 @@ public class AppInfoActivity extends AppCompatActivity {
                 "3. Go to your pets page to view and add your pets. \n" +
                 "4. Go to your appointments page to view the appointments that you have booked/appointments that you are booked for.");
 
-        txtCredits.setText("How we got the images from::::");
+        txtCredits.setText("Appointment page icon made by Freepik from www.flaticon.com\n" +
+                "Pets page icon made by Freepik from www.flaticon.com\n" +
+                "Home page icon made by Kiranshastry from www.flaticon.com\n" +
+                "Profile page icon made by Freepik from www.flaticon.com\n" +
+                "Info page icon made by Freepik from www.flaticon.com\n");
+
+        // Initialize the resultLauncher
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Log.d("Main_Activity", "Activity was finished.");
+            Log.d("Main_Activity", result.getResultCode() + "");
+        });
     }
+
+
 }
