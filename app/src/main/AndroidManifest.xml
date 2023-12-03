@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -28,12 +30,12 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="vivid-cargo-405713" />
+            android:value="AIzaSyDz5R9jxmBzFzaSuNFVX1PU2-IOkKTJ-oU" />
 
         <activity
             android:name=".Walker_Map"
             android:exported="false"
-            android:label="@string/title_activity_walker_map" />
+            android:label="activity_walker_map" />
         <activity
             android:name=".PetsActivity"
             android:exported="false"/>

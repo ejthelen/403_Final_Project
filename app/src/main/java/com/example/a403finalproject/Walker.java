@@ -11,6 +11,7 @@ public class Walker {
     boolean isWalker;
     double walkRate;
 
+
     String sDesc;
 
     @Override
@@ -29,7 +30,7 @@ public class Walker {
     double Longitude;
     int TUID;
 
-    public Walker(String fName, String lName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double Latitude, double longitude, int TUID) {
+    public Walker(String fName, String lName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double latitude, double longitude, int TUID) {
         this.fName = fName;
         this.lName = lName;
         this.address = address;
@@ -43,7 +44,7 @@ public class Walker {
         this.lDesc = lDesc;
         PhoneNumber = phoneNumber;
         Email = email;
-        Latitude = Latitude;
+        Latitude = latitude;
         Longitude = longitude;
         this.TUID = TUID;
     }
