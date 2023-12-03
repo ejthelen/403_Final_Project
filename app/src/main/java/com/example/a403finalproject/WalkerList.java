@@ -193,14 +193,16 @@ public class WalkerList extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 edSpeed.setText(""+progress);
                 ArrayList<Walker> f = new ArrayList<>();
-                for(int i = 0;i<=walker.size();i++){
+                for(int i = 0;i<=walker.size()-1;i++){
                     if(walker.get(i).walkRate < progress){
                         f.add(walker.get(i));
+                        //Log.d("HESH",f.toString());
+
 
                     }
+                    Log.d("HESH",walker.size()+" "+i);
 
                 }
-                //Log.d("HESH",f.toString());
 
                 adapter = new WalkerAdapter(context,f);
                 lstWalkers.setAdapter(adapter);

@@ -30,16 +30,17 @@
             android:name=".AppInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".WalkerList"
-            android:exported="false" />
-        <activity
             android:name=".StartupLogin"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <activity
+                android:name=".WalkerList"
+                android:exported="true" >
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
     </application>
 
