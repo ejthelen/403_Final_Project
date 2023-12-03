@@ -45,7 +45,7 @@ public class AddPetActivity extends AppCompatActivity {
         btnBackToPets = findViewById(R.id.btnBackToPets);
       
         // Character limit for short and long description
-        int maxLong = 60;
+        int maxLong = 155;
 
         InputFilter[] filter1 = new InputFilter[1];
         filter1[0] = new InputFilter.LengthFilter(maxLong);
