@@ -28,6 +28,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+// Checking that new cloned repo works
+
 public class Profile_View extends AppCompatActivity {
     ActivityResultLauncher resultLauncher;
     Switch swActivate;
