@@ -22,7 +22,6 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityWalkerMapBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +49,24 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new WalkerInfoWindow());
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        setWalkerMarkers();
 
         mMap.setOnMapLongClickListener(latLng -> {
+            Walker walker = new Walker();
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
             marker.setTitle("");
         });
+    }
+
+    private void setWalkerMarkers() {
+        WalkerList walkerList = new WalkerList();
+        for (Walker walker : walkerList.walker) {
+            LatLng walkerPosition = new LatLng(walker.getLatitude(), walker.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(walkerPosition));
+        }
     }
 
     class WalkerInfoWindow implements GoogleMap.InfoWindowAdapter {
