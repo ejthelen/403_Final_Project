@@ -15,105 +15,54 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class StartupLogin extends AppCompatActivity {
     Button btnSignUp, btnSignIn;
-    EditText etPassword, etUserName;
+
     TextView txtTestResponse;
     RequestQueue requestQueue;
     SharedPreferences sharedPreferences;
+    TextInputLayout textInputLayoutPassword,textInputLayoutUsername;
+    TextInputEditText textInputEditTextPassword,textInputEditTextUsername;
+    SharedPreferences.Editor editor;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startup_login);
+        sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignIn = findViewById(R.id.btnSignIn);
-        etPassword = findViewById(R.id.editTextTextPassword);
-        etUserName = findViewById(R.id.etUserName);
+
         txtTestResponse = findViewById(R.id.txtTestResponse);
-        //String url = "";
+        textInputLayoutPassword = findViewById(R.id.txtInputLayout);
+        textInputEditTextPassword = findViewById(R.id.txtInputEditText);
+
+        textInputLayoutUsername = findViewById(R.id.txtInputLayout2);
+        textInputEditTextUsername = findViewById(R.id.txtInputEditText2);
 
         requestQueue = Volley.newRequestQueue(this);
-        sharedPreferences = getSharedPreferences("MODE", Context.MODE_PRIVATE);
 
         btnSignUp.setOnClickListener(v -> {
             Intent intent = new Intent(this, SignUp.class);
             startActivity(intent);
-
         });
         btnSignIn.setOnClickListener(v->{
             login();
         });
-
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
-//
-//            txtTestResponse.setText(response);
-//
-//
-//
-//
-//        }, error -> {
-//            txtTestResponse.setText(txtTestResponse.toString());
-//
-//        });
-//
-//
-//        btnSignUp.setOnClickListener(v->{
-//            requestQueue.add(stringRequest);
-//
-//        });
-//    }
-
-
-
-
-//        public void setUser () {
-//            String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/CreateUser";
-//
-//            // Prepare the JSON request data
-//            JSONObject requestData = new JSONObject();
-//            try {
-//                requestData.put("first_name", "stan");
-//                requestData.put("last_name", "lee");
-//                requestData.put("phone_number", "123-456-7890");
-//                requestData.put("email", "john.doe@example.com");
-//                requestData.put("street_address", "123 Main St");
-//                requestData.put("city", "Cityville");
-//                requestData.put("state", "ST");
-//                requestData.put("country", "Countryland");
-//                requestData.put("walk_rate", 0.0);
-//                requestData.put("short_description", "Test user");
-//                requestData.put("long_description", "This is a test user for Postman");
-//                requestData.put("password", "password1234");
-//                requestData.put("username", "testuse rstan");
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                // Handle JSON exception
-//            }
-//
-//            // Create a new JsonObjectRequest with POST method
-//            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestData,
-//                    response -> {
-//                        // Handle the response, e.g., log success or update UI
-//                        Log.d("UserSet", "User created successfully");
-//                    },
-//                    error -> {
-//                        // Handle the error, e.g., log error or update UI
-//                        Log.e("UserSetError", "Error creating user: " + error.toString());
-//                    });
-//
-//            // Add the request to the request requestQueue
-//            requestQueue.add(request);
-//        }
     }
     private void login() {
-        String username = etUserName.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
+        String username = Objects.requireNonNull(textInputEditTextUsername.getText()).toString().trim();
+        String password = Objects.requireNonNull(textInputEditTextPassword.getText()).toString().trim();
 
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/IsValidPassword";
 
@@ -138,13 +87,10 @@ public class StartupLogin extends AppCompatActivity {
                         txtTestResponse.setText(message);
                         Log.d("Response", response.toString());
 
-
-
-
                         if (isValid) {
-                            //stores the login state in sharedPref
-                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor = sharedPreferences.edit();
+                            Log.d("USERNAME", username);
+                            editor.putString("username", username);
                             editor.putBoolean("isLoggedIn", true);
                             editor.apply();
 
@@ -157,9 +103,6 @@ public class StartupLogin extends AppCompatActivity {
                 },
                 error -> {
                     Log.e("Login Failed", "Error during failed login: " + error.toString(), error);
-
-
-
                     // Set an error message to the textView
                     txtTestResponse.setText("Login failed. Please try again.");
                 });

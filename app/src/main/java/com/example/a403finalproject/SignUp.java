@@ -3,6 +3,8 @@ package com.example.a403finalproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -43,7 +45,7 @@ public class SignUp extends AppCompatActivity {
                     "(?=.*[A-Z])" +         //at least 1 upper case letter
                     "(?=.*[a-zA-Z])" +      //any letter
                     "(?=\\S+$)" +           //no white spaces
-                    ".{8,}" +               //at least 8sdfdsfds characters
+                    ".{8,}" +               //at least 8 characters
                     "$");
     EditText etFirstName,etZipCode, etLastName,
             etEmail,etCountry, etPhone, etCity, etState, etAddress,
@@ -129,8 +131,7 @@ public class SignUp extends AppCompatActivity {
                     assert cityAddress != null;
                     Log.d("USER ADDRESS",cityAddress);
 
-                    // Now you can use these individual components as needed
-                    // For example, update UI elements or perform other operations
+
                 }else {
                     Log.e("components are NULL", "NULL");
                 }
@@ -154,6 +155,8 @@ public class SignUp extends AppCompatActivity {
 
             if (isValidEmail && isValidPassword&&isValidPhoneNumber&&isValidLongDesc&&isValidShortDesc&&isValidWalkRate) {
                 setUser();
+                Intent intent = new Intent(this, Profile_View.class);
+                startActivity(intent);
             }
         }));
 

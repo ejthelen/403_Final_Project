@@ -43,7 +43,7 @@ public class AddPetActivity extends AppCompatActivity {
         edPetBreed = findViewById(R.id.edPetBreed);
         edPetDesc = findViewById(R.id.edPetDesc);
         btnBackToPets = findViewById(R.id.btnBackToPets);
-
+      
         // Character limit for short and long description
         int maxLong = 60;
 

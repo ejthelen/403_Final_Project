@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class Profile_View extends AppCompatActivity {
     ImageButton btnToAptFromProfile, btnToPetsFromProfile, btnToHomeFromProfile, btnToProfileFromProfile, btnToInfoFromProfile;
 
     RequestQueue queue;
+    SharedPreferences sharedPreferences;
 
     int tuid = 9;
 
@@ -46,6 +48,12 @@ public class Profile_View extends AppCompatActivity {
 
     // Will fill profile page with user information from database
     public void getData(){
+        /** Here ya go I passed the username from login  **/
+        String username = sharedPreferences.getString("username","default_val");
+        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
+
+
+
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetAllWalkers";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -89,6 +97,8 @@ public class Profile_View extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
+        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
+
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);

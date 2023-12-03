@@ -42,7 +42,9 @@ public class PetsActivity extends AppCompatActivity {
     PetAdaptor adapter;
 
     Button btnAddPetPage;
+
     ImageButton btnToAptFromPets, btnToPetsFromPets, btnToHomeFromPets, btnToProfileFromPets, btnToInfoFromPets;
+
     RequestQueue queue;
 
     String user = "testuserstan";
@@ -105,6 +107,7 @@ public class PetsActivity extends AppCompatActivity {
                             if (username.matches(user)) {
                                 Pet p = new Pet(categoryObj.getString("pet_name"), categoryObj.getString("pet_breed"), categoryObj.getString("pet_description"));
                                 pets.add(p);
+
                             }
                         }
 
