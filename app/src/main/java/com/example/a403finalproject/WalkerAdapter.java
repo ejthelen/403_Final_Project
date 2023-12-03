@@ -71,6 +71,8 @@ public class WalkerAdapter extends BaseAdapter {
 
         txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
 
+        notifyDataSetChanged();
+
         clHousing.setOnClickListener(e->{
             //clHousing.setMaxHeight(300);
 
