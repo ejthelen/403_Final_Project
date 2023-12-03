@@ -242,8 +242,8 @@ public class Profile_View extends AppCompatActivity {
         skRate = findViewById(R.id.skRate);
 
         // Character limit for short and long description
-        int maxShort = 15;
-        int maxLong = 60;
+        int maxShort = 50;
+        int maxLong = 155;
 
         InputFilter[] filter1 = new InputFilter[1];
         InputFilter[] filter2 = new InputFilter[1];

@@ -59,7 +59,7 @@ public class PetsActivity extends AppCompatActivity {
 
         btnToAptFromPets = findViewById(R.id.btnToAptFromPets);
         btnToHomeFromPets = findViewById(R.id.btnToHomeFromPets);
-        btnToProfileFromPets = findViewById(R.id.btnToPetsFromPets);
+        btnToProfileFromPets = findViewById(R.id.btnToProfileFromPets);
         btnToInfoFromPets = findViewById(R.id.btnToInfoFromPets);
 
         //        btnToAptFromPets.setOnClickListener(e -> {
