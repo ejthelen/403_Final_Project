@@ -105,9 +105,6 @@ public class PetsActivity extends AppCompatActivity {
                             if (username.matches(user)) {
                                 Pet p = new Pet(categoryObj.getString("pet_name"), categoryObj.getString("pet_breed"), categoryObj.getString("pet_description"));
                                 pets.add(p);
-                                Log.d("vrvrvr", pets.size() + "");
-
-                                Log.d("THIS", p + "");
                             }
                         }
 
