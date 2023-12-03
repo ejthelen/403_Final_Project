@@ -1,13 +1,18 @@
 package com.example.a403finalproject;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -24,11 +29,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Profile_View extends AppCompatActivity {
-
+    ActivityResultLauncher resultLauncher;
     Switch swActivate;
     EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong;
     SeekBar skRate;
     Button btnUpdate;
+    ImageButton btnToAptFromProfile, btnToPetsFromProfile, btnToHomeFromProfile, btnToProfileFromProfile, btnToInfoFromProfile;
+
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
@@ -95,6 +102,39 @@ public class Profile_View extends AppCompatActivity {
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
+
+        btnToAptFromProfile = findViewById(R.id.btnToAptFromProfile);
+        btnToHomeFromProfile = findViewById(R.id.btnToHomeFromProfile);
+        btnToPetsFromProfile = findViewById(R.id.btnToPetsFromProfile);
+        btnToInfoFromProfile = findViewById(R.id.btnToInfoFromProfile);
+
+//        btnToAptFromProfile.setOnClickListener(e -> {
+//
+//            Intent i = new Intent(this, Appointments.class);
+//
+//            resultLauncher.launch(i);
+//        });
+
+        btnToHomeFromProfile.setOnClickListener(e -> {
+            Intent i = new Intent(this, WalkerList.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToPetsFromProfile.setOnClickListener(e -> {
+            Intent i = new Intent(this, PetsActivity.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToInfoFromProfile.setOnClickListener(e -> {
+            Intent i = new Intent(this, AppInfoActivity.class);
+            resultLauncher.launch(i);
+        });
+
+        // Initialize the resultLauncher
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Log.d("Main_Activity", "Activity was finished.");
+            Log.d("Main_Activity", result.getResultCode() + "");
+        });
 
         // Call methods to get user data from database,
         // change text edits to allow user to change profile based on if their account is active,
@@ -198,6 +238,18 @@ public class Profile_View extends AppCompatActivity {
         txtRate = findViewById(R.id.txtRate);
         txtRateChange = findViewById(R.id.txtRateChange);
         skRate = findViewById(R.id.skRate);
+
+        // Character limit for short and long description
+        int maxShort = 15;
+        int maxLong = 60;
+
+        InputFilter[] filter1 = new InputFilter[1];
+        InputFilter[] filter2 = new InputFilter[1];
+        filter1[0] = new InputFilter.LengthFilter(maxShort);
+        filter2[0] = new InputFilter.LengthFilter(maxLong);
+
+        edShort.setFilters(filter1);
+        edLong.setFilters(filter2);
 
         // If the walking account is active, user should be able to edit profile
         // Else, user will be unable to edit their profile

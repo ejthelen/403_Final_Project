@@ -115,4 +115,77 @@
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/break3" />
+
+    <ImageButton
+        android:id="@+id/btnToAptFromInfo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:backgroundTint="#B2FFFFFF"
+        android:contentDescription="appointments"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/btnToPetsFromInfo"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:srcCompat="@drawable/clock" />
+
+    <ImageButton
+        android:id="@+id/btnToPetsFromInfo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:backgroundTint="#B2FFFFFF"
+        android:contentDescription="pets page"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/btnToHomeFromInfo"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnToAptFromInfo"
+        app:layout_constraintTop_toTopOf="@+id/btnToAptFromInfo"
+        app:srcCompat="@drawable/pawprint" />
+
+    <ImageButton
+        android:id="@+id/btnToHomeFromInfo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:backgroundTint="#B2FFFFFF"
+        android:contentDescription="home page"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/btnToProfileFromInfo"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnToPetsFromInfo"
+        app:layout_constraintTop_toTopOf="@+id/btnToAptFromInfo"
+        app:srcCompat="@drawable/house" />
+
+    <ImageButton
+        android:id="@+id/btnToProfileFromInfo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:backgroundTint="#B2FFFFFF"
+        android:contentDescription="profile page"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/btnToInfoFromInfo"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnToHomeFromInfo"
+        app:layout_constraintTop_toTopOf="@+id/btnToAptFromInfo"
+        app:srcCompat="@drawable/user" />
+
+    <ImageButton
+        android:id="@+id/btnToInfoFromInfo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:backgroundTint="#B2FFFFFF"
+        android:contentDescription="info page"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnToProfileFromInfo"
+        app:layout_constraintTop_toTopOf="@+id/btnToAptFromInfo"
+        app:srcCompat="@drawable/question" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="658dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,12 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,6 +42,9 @@ public class PetsActivity extends AppCompatActivity {
     PetAdaptor adapter;
 
     Button btnAddPetPage;
+
+    ImageButton btnToAptFromPets, btnToPetsFromPets, btnToHomeFromPets, btnToProfileFromPets, btnToInfoFromPets;
+
     RequestQueue queue;
 
     String user = "testuserstan";
@@ -51,6 +56,33 @@ public class PetsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pets);
+
+        btnToAptFromPets = findViewById(R.id.btnToAptFromPets);
+        btnToHomeFromPets = findViewById(R.id.btnToHomeFromPets);
+        btnToProfileFromPets = findViewById(R.id.btnToPetsFromPets);
+        btnToInfoFromPets = findViewById(R.id.btnToInfoFromPets);
+
+        //        btnToAptFromPets.setOnClickListener(e -> {
+//
+//            Intent i = new Intent(this, Appointments.class);
+//
+//            resultLauncher.launch(i);
+//        });
+
+        btnToHomeFromPets.setOnClickListener(e -> {
+            Intent i = new Intent(this, WalkerList.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToProfileFromPets.setOnClickListener(e -> {
+            Intent i = new Intent(this, Profile_View.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToInfoFromPets.setOnClickListener(e -> {
+            Intent i = new Intent(this, AppInfoActivity.class);
+            resultLauncher.launch(i);
+        });
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
@@ -75,9 +107,7 @@ public class PetsActivity extends AppCompatActivity {
                             if (username.matches(user)) {
                                 Pet p = new Pet(categoryObj.getString("pet_name"), categoryObj.getString("pet_breed"), categoryObj.getString("pet_description"));
                                 pets.add(p);
-                                Log.d("vrvrvr", pets.size() + "");
 
-                                Log.d("THIS", p + "");
                             }
                         }
 

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +43,14 @@ public class AddPetActivity extends AppCompatActivity {
         edPetBreed = findViewById(R.id.edPetBreed);
         edPetDesc = findViewById(R.id.edPetDesc);
         btnBackToPets = findViewById(R.id.btnBackToPets);
+      
+        // Character limit for short and long description
+        int maxLong = 60;
+
+        InputFilter[] filter1 = new InputFilter[1];
+        filter1[0] = new InputFilter.LengthFilter(maxLong);
+
+        edPetDesc.setFilters(filter1);
 
         btnAddPet = findViewById(R.id.btnAddPet);
 
@@ -73,6 +82,10 @@ public class AddPetActivity extends AppCompatActivity {
                     });
 
             queue.add(updateRequest);
+
+            Intent i = new Intent(this, PetsActivity.class);
+
+            resultLauncher.launch(i);
         });
 
 
