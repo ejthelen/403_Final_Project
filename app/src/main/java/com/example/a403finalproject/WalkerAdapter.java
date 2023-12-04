@@ -18,6 +18,8 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WalkerAdapter extends BaseAdapter {
 
@@ -71,7 +73,9 @@ public class WalkerAdapter extends BaseAdapter {
 
         txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
 
-        notifyDataSetChanged();
+
+
+
 
         clHousing.setOnClickListener(e->{
             //clHousing.setMaxHeight(300);
@@ -105,4 +109,6 @@ public class WalkerAdapter extends BaseAdapter {
 
         return view;
     }
+
+
 }

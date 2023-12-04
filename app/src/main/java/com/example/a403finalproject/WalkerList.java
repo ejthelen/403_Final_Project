@@ -1,9 +1,12 @@
 package com.example.a403finalproject;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -92,10 +95,20 @@ public class WalkerList extends AppCompatActivity {
         //walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walk","989 989 8998","a@aol.com",45.75,88.75,7));
 
         getData();
+
+
         adapter = new WalkerAdapter(this,walker);
 
         lstWalkers.setAdapter(adapter);
         lstWalkers.setTextFilterEnabled(true);
+
+        /*try {
+            Thread.sleep(1000); // Sleep for 1000 milliseconds (1 second)
+            adapter.notifyDataSetChanged();
+
+        } catch (InterruptedException e) {
+            System.out.println("Timer interrupted!");
+        }*/
 
         clFilter.setMaxHeight(0);
         btnFilter.setOnClickListener(e->{
@@ -106,6 +119,15 @@ public class WalkerList extends AppCompatActivity {
                 clFilter.setMaxHeight(1440);
             }
 
+        });
+
+        btnLocation.setOnClickListener(e->{
+            /*Intent intent = new Intent(context,ScheduleWalk.class);
+
+            Bundle b = new Bundle();
+
+            intent.putExtras(b);
+            startActivity(context,intent,b);*/
         });
 
         edMaxPrice.addTextChangedListener(new TextWatcher() {
