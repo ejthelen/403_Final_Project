@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
@@ -25,10 +26,16 @@ public class AddPetActivity extends AppCompatActivity {
     Button btnAddPet, btnBackToPets;
 
     RequestQueue queue;
+    SharedPreferences sharedPreferences;
 
     // Will update when we figure out how to move name throughout activities
     // Maybe through preferences
-    String username = "testuserstan";
+    //String username = "testuserstan";
+
+
+    /** Username passed from login  **/
+    String username = sharedPreferences.getString("username","default_val");
+
 
     ActivityResultLauncher resultLauncher;
 
@@ -36,6 +43,9 @@ public class AddPetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
+        /** Here ya go I passed the username from login  **/
+        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
+
 
         queue = Volley.newRequestQueue(this);
 
