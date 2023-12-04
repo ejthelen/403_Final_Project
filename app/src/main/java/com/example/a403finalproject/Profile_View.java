@@ -32,7 +32,7 @@ public class Profile_View extends AppCompatActivity {
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
-    int tuid = 9;
+    static int tuid = 9;
 
     TextView txtRate, txtRateChange;
 
@@ -226,6 +226,9 @@ public class Profile_View extends AppCompatActivity {
             txtRateChange.setEnabled(false);
             skRate.setEnabled(false);
         }
+    }
+    public static int getTuid() {
+        return tuid;
     }
 
 }
