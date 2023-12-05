@@ -39,6 +39,9 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     private ActivityWalkerMapBinding binding;
     RequestQueue queue;
     ArrayList<Walker> walker = new ArrayList<>();
+    Distance distance;
+    Walker currentWalker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,7 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
 
         binding = ActivityWalkerMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        distance = new Distance();
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -79,6 +82,10 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         walker.add(new Walker("2","Test2","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",43.8,-83.95543166233124,2));
         walker.add(new Walker("3","Test3","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",43.2,-83.95543166233124,3));
         walker.add(new Walker("4","Test4","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",43.1,-83.95543166233124,4));
+
+        //            Walker currentWalker = walker.get(Profile_View.getTuid());
+        currentWalker = walker.get(2);
+
         setWalkerMarkers();
 
         mMap.setOnMapLongClickListener(latLng -> {
@@ -95,10 +102,12 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
 
     private void setWalkerMarkers() {
             for (Walker walker : walker) {
-                LatLng walkerPosition = new LatLng(walker.getLatitude(), walker.getLongitude());
-               Marker marker = mMap.addMarker(new MarkerOptions().position(walkerPosition));
-                       marker.setTitle((walker.getfName()));
-                       marker.setTag(walker);
+                if (walker.getTUID() != currentWalker.getTUID()) {
+                    LatLng walkerPosition = new LatLng(walker.getLatitude(), walker.getLongitude());
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(walkerPosition));
+                    marker.setTitle((walker.getfName()));
+                    marker.setTag(walker);
+                }
             }
             LatLng latLng = new LatLng(walker.get(walker.size()-1).getLatitude(),
                     walker.get(walker.size()-1).getLongitude());
@@ -190,6 +199,7 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         public View getInfoWindow(@NonNull Marker marker) {
             View v = LayoutInflater.from(Walker_Map.this).inflate(R.layout.layout_walker_window,
                     null);
+
             TextView txtWalkerName = v.findViewById(R.id.tvWalkerName);
             TextView txtWalkerDistance = v.findViewById(R.id.tvWalkerDistance);
             TextView txtPrice = v.findViewById(R.id.tvPrice);
@@ -197,8 +207,8 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
             Walker walker1 = (Walker) marker.getTag();
             txtWalkerName.setText("Name: " + walker1.getlName());
             txtPrice.setText("Price: " + walker1.getCharge());
-
-
+            txtWalkerDistance.setText("Distance: " + distance.calculateDistance(walker1.getLatitude(),
+                    walker1.getLongitude(), currentWalker.getLatitude(), currentWalker.getLongitude()));
 
             return v;
         }

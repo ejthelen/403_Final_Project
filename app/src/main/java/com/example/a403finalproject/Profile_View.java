@@ -1,18 +1,13 @@
 package com.example.a403finalproject;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -28,23 +23,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-// Checking that new cloned repo works
-
 public class Profile_View extends AppCompatActivity {
-    ActivityResultLauncher resultLauncher;
+
     Switch swActivate;
     EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong;
     SeekBar skRate;
     Button btnUpdate;
-    Button btnLogOut;
-    ImageButton btnToAptFromProfile, btnToPetsFromProfile, btnToHomeFromProfile, btnToProfileFromProfile, btnToInfoFromProfile;
-
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
-    int tuid = 15;
-    String username;
-
+    static int tuid = 9;
 
     TextView txtRate, txtRateChange;
 
@@ -54,7 +42,7 @@ public class Profile_View extends AppCompatActivity {
     // Will fill profile page with user information from database
     public void getData(){
         /** Here ya go I passed the username from login  **/
-        username = sharedPreferences.getString("username","default_val");
+        String username = sharedPreferences.getString("username","default_val");
         Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
 
@@ -67,9 +55,8 @@ public class Profile_View extends AppCompatActivity {
                         for(int i = 0; i < response.length(); i++){
                             JSONObject categoryObj = response.getJSONObject(i);
                             int id = categoryObj.getInt("TuID");
-                            String serverUsername = categoryObj.getString("username");
 
-                            if (serverUsername.equals(username)) {
+                            if (id == tuid) {
                                 Log.d("UHH", id + "");
                                 edFirstName.setText(categoryObj.getString("first_name"));
                                 edLastName.setText(categoryObj.getString("last_name"));
@@ -108,43 +95,6 @@ public class Profile_View extends AppCompatActivity {
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
-
-        btnToAptFromProfile = findViewById(R.id.btnToAptFromProfile);
-        btnToHomeFromProfile = findViewById(R.id.btnToHomeFromProfile);
-        btnToPetsFromProfile = findViewById(R.id.btnToPetsFromProfile);
-        btnToInfoFromProfile = findViewById(R.id.btnToInfoFromProfile);
-        btnLogOut = findViewById(R.id.btnLogOut);
-
-//        btnToAptFromProfile.setOnClickListener(e -> {
-//
-//            Intent i = new Intent(this, Appointments.class);
-//
-//            resultLauncher.launch(i);
-//        });
-
-        btnToHomeFromProfile.setOnClickListener(e -> {
-            Intent i = new Intent(this, WalkerList.class);
-            resultLauncher.launch(i);
-        });
-
-        btnToPetsFromProfile.setOnClickListener(e -> {
-            Intent i = new Intent(this, PetsActivity.class);
-            resultLauncher.launch(i);
-        });
-
-        btnToInfoFromProfile.setOnClickListener(e -> {
-            Intent i = new Intent(this, AppInfoActivity.class);
-            resultLauncher.launch(i);
-        });
-
-        // Initialize the resultLauncher
-        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            Log.d("Main_Activity", "Activity was finished.");
-            Log.d("Main_Activity", result.getResultCode() + "");
-        });
-        btnLogOut.setOnClickListener(e->{
-            logout();
-        });
 
         // Call methods to get user data from database,
         // change text edits to allow user to change profile based on if their account is active,
@@ -195,16 +145,16 @@ public class Profile_View extends AppCompatActivity {
                 updatedData.put("last_name", edLastName.getText() + "");
                 updatedData.put("phone_number", edNumber.getText() + "");
                 updatedData.put("email", edMail.getText()+"");
-                //updatedData.put("street_address", "");
-               // updatedData.put("city", "");
-               // updatedData.put("state", "");
-               // updatedData.put("country", "");
+                updatedData.put("street_address", "");
+                updatedData.put("city", "");
+                updatedData.put("state", "");
+                updatedData.put("country", "");
                 updatedData.put("walk_rate", (double)skRate.getProgress());
                 updatedData.put("is_walker", walkingStatus);
                 updatedData.put("short_description", edShort.getText() + "");
                 updatedData.put("long_description", edLong.getText() + "");
-               // updatedData.put("password", "");
-               // updatedData.put("username", username);
+                updatedData.put("password", "");
+                updatedData.put("username", "testuserbob");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -249,18 +199,6 @@ public class Profile_View extends AppCompatActivity {
         txtRateChange = findViewById(R.id.txtRateChange);
         skRate = findViewById(R.id.skRate);
 
-        // Character limit for short and long description
-        int maxShort = 50;
-        int maxLong = 155;
-
-        InputFilter[] filter1 = new InputFilter[1];
-        InputFilter[] filter2 = new InputFilter[1];
-        filter1[0] = new InputFilter.LengthFilter(maxShort);
-        filter2[0] = new InputFilter.LengthFilter(maxLong);
-
-        edShort.setFilters(filter1);
-        edLong.setFilters(filter2);
-
         // If the walking account is active, user should be able to edit profile
         // Else, user will be unable to edit their profile
         if (!walkingStatus) {
@@ -289,17 +227,8 @@ public class Profile_View extends AppCompatActivity {
             skRate.setEnabled(false);
         }
     }
-    public void logout(){
-        //clear the users data and change their login status to false
-        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("isLoggedIn",false);
-        editor.remove(username);
-        editor.apply();
-
-        Intent intent = new Intent(this,StartupLogin.class);
-        startActivity(intent);
-        finish();
+    public static int getTuid() {
+        return tuid;
     }
 
 }
