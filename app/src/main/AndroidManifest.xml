@@ -38,9 +38,13 @@
             android:label="activity_walker_map"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".PetsActivity"
+            android:name=".InfoScrolling"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:label="@string/title_activity_info_scrolling"
+            android:theme="@style/Theme._403FinalProject.NoActionBar"/>
+        <activity
+            android:name=".PetsActivity"
+            android:exported="false" />
         <activity
             android:name=".AddPetActivity"
             android:exported="false"

@@ -28,6 +28,25 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_info_scrolling">InfoScrolling</string>
+    <string name="large_text">
+        "App Description
+        WagginTrail is a user-friendly app tailored for connecting individuals seeking dog walks with experienced walkers,"particularly when owners are busy or away. Users can effortlessly communicate by utilizing email addresses and phone numbers associated with their individual profiles. For those in need of dog walking services, the app offers the convenience of searching for nearby walkers or exploring them on a map view. Once a suitable walker is found, users can easily schedule an appointment.\n\n
+
+        App Instructions\n
+        1. Update your profile on the profile page. Decide there if you would like ot become a walker.\n
+        2. Go to your home page to view walkers in your area.\n
+        3. Go to your pets page to view and add your pets.\n
+        4. Go to your appointments page to view the appointments that you have booked/appointments that you are booked for.\n\n
+
+        Credits\n
+        Appointment page icon made by Freepik from www.flaticon.com\n
+        Pets page icon made by Freepik from www.flaticon.com\n
+        Home page icon made by Kiranshastry from www.flaticon.com\n
+        Profile page icon made by Freepik from www.flaticon.com\n
+        Info page icon made by Freepik from www.flaticon.com"
+    </string>
+    <string name="action_settings">Settings</string>
 
 
 </resources>

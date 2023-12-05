@@ -96,6 +96,39 @@ public class Profile_View extends AppCompatActivity {
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
 
+        btnToAptFromProfile = findViewById(R.id.btnToAptFromProfile);
+        btnToHomeFromProfile = findViewById(R.id.btnToHomeFromProfile);
+        btnToPetsFromProfile = findViewById(R.id.btnToPetsFromProfile);
+        btnToInfoFromProfile = findViewById(R.id.btnToInfoFromProfile);
+
+//        btnToAptFromProfile.setOnClickListener(e -> {
+//
+//            Intent i = new Intent(this, Appointments.class);
+//
+//            resultLauncher.launch(i);
+//        });
+
+        btnToHomeFromProfile.setOnClickListener(e -> {
+            Intent i = new Intent(this, WalkerList.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToPetsFromProfile.setOnClickListener(e -> {
+            Intent i = new Intent(this, PetsActivity.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToInfoFromProfile.setOnClickListener(e -> {
+            Intent i = new Intent(this, InfoScrolling.class);
+            resultLauncher.launch(i);
+        });
+
+        // Initialize the resultLauncher
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Log.d("Main_Activity", "Activity was finished.");
+            Log.d("Main_Activity", result.getResultCode() + "");
+        });
+
         // Call methods to get user data from database,
         // change text edits to allow user to change profile based on if their account is active,
         // and check is the account is active or not

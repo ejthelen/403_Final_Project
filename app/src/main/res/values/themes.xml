@@ -6,4 +6,13 @@
     </style>
 
     <style name="Theme._403FinalProject" parent="Base.Theme._403FinalProject" />
+
+    <style name="Theme._403FinalProject.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme._403FinalProject.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme._403FinalProject.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
