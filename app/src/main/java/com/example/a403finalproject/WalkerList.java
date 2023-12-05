@@ -122,12 +122,12 @@ public class WalkerList extends AppCompatActivity {
         });
 
         btnLocation.setOnClickListener(e->{
-            /*Intent intent = new Intent(context,ScheduleWalk.class);
+            Intent intent = new Intent(context,Walker_Map.class);
 
             Bundle b = new Bundle();
 
             intent.putExtras(b);
-            startActivity(context,intent,b);*/
+            startActivity(intent,b);
         });
 
         edMaxPrice.addTextChangedListener(new TextWatcher() {
