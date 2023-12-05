@@ -36,12 +36,15 @@ public class Profile_View extends AppCompatActivity {
     EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong;
     SeekBar skRate;
     Button btnUpdate;
+    Button btnLogOut;
     ImageButton btnToAptFromProfile, btnToPetsFromProfile, btnToHomeFromProfile, btnToProfileFromProfile, btnToInfoFromProfile;
 
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
-    int tuid = 9;
+    int tuid = 15;
+    String username;
+
 
     TextView txtRate, txtRateChange;
 
@@ -51,7 +54,7 @@ public class Profile_View extends AppCompatActivity {
     // Will fill profile page with user information from database
     public void getData(){
         /** Here ya go I passed the username from login  **/
-        String username = sharedPreferences.getString("username","default_val");
+        username = sharedPreferences.getString("username","default_val");
         Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
 
@@ -64,8 +67,9 @@ public class Profile_View extends AppCompatActivity {
                         for(int i = 0; i < response.length(); i++){
                             JSONObject categoryObj = response.getJSONObject(i);
                             int id = categoryObj.getInt("TuID");
+                            String serverUsername = categoryObj.getString("username");
 
-                            if (id == tuid) {
+                            if (serverUsername.equals(username)) {
                                 Log.d("UHH", id + "");
                                 edFirstName.setText(categoryObj.getString("first_name"));
                                 edLastName.setText(categoryObj.getString("last_name"));
@@ -109,6 +113,7 @@ public class Profile_View extends AppCompatActivity {
         btnToHomeFromProfile = findViewById(R.id.btnToHomeFromProfile);
         btnToPetsFromProfile = findViewById(R.id.btnToPetsFromProfile);
         btnToInfoFromProfile = findViewById(R.id.btnToInfoFromProfile);
+        btnLogOut = findViewById(R.id.btnLogOut);
 
 //        btnToAptFromProfile.setOnClickListener(e -> {
 //
@@ -136,6 +141,9 @@ public class Profile_View extends AppCompatActivity {
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Log.d("Main_Activity", "Activity was finished.");
             Log.d("Main_Activity", result.getResultCode() + "");
+        });
+        btnLogOut.setOnClickListener(e->{
+            logout();
         });
 
         // Call methods to get user data from database,
@@ -187,16 +195,16 @@ public class Profile_View extends AppCompatActivity {
                 updatedData.put("last_name", edLastName.getText() + "");
                 updatedData.put("phone_number", edNumber.getText() + "");
                 updatedData.put("email", edMail.getText()+"");
-                updatedData.put("street_address", "");
-                updatedData.put("city", "");
-                updatedData.put("state", "");
-                updatedData.put("country", "");
+                //updatedData.put("street_address", "");
+               // updatedData.put("city", "");
+               // updatedData.put("state", "");
+               // updatedData.put("country", "");
                 updatedData.put("walk_rate", (double)skRate.getProgress());
                 updatedData.put("is_walker", walkingStatus);
                 updatedData.put("short_description", edShort.getText() + "");
                 updatedData.put("long_description", edLong.getText() + "");
-                updatedData.put("password", "");
-                updatedData.put("username", "testuserbob");
+               // updatedData.put("password", "");
+               // updatedData.put("username", username);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -280,6 +288,18 @@ public class Profile_View extends AppCompatActivity {
             txtRateChange.setEnabled(false);
             skRate.setEnabled(false);
         }
+    }
+    public void logout(){
+        //clear the users data and change their login status to false
+        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn",false);
+        editor.remove(username);
+        editor.apply();
+
+        Intent intent = new Intent(this,StartupLogin.class);
+        startActivity(intent);
+        finish();
     }
 
 }
