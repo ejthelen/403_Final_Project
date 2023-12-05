@@ -1,13 +1,17 @@
 package com.example.a403finalproject;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -24,9 +28,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Profile_View extends AppCompatActivity {
-
+    ActivityResultLauncher resultLauncher;
     Switch swActivate;
     EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong;
+    ImageButton btnToAptFromProfile, btnToPetsFromProfile, btnToHomeFromProfile, btnToProfileFromProfile, btnToInfoFromProfile;
+
     SeekBar skRate;
     Button btnUpdate;
     RequestQueue queue;
