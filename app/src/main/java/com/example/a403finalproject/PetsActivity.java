@@ -80,7 +80,7 @@ public class PetsActivity extends AppCompatActivity {
         });
 
         btnToInfoFromPets.setOnClickListener(e -> {
-            Intent i = new Intent(this, AppInfoActivity.class);
+            Intent i = new Intent(this, InfoScrolling.class);
             resultLauncher.launch(i);
         });
 

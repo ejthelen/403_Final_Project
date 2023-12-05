@@ -15,11 +15,16 @@
         android:theme="@style/Theme._403FinalProject"
         tools:targetApi="31">
         <activity
+            android:name=".InfoScrolling"
+            android:exported="false"
+            android:label="@string/title_activity_info_scrolling"
+            android:theme="@style/Theme._403FinalProject.NoActionBar"/>
+        <activity
             android:name=".PetsActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AddPetActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SignUp"
             android:exported="false" />

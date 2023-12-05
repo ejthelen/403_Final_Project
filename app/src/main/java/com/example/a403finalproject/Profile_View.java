@@ -128,7 +128,7 @@ public class Profile_View extends AppCompatActivity {
         });
 
         btnToInfoFromProfile.setOnClickListener(e -> {
-            Intent i = new Intent(this, AppInfoActivity.class);
+            Intent i = new Intent(this, InfoScrolling.class);
             resultLauncher.launch(i);
         });
 
