@@ -87,10 +87,10 @@ public class WalkerList extends AppCompatActivity {
 
         //Walker f = new Walker("john","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1);
 
-        walker.add(new Walker("1","johnson","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        walker.add(new Walker("2","johnson","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,2));
-        walker.add(new Walker("3","johnson","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,3));
-        walker.add(new Walker("4","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,4));
+        walker.add(new Walker("1","johnson","jane road","1j","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
+        walker.add(new Walker("2","johnson","jane road","2j","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,2));
+        walker.add(new Walker("3","johnson","jane road","3j","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,3));
+        walker.add(new Walker("4","johnson","jane road","4j","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,4));
         //walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walk","989 989 8998","a@aol.com",45.75,88.75,7));
 
         getData();

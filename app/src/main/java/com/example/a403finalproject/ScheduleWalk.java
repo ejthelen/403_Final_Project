@@ -3,15 +3,27 @@ package com.example.a403finalproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ScheduleWalk extends AppCompatActivity {
 
@@ -20,6 +32,15 @@ public class ScheduleWalk extends AppCompatActivity {
     EditText edTime;
 
     RadioButton rdoAM, rdoPM;
+    RequestQueue requestQueue;
+
+    String walkerUsername, clientUsername;
+    Date appointmentDate;
+
+    Time appointmentTime;
+
+    boolean status;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +52,10 @@ public class ScheduleWalk extends AppCompatActivity {
         edTime = findViewById(R.id.edTime);
         rdoAM = findViewById(R.id.rdoAM);
         rdoPM = findViewById(R.id.rdoPM);
+        requestQueue = Volley.newRequestQueue(this);
+
+        walkerUsername="";
+        clientUsername="";
 
         rdoPM.setChecked(true);
 
@@ -41,7 +66,7 @@ public class ScheduleWalk extends AppCompatActivity {
 
 
         btnConfirmBooking.setOnClickListener(e->{
-
+            setAppointment();
         });
 
 
@@ -53,5 +78,44 @@ public class ScheduleWalk extends AppCompatActivity {
 
     }
 
+
+    public void setAppointment() {
+        String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/InsertAppointment";
+        long appointmentDate = cvDate.getDate();
+        String appointmentTime = edTime.getText().toString().trim();
+        boolean status = true;
+
+
+        // Prepare the JSON request data
+        JSONObject requestData = new JSONObject();
+        try {
+
+            requestData.put("walker_username", walkerUsername);
+            requestData.put("client_username", clientUsername);
+            requestData.put("appointment_endtime", appointmentDate);
+            requestData.put("appointment_date", appointmentTime);
+            requestData.put("status", status);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // Handle JSON exception
+        }
+
+        // Create a new JsonObjectRequest with POST method
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestData,
+                response -> {
+                    // Handle the response, e.g., log success or update UI
+                    Log.d("setAppointment", "Response: " + response.toString());
+                    Toast.makeText(this, "appointment created successfully", Toast.LENGTH_SHORT).show();
+                },
+                error -> {
+                    // Handle the error, e.g., log error or update UI
+                    Log.e("setAppointmentERROR", "Error creating appointment: " + error.toString());
+                    Toast.makeText(this,"appointment failed to create",Toast.LENGTH_SHORT);
+                });
+
+        // Add the request to the request queue
+        requestQueue.add(request);
+    }
 
 }
