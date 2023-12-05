@@ -1,10 +1,13 @@
 package com.example.a403finalproject;
 
+import java.text.DecimalFormat;
+
 public class Distance {
     private static final double EARTH_RADIUS = 6371; // Earth radius in kilometers
-    public double calculateDistance(
+    public static double calculateDistance(
             double lat1, double lon1,
             double lat2, double lon2) {
+        DecimalFormat df = new DecimalFormat("#.#");
 
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
@@ -15,9 +18,8 @@ public class Distance {
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        double distanceInKm = EARTH_RADIUS * c;
-        // Convert distance from kilometers to miles
-        double distanceInMiles = distanceInKm * 0.621371;
-        return distanceInMiles;
+        double distanceInMiles = EARTH_RADIUS * c;
+        double roundedValue = Double.parseDouble(df.format(distanceInMiles));
+        return roundedValue;
     }
 }
