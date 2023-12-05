@@ -1,7 +1,5 @@
 package com.example.a403finalproject;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -29,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class WalkerList extends AppCompatActivity {
 
@@ -95,20 +94,22 @@ public class WalkerList extends AppCompatActivity {
         //walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walk","989 989 8998","a@aol.com",45.75,88.75,7));
 
         getData();
-
-
         adapter = new WalkerAdapter(this,walker);
 
         lstWalkers.setAdapter(adapter);
         lstWalkers.setTextFilterEnabled(true);
 
-        /*try {
-            Thread.sleep(1000); // Sleep for 1000 milliseconds (1 second)
-            adapter.notifyDataSetChanged();
+        if (Objects.isNull(getIntent()) == false) {
+            Intent mapRecievedIntent = getIntent();
+            int walkerID = mapRecievedIntent.getIntExtra("walker_ID", -1);
 
-        } catch (InterruptedException e) {
-            System.out.println("Timer interrupted!");
-        }*/
+        }
+
+        btnLocation.setOnClickListener(e->{
+            Intent i = new Intent(this, Walker_Map.class);
+            startActivity(i);
+        });
+
 
         clFilter.setMaxHeight(0);
         btnFilter.setOnClickListener(e->{
@@ -119,15 +120,6 @@ public class WalkerList extends AppCompatActivity {
                 clFilter.setMaxHeight(1440);
             }
 
-        });
-
-        btnLocation.setOnClickListener(e->{
-            Intent intent = new Intent(context,Walker_Map.class);
-
-            Bundle b = new Bundle();
-
-            intent.putExtras(b);
-            startActivity(intent,b);
         });
 
         edMaxPrice.addTextChangedListener(new TextWatcher() {
@@ -215,16 +207,14 @@ public class WalkerList extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 edSpeed.setText(""+progress);
                 ArrayList<Walker> f = new ArrayList<>();
-                for(int i = 0;i<=walker.size()-1;i++){
+                for(int i = 0;i<=walker.size();i++){
                     if(walker.get(i).walkRate < progress){
                         f.add(walker.get(i));
-                        //Log.d("HESH",f.toString());
-
 
                     }
-                    Log.d("HESH",walker.size()+" "+i);
 
                 }
+                //Log.d("HESH",f.toString());
 
                 adapter = new WalkerAdapter(context,f);
                 lstWalkers.setAdapter(adapter);
