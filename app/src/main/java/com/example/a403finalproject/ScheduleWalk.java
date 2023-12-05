@@ -44,6 +44,7 @@ public class ScheduleWalk extends AppCompatActivity {
 
         });
 
+
         rdoAM.setOnCheckedChangeListener((buttonView, isChecked) -> rdoPM.setChecked(false));
 
         rdoPM.setOnCheckedChangeListener((buttonView, isChecked) -> rdoAM.setChecked(false));
