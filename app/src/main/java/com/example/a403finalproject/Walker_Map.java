@@ -1,5 +1,7 @@
 package com.example.a403finalproject;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -29,8 +31,10 @@ import com.example.a403finalproject.databinding.ActivityWalkerMapBinding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
@@ -41,7 +45,6 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     ArrayList<Walker> walker = new ArrayList<>();
     Distance distance;
     Walker currentWalker;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +81,10 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
 
         queue = Volley.newRequestQueue(this);
 //        getData();
-        walker.add(new Walker("1","Test1","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",43.5,-83.95543166233124,1));
-        walker.add(new Walker("2","Test2","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",43.8,-83.95543166233124,2));
-        walker.add(new Walker("3","Test3","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",43.2,-83.95543166233124,3));
-        walker.add(new Walker("4","Test4","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",43.1,-83.95543166233124,4));
+        walker.add(new Walker("1","Test1","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",43.51,-83.95543166233124,1));
+        walker.add(new Walker("2","Test2","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",43.52,-83.95543166233124,2));
+        walker.add(new Walker("3","Test3","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",43.53,-83.95543166233124,3));
+        walker.add(new Walker("4","Test4","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",43.54,-83.95543166233124,4));
 
         //            Walker currentWalker = walker.get(Profile_View.getTuid());
         currentWalker = walker.get(2);
@@ -93,10 +96,11 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
             marker.setTitle("");
         });
 
-        mMap.setOnInfoWindowClickListener(marker -> {
+        mMap.setOnInfoWindowLongClickListener(marker -> {
             Walker w = (Walker) marker.getTag();
-            Intent i = new Intent(Walker_Map.this, Profile_View.class);
+            Intent i = new Intent(Walker_Map.this, WalkerList.class);
             i.putExtra("walker_ID", w.getTUID());
+            startActivity(i);
         });
     }
 
@@ -109,11 +113,11 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
                     marker.setTag(walker);
                 }
             }
-            LatLng latLng = new LatLng(walker.get(walker.size()-1).getLatitude(),
-                    walker.get(walker.size()-1).getLongitude());
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            LatLng latLngCurrentWalker = new LatLng(walker.get(currentWalker.getTUID()).getLatitude(),
+                    walker.get(currentWalker.getTUID()).getLongitude());
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngCurrentWalker));
         CameraPosition cameraPosition = CameraPosition.builder()
-                .target(latLng)
+                .target(latLngCurrentWalker)
                 .zoom(12)
                 .build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -203,12 +207,17 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
             TextView txtWalkerName = v.findViewById(R.id.tvWalkerName);
             TextView txtWalkerDistance = v.findViewById(R.id.tvWalkerDistance);
             TextView txtPrice = v.findViewById(R.id.tvPrice);
-            Button btnViewProfile = v.findViewById(R.id.btnViewProfile);
+            TextView txtWalkerRate = v.findViewById(R.id.txtWalkerRate);
             Walker walker1 = (Walker) marker.getTag();
             txtWalkerName.setText("Name: " + walker1.getlName());
-            txtPrice.setText("Price: " + walker1.getCharge());
-            txtWalkerDistance.setText("Distance: " + distance.calculateDistance(walker1.getLatitude(),
-                    walker1.getLongitude(), currentWalker.getLatitude(), currentWalker.getLongitude()));
+            txtPrice.setText(String.format(Locale.US, "Charge: $%,.2f",
+                    walker1.getCharge()));
+            txtWalkerDistance.setText("Distance: " +
+                    distance.calculateDistance(walker1.getLatitude(),
+                    walker1.getLongitude(), currentWalker.getLatitude(),
+                    currentWalker.getLongitude()) + " miles");
+            txtWalkerRate.setText(String.format(Locale.US, "Rate: $%,.2f per walk",
+                    walker1.getWalkRate()));
 
             return v;
         }

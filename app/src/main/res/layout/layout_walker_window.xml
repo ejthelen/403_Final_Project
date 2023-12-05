@@ -34,13 +34,12 @@
         app:layout_constraintStart_toStartOf="@+id/tvWalkerDistance"
         app:layout_constraintTop_toBottomOf="@+id/tvWalkerDistance" />
 
-    <Button
-        android:id="@+id/btnViewProfile"
+    <TextView
+        android:id="@+id/txtWalkerRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="View Profile"
-        app:layout_constraintEnd_toEndOf="@+id/tvPrice"
+        android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/tvPrice"
         app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
 </androidx.constraintlayout.widget.ConstraintLayout>

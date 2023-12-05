@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class WalkerList extends AppCompatActivity {
 
@@ -96,6 +98,18 @@ public class WalkerList extends AppCompatActivity {
 
         lstWalkers.setAdapter(adapter);
         lstWalkers.setTextFilterEnabled(true);
+
+        if (Objects.isNull(getIntent()) == false) {
+            Intent mapRecievedIntent = getIntent();
+            int walkerID = mapRecievedIntent.getIntExtra("walker_ID", -1);
+
+        }
+
+        btnLocation.setOnClickListener(e->{
+            Intent i = new Intent(this, Walker_Map.class);
+            startActivity(i);
+        });
+
 
         clFilter.setMaxHeight(0);
         btnFilter.setOnClickListener(e->{
