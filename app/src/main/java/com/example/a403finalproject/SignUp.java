@@ -50,7 +50,7 @@ public class SignUp extends AppCompatActivity {
     EditText etFirstName,etZipCode, etLastName,
             etEmail,etCountry, etPhone, etCity, etState, etAddress,
             etPassword,etShortDescription,etLongDescription,etSignUpUserName, etWalkRate;
-    Button btnResgister;
+    Button btnResgister,btnBackToLogin;
     RequestQueue requestQueue;
     TextView txtCheckStuff;
     public double latitude;
@@ -77,6 +77,8 @@ public class SignUp extends AppCompatActivity {
         etAddress = findViewById(R.id.etStreetAddy);
         etPassword = findViewById(R.id.etPasswordSignUp);
         btnResgister = findViewById(R.id.btnSignUpForeal);
+        btnBackToLogin = findViewById(R.id.btnBackToLogin);
+
         etShortDescription = findViewById(R.id.etShortDescription);
         etLongDescription = findViewById(R.id.etLongDescription);
         etSignUpUserName = findViewById(R.id.etSignUpUserName);
@@ -142,7 +144,10 @@ public class SignUp extends AppCompatActivity {
 
         });
 
-
+        btnBackToLogin.setOnClickListener(e->{
+            Intent intent = new Intent(this,StartupLogin.class);
+            startActivity(intent);
+        });
 
 
         btnResgister.setOnClickListener((e -> {

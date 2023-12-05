@@ -1,18 +1,13 @@
 package com.example.a403finalproject;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -28,20 +23,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-// Checking that new cloned repo works
-
 public class Profile_View extends AppCompatActivity {
-    ActivityResultLauncher resultLauncher;
+
     Switch swActivate;
     EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong;
     SeekBar skRate;
     Button btnUpdate;
-    ImageButton btnToAptFromProfile, btnToPetsFromProfile, btnToHomeFromProfile, btnToProfileFromProfile, btnToInfoFromProfile;
-
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
-    int tuid = 9;
+    static int tuid = 9;
 
     TextView txtRate, txtRateChange;
 
@@ -241,18 +232,6 @@ public class Profile_View extends AppCompatActivity {
         txtRateChange = findViewById(R.id.txtRateChange);
         skRate = findViewById(R.id.skRate);
 
-        // Character limit for short and long description
-        int maxShort = 50;
-        int maxLong = 155;
-
-        InputFilter[] filter1 = new InputFilter[1];
-        InputFilter[] filter2 = new InputFilter[1];
-        filter1[0] = new InputFilter.LengthFilter(maxShort);
-        filter2[0] = new InputFilter.LengthFilter(maxLong);
-
-        edShort.setFilters(filter1);
-        edLong.setFilters(filter2);
-
         // If the walking account is active, user should be able to edit profile
         // Else, user will be unable to edit their profile
         if (!walkingStatus) {
@@ -280,6 +259,9 @@ public class Profile_View extends AppCompatActivity {
             txtRateChange.setEnabled(false);
             skRate.setEnabled(false);
         }
+    }
+    public static int getTuid() {
+        return tuid;
     }
 
 }

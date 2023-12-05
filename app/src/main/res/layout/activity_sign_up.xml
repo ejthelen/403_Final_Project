@@ -238,13 +238,12 @@
             android:layout_width="157dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/first_name"
             android:inputType="text"
             android:maxLength="20"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/btnBackToLogin" />
         <!-- AutocompleteSupportFragment for place autocomplete -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
@@ -266,6 +265,17 @@
                 android:layout_marginTop="16dp" />
 
         </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnBackToLogin"
+            android:layout_width="72dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="300dp"
+            android:backgroundTint="@color/primary_color"
+            android:drawableLeft="@drawable/baseline_arrow_back_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
