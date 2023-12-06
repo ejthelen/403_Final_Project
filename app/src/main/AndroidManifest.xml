@@ -62,11 +62,15 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".WalkerList"
+            android:name=".StartupLogin"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".StartupLogin"
+            android:name=".ScheduleWalk"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".WalkerList"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

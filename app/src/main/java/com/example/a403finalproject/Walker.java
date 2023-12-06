@@ -7,6 +7,8 @@ public class Walker {
     String userName;
     String address;
     String City;
+
+
     String state;
     String country;
     boolean isWalker;
@@ -51,6 +53,13 @@ public class Walker {
     double Longitude;
     int TUID;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
 
     public Walker() {

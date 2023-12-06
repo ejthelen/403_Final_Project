@@ -276,8 +276,8 @@ public class WalkerList extends AppCompatActivity {
                             w.setWalkRate(walkRate);
                             w.setsDesc(shortDescription);
                             w.setlDesc(longDescription);
-                            //walker.setPassword(password);
-                            //walker.setUsername(username);
+                            //w.setPassword(password);
+                            w.setUserName(username);
 
                             w.setLatitude(latitude);
                             w.setLongitude(longitude);

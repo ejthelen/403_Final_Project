@@ -34,8 +34,8 @@ public class ScheduleWalk extends AppCompatActivity {
     RadioButton rdoAM, rdoPM;
     RequestQueue requestQueue;
 
-    String walkerUsername, clientUsername;
-    Date appointmentDate;
+    String walkerUsername, clientUsername="f";
+    String appointmentDate;
 
     Time appointmentTime;
 
@@ -92,9 +92,13 @@ public class ScheduleWalk extends AppCompatActivity {
 
             requestData.put("walker_username", walkerUsername);
             requestData.put("client_username", clientUsername);
+            requestData.put("appointment_date", appointmentDate);
+
+
+
             requestData.put("appointment_endtime", appointmentDate);
-            requestData.put("appointment_date", appointmentTime);
-            requestData.put("status", status);
+
+            requestData.put("status", true);
 
         } catch (JSONException e) {
             e.printStackTrace();
