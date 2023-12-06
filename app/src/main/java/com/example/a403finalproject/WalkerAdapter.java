@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,10 +70,24 @@ public class WalkerAdapter extends BaseAdapter {
         txtCharge.setText("Price: "+walker.Charge);
         txtLongDesc.setText(""+walker.lDesc);
 
+        Walker w = new Walker();
+
+        for(int j = 0;j<walkers.size();j++){
+            if(walkers.get(j).getTUID()==Profile_View.getTuid()){
+                w = walkers.get(j);
+            }
+        }
+
+        txtDistanceAway.setText("Distance: "+Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude()));
+
+        Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");
+
         clHousing.setMaxHeight(300);
         btnBook.setVisibility(View.INVISIBLE);
 
         txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
+
+        notifyDataSetChanged();
 
 
 

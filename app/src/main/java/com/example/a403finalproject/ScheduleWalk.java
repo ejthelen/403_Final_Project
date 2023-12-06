@@ -21,9 +21,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class ScheduleWalk extends AppCompatActivity {
 
@@ -37,9 +42,9 @@ public class ScheduleWalk extends AppCompatActivity {
     String walkerUsername, clientUsername="f";
     String appointmentDate;
 
-    Time appointmentTime;
+    String appointmentTime;
 
-    boolean status;
+    String status;
 
 
     @Override
@@ -66,7 +71,11 @@ public class ScheduleWalk extends AppCompatActivity {
 
 
         btnConfirmBooking.setOnClickListener(e->{
-            setAppointment();
+            try {
+                setAppointment();
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
 
@@ -79,13 +88,22 @@ public class ScheduleWalk extends AppCompatActivity {
     }
 
 
-    public void setAppointment() {
+    public void setAppointment() throws ParseException {
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/InsertAppointment";
-        long appointmentDate = cvDate.getDate();
+        String walkerUsername;
+        String clientUsername;
+        String appointmentDate = cvDate.getDate()+"";
         String appointmentTime = edTime.getText().toString().trim();
-        boolean status = true;
+        String status = "Scheduled";
 
+        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH);
+        Date result = df.parse(appointmentDate);
 
+        Log.d("HESH",result+"");
+
+        //UTC: 2023-12-06 15:00:00
+
+/*
         // Prepare the JSON request data
         JSONObject requestData = new JSONObject();
         try {
@@ -98,7 +116,7 @@ public class ScheduleWalk extends AppCompatActivity {
 
             requestData.put("appointment_endtime", appointmentDate);
 
-            requestData.put("status", true);
+            requestData.put("status", "booked");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -120,6 +138,8 @@ public class ScheduleWalk extends AppCompatActivity {
 
         // Add the request to the request queue
         requestQueue.add(request);
+
+ */
     }
 
 }
