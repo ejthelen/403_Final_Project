@@ -96,10 +96,11 @@ public class ScheduleWalk extends AppCompatActivity {
         String appointmentTime = edTime.getText().toString().trim();
         String status = "Scheduled";
 
-        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH);
-        Date result = df.parse(appointmentDate);
+        DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String dateFormatted = formatter.format(appointmentDate);
 
-        Log.d("HESH",result+"");
+        Log.d("HESH",dateFormatted+"");
 
         //UTC: 2023-12-06 15:00:00
 
