@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,16 +47,17 @@ public class PetsActivity extends AppCompatActivity {
     ImageButton btnToAptFromPets, btnToPetsFromPets, btnToHomeFromPets, btnToProfileFromPets, btnToInfoFromPets;
 
     RequestQueue queue;
-
-    String user = "testuserstan";
-
-
-
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pets);
+        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
+
+        String user = sharedPreferences.getString("username", "def");
+        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + user);
+
 
         btnToAptFromPets = findViewById(R.id.btnToAptFromPets);
         btnToHomeFromPets = findViewById(R.id.btnToHomeFromPets);
@@ -126,7 +128,6 @@ public class PetsActivity extends AppCompatActivity {
 
         btnAddPetPage.setOnClickListener(e -> {
             Intent i = new Intent(this, AddPetActivity.class);
-
             resultLauncher.launch(i);
         });
 
