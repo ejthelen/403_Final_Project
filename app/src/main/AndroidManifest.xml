@@ -63,10 +63,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".AppInfoActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".ScheduleWalk"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>

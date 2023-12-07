@@ -8,18 +8,6 @@
     android:paddingBottom="10dp"
     tools:context=".PetsActivity">
 
-    <ListView
-        android:id="@+id/lstPets"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPetTitle" />
-
     <TextView
         android:id="@+id/txtPetTitle"
         android:layout_width="wrap_content"
@@ -31,91 +19,121 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="top"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPetTitle">
+
+        <ListView
+            android:id="@+id/lstPets"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <Button
         android:id="@+id/btnAddPetPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/primary_color"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="@+id/txtPetTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtPetTitle" />
 
-    <ImageButton
-        android:id="@+id/btnToAptFromPets"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#B2FFFFFF"
-        android:contentDescription="appointments"
-        android:cropToPadding="false"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toStartOf="@+id/btnToPetsFromPets"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:srcCompat="@drawable/clock" />
-
-    <ImageButton
-        android:id="@+id/btnToPetsFromPets"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#B2FFFFFF"
-        android:contentDescription="pets page"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/btnToAptFromPets"
-        app:layout_constraintEnd_toStartOf="@+id/btnToHomeFromPets"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnToAptFromPets"
-        app:layout_constraintTop_toTopOf="@+id/btnToAptFromPets"
-        app:srcCompat="@drawable/pawprint" />
-
-    <ImageButton
-        android:id="@+id/btnToHomeFromPets"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#B2FFFFFF"
-        android:contentDescription="home page"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/btnToAptFromPets"
-        app:layout_constraintEnd_toStartOf="@+id/btnToProfileFromPets"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnToPetsFromPets"
-        app:layout_constraintTop_toTopOf="@+id/btnToAptFromPets"
-        app:srcCompat="@drawable/house" />
-
-    <ImageButton
-        android:id="@+id/btnToProfileFromPets"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#B2FFFFFF"
-        android:contentDescription="profile page"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/btnToAptFromPets"
-        app:layout_constraintEnd_toStartOf="@+id/btnToInfoFromPets"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnToHomeFromPets"
-        app:layout_constraintTop_toTopOf="@+id/btnToAptFromPets"
-        app:srcCompat="@drawable/user" />
-
-    <ImageButton
-        android:id="@+id/btnToInfoFromPets"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#B2FFFFFF"
-        android:contentDescription="info page"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="@+id/btnToAptFromPets"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnToProfileFromPets"
-        app:layout_constraintTop_toTopOf="@+id/btnToAptFromPets"
-        app:srcCompat="@drawable/question" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="658dp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnToAptFromPets"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="appointments"
+                android:cropToPadding="false"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/clock" />
+
+            <ImageButton
+                android:id="@+id/btnToPetsFromPets"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="pets page"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/pawprint" />
+
+            <ImageButton
+                android:id="@+id/btnToHomeFromPets"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="home page"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/house" />
+
+            <ImageButton
+                android:id="@+id/btnToProfileFromPets"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="profile page"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/user" />
+
+            <ImageButton
+                android:id="@+id/btnToInfoFromPets"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="info page"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/question" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
