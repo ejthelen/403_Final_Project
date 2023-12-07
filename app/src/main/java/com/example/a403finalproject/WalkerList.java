@@ -25,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -87,10 +88,10 @@ public class WalkerList extends AppCompatActivity {
 
         //Walker f = new Walker("john","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1);
 
-        walker.add(new Walker("1","johnson","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1));
-        walker.add(new Walker("2","johnson","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,2));
-        walker.add(new Walker("3","johnson","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,3));
-        walker.add(new Walker("4","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,4));
+//        walker.add(new Walker("tom","johnson","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",43.51,-83.95543166233124,1));
+//        walker.add(new Walker("jim","johnson","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",43.52,-83.95543166233124,2));
+//        walker.add(new Walker("jon","johnson","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",43.58,-83.95543166233124,3));
+//        walker.add(new Walker("ken","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",43.54,-83.95543166233124,4));
         //walker.add(new Walker("5","johnson","jane road","johnsville","ms","USA",true,2.0,"likes to walk",25.7,"really really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walkreally really likes t asdfajk;lsdf;lkasjfkl;djasl;kfjsal;kdfjsalkdjfasl;kdjfl;kasjdflsdafdalkjfjsdakl;fjasl;kdjfakl;sjfasl;kdjfalsk;djfalk;sjdfklasdjfl;kaskjfl;kasdjfal;skdjflak;sdjfl;kasjdfa;kasdjfklwneqtjbghbuiobcvbxo walk","989 989 8998","a@aol.com",45.75,88.75,7));
 
         getData();
@@ -102,11 +103,28 @@ public class WalkerList extends AppCompatActivity {
         if (Objects.isNull(getIntent()) == false) {
             Intent mapRecievedIntent = getIntent();
             int walkerID = mapRecievedIntent.getIntExtra("walker_ID", -1);
-
         }
 
         btnLocation.setOnClickListener(e->{
             Intent i = new Intent(this, Walker_Map.class);
+            ArrayList<String> walkerArrayList = new ArrayList<>();
+
+            Bundle bundle = new Bundle();
+
+            for (Walker walker1 : walker) {
+//                    public Walker(String fName, String lName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double latitude, double longitude, int TUID) {
+
+//                "1","johnson","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1
+                walkerArrayList.add(walker1.getfName() + "," + walker1.getlName() + "," +
+                        walker1.getAddress() + "," + walker1.getCity() + "," + walker1.getState() + "," +
+                        walker1.getCountry() + "," + walker1.isWalker() + "," + walker1.getWalkRate() + "," +
+                        walker1.getsDesc() + "," + walker1.getCharge() + "," +walker1.getlDesc() + "," +
+                        walker1.getPhoneNumber() +  "," +walker1.getEmail() + "," + walker1.getLatitude() + "," +
+                        walker1.getLongitude() + "," + walker1.getTUID());
+            }
+            bundle.putStringArrayList("walkerArrayList", walkerArrayList);
+
+            i.putStringArrayListExtra("walkerArrayList", walkerArrayList);
             startActivity(i);
         });
 
