@@ -124,12 +124,12 @@ public class Profile_View extends AppCompatActivity {
         btnToPetsFromProfile = findViewById(R.id.btnToPetsFromProfile);
         btnToInfoFromProfile = findViewById(R.id.btnToInfoFromProfile);
 
-//        btnToAptFromProfile.setOnClickListener(e -> {
-//
-//            Intent i = new Intent(this, Appointments.class);
-//
-//            resultLauncher.launch(i);
-//        });
+        btnToAptFromProfile.setOnClickListener(e -> {
+
+            Intent i = new Intent(this, ScheduleWalk.class);
+
+            resultLauncher.launch(i);
+        });
 
         btnToHomeFromProfile.setOnClickListener(e -> {
             Intent i = new Intent(this, WalkerList.class);

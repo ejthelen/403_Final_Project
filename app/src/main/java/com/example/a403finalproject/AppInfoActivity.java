@@ -26,12 +26,12 @@ public class AppInfoActivity extends AppCompatActivity {
         btnToProfileFromInfo = findViewById(R.id.btnToProfileFromInfo);
         btnToPetsFromInfo = findViewById(R.id.btnToPetsFromInfo);
 
-        //        btnToAptFromInfo.setOnClickListener(e -> {
-//
-//            Intent i = new Intent(this, Appointments.class);
-//
-//            resultLauncher.launch(i);
-//        });
+        btnToAptFromInfo.setOnClickListener(e -> {
+
+            Intent i = new Intent(this, ScheduleWalk.class);
+
+            resultLauncher.launch(i);
+        });
 
         btnToHomeFromInfo.setOnClickListener(e -> {
             Intent i = new Intent(this, WalkerList.class);
