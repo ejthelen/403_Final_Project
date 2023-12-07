@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,6 +26,8 @@ public class WalkerAdapter extends BaseAdapter {
 
     ArrayList<Walker> walkers;
     Context context;
+    Walker w;
+
 
 
     public WalkerAdapter(Context context, ArrayList<Walker> walkers){
@@ -68,10 +71,24 @@ public class WalkerAdapter extends BaseAdapter {
         txtCharge.setText("Price: "+walker.Charge);
         txtLongDesc.setText(""+walker.lDesc);
 
+        w = new Walker();
+
+        for(int j = 0;j<walkers.size();j++){
+            if(walkers.get(j).getTUID()==Profile_View.getTuid()){
+                w = walkers.get(j);
+            }
+        }
+
+        txtDistanceAway.setText("Distance: "+Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude()));
+
+        Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");
+
         clHousing.setMaxHeight(300);
         btnBook.setVisibility(View.INVISIBLE);
 
         txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
+
+        notifyDataSetChanged();
 
 
 
@@ -100,8 +117,12 @@ public class WalkerAdapter extends BaseAdapter {
 
             Bundle b = new Bundle();
 
-            b.putString("TUID",""+walker.getTUID());
-            Log.d("HESH",""+walker.getTUID());
+            Log.d("HESH",walker.getUserName()+" "+w.getTUID());
+
+            b.putString("WU",""+walker.getUserName());
+            b.putString("CU",""+w.getUserName());
+
+            //Log.d("HESH",""+walker.getTUID());
 
             intent.putExtras(b);
             startActivity(context,intent,b);
