@@ -33,6 +33,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDz5R9jxmBzFzaSuNFVX1PU2-IOkKTJ-oU" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".Walker_Map"
@@ -64,13 +67,17 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".ScheduleWalk"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
             android:name=".WalkerList"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".StartupLogin"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan">
+        android:name=".StartupLogin"
+        android:exported="true"
+        android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

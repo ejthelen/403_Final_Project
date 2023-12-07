@@ -57,6 +57,7 @@
             android:hint="@string/username"
             android:inputType="text"
             android:maxLength="40"
+            android:text="erwinsmith"
             app:layout_constraintBottom_toTopOf="@+id/etPasswordSignUp"
             app:layout_constraintEnd_toEndOf="@+id/etLastName"
             app:layout_constraintHorizontal_bias="0.5"
@@ -120,6 +121,7 @@
             android:ems="10"
             android:hint="@string/walk_rate"
             android:inputType="numberDecimal"
+            android:text="1.0"
             app:layout_constraintBottom_toTopOf="@+id/etShortDescription"
             app:layout_constraintEnd_toEndOf="@+id/etCountry"
             app:layout_constraintHorizontal_bias="1.0"
@@ -215,6 +217,7 @@
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
+            android:text="lol@yahoo.com"
             app:layout_constraintBottom_toTopOf="@+id/etSignUpPhoneNumber"
             app:layout_constraintEnd_toEndOf="@+id/etPasswordSignUp"
             app:layout_constraintHorizontal_bias="0.0"
@@ -242,6 +245,7 @@
             android:hint="@string/first_name"
             android:inputType="text"
             android:maxLength="20"
+            android:text="Jackie"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnBackToLogin" />
         <!-- AutocompleteSupportFragment for place autocomplete -->

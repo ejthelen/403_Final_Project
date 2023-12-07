@@ -10,9 +10,11 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
@@ -32,6 +34,7 @@ public class StartupLogin extends AppCompatActivity {
     TextInputLayout textInputLayoutPassword,textInputLayoutUsername;
     TextInputEditText textInputEditTextPassword,textInputEditTextUsername;
     SharedPreferences.Editor editor;
+    String message;
 
 
 
@@ -43,7 +46,6 @@ public class StartupLogin extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignIn = findViewById(R.id.btnSignIn);
 
-        txtTestResponse = findViewById(R.id.txtTestResponse);
         textInputLayoutPassword = findViewById(R.id.txtInputLayout);
         textInputEditTextPassword = findViewById(R.id.txtInputEditText);
 
@@ -83,28 +85,52 @@ public class StartupLogin extends AppCompatActivity {
                     try {
                         boolean isValid = response.getBoolean("IsValid");
                         // Set the response message to the textView
-                        String message = isValid ? "Login successful" : "Login failed";
-                        txtTestResponse.setText(message);
-                        Log.d("Response", response.toString());
+                         message = isValid ? "Login successful" : "Login failed";
+
 
                         if (isValid) {
                             editor = sharedPreferences.edit();
                             Log.d("USERNAME", username);
                             editor.putString("username", username);
                             editor.putBoolean("isLoggedIn", true);
-                            editor.apply();
 
+                            editor.apply();
+                            Log.d("Response", response.toString() + ", " + message);
+                            Toast toast = Toast.makeText(this,"Login successful", Toast.LENGTH_LONG);
+                            toast.show();
                             startActivity(new Intent(StartupLogin.this, Profile_View.class));
                             finish();
+                        }else {
+                            Log.d("Response", response + ", " + message);
+
+                            Toast toast = Toast.makeText(this,"Incorrect password", Toast.LENGTH_LONG);
+                            toast.show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 },
                 error -> {
-                    Log.e("Login Failed", "Error during failed login: " + error.toString(), error);
-                    // Set an error message to the textView
-                    txtTestResponse.setText("Login failed. Please try again.");
+                    if (error != null) {
+                        if (((VolleyError) error).networkResponse != null) {
+                            int statusCode = ((VolleyError) error).networkResponse.statusCode;
+
+                            if (statusCode == 404) {
+                                // Handle 404 error
+                                Log.e("Volley Error", "Resource not found (404)");
+                                Log.d("Response", error.toString() + ", " + message);
+                                Toast toast = Toast.makeText(this,"Login failed", Toast.LENGTH_LONG);
+                                toast.show();
+                            } else {
+                                // Handle other errors
+                                String errorMessage = new String(((VolleyError) error).networkResponse.data);
+                                Log.e("Volley Error", errorMessage);
+                                Log.d("Response", error.toString() + ", " + message);
+                                Toast toast = Toast.makeText(this,"Login failed", Toast.LENGTH_LONG);
+                                toast.show();
+                            }
+                        }
+                    }
                 });
 
         requestQueue = Volley.newRequestQueue(this);

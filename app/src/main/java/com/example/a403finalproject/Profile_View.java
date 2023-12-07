@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+
+// Checking that new cloned repo works
+
 public class Profile_View extends AppCompatActivity {
     ActivityResultLauncher resultLauncher;
     Switch swActivate;
@@ -35,20 +40,27 @@ public class Profile_View extends AppCompatActivity {
 
     SeekBar skRate;
     Button btnUpdate;
+    Button btnLogOut;
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
     static int tuid;
 
+    /** Here ya go I passed the username from login  **/
+    String username;
+
     TextView txtRate, txtRateChange;
 
     // Boolean value to check if walking account is active
     static boolean walkingStatus;
-    String username;
+
+
+    /** Here ya go I passed the username from login  **/
+    String activeStatus;
 
     // Will fill profile page with user information from database
     public void getData(){
-        /** Here ya go I passed the username from login  **/
+        //get the user's username they logged in with
         username = sharedPreferences.getString("username","default_val");
         Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
@@ -61,11 +73,13 @@ public class Profile_View extends AppCompatActivity {
                     try {
                         for(int i = 0; i < response.length(); i++){
                             JSONObject categoryObj = response.getJSONObject(i);
-                            String user = categoryObj.getString("username");
 
-                            if (username.matches(user)) {
-                                tuid = categoryObj.getInt("TuID");
-                                Log.d("UHH", tuid + "");
+                            int id = categoryObj.getInt("TuID");
+                            String serverUsername = categoryObj.getString("username");
+                            Log.d("SERVER-NAME",serverUsername);
+
+                            if (serverUsername.equals(username)) {
+                                Log.d("UHH", id + "");
                                 edFirstName.setText(categoryObj.getString("first_name"));
                                 edLastName.setText(categoryObj.getString("last_name"));
                                 edNumber.setText(categoryObj.getString("phone_number"));
@@ -102,7 +116,9 @@ public class Profile_View extends AppCompatActivity {
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
+        getData();
 
+        btnLogOut = findViewById(R.id.btnLogOut);
         btnToAptFromProfile = findViewById(R.id.btnToAptFromProfile);
         btnToHomeFromProfile = findViewById(R.id.btnToHomeFromProfile);
         btnToPetsFromProfile = findViewById(R.id.btnToPetsFromProfile);
@@ -135,10 +151,15 @@ public class Profile_View extends AppCompatActivity {
             Log.d("Main_Activity", "Activity was finished.");
             Log.d("Main_Activity", result.getResultCode() + "");
         });
+        btnLogOut.setOnClickListener(e->{
+            logout();
+        });
 
         // Call methods to get user data from database,
         // change text edits to allow user to change profile based on if their account is active,
         // and check is the account is active or not
+
+        //populate the users data when onCreate is called
         getData();
         checkStatus();
         activeStatus(swActivate);
@@ -167,50 +188,14 @@ public class Profile_View extends AppCompatActivity {
         btnUpdate.setOnClickListener(v ->{
             // Toast
             // Make toast depending on whether account is active or not
-            String activeStatus;
 
             if (walkingStatus) {
                 activeStatus = "active";
             } else {
                 activeStatus = "inactive";
             }
+            updateProfile();
 
-            Toast.makeText(Profile_View.this, "Your profile was updated, and your walking account is now " + activeStatus, Toast.LENGTH_SHORT).show();
-
-            // Change walking active status and update database info about user profile
-            JSONObject updatedData = new JSONObject();
-            try {
-                updatedData.put("first_name", edFirstName.getText() + "");
-                updatedData.put("last_name", edLastName.getText() + "");
-                updatedData.put("phone_number", edNumber.getText() + "");
-                updatedData.put("email", edMail.getText()+"");
-                updatedData.put("street_address", "");
-                updatedData.put("city", "");
-                updatedData.put("state", "");
-                updatedData.put("country", "");
-                updatedData.put("walk_rate", (double)skRate.getProgress());
-                updatedData.put("is_walker", walkingStatus);
-                updatedData.put("short_description", edShort.getText() + "");
-                updatedData.put("long_description", edLong.getText() + "");
-                updatedData.put("password", "");
-                updatedData.put("username", username);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/UpdateUser";
-
-            JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, updatedData,
-                    response -> {
-                        // Handle successful update
-                        Log.d("Update", "Data updated successfully");
-                    },
-                    error -> {
-                        // Handle error
-                        Log.e("Update", "Error updating data: " + error.toString());
-                    });
-
-            queue.add(updateRequest);
         });
     }
 
@@ -265,6 +250,73 @@ public class Profile_View extends AppCompatActivity {
             txtRateChange.setEnabled(false);
             skRate.setEnabled(false);
         }
+    }
+    public void logout(){
+        //clear the users data and change their login status to false
+        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn",false);
+        editor.remove(username);
+        Log.d("LOGOUT","User logged out");
+        editor.apply();
+
+        Intent intent = new Intent(this,StartupLogin.class);
+        startActivity(intent);
+        finish();
+    }
+    public void updateProfile(){
+        //get the user's username they logged in with
+        username = sharedPreferences.getString("username","default_val").trim();
+        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
+
+
+        // Change walking active status and update database info about user profile
+        JSONObject updatedData = new JSONObject();
+        try {
+            updatedData.put("first_name", edFirstName.getText() + "");
+            updatedData.put("last_name", edLastName.getText() + "");
+            updatedData.put("phone_number", edNumber.getText() + "");
+            updatedData.put("email", edMail.getText()+"");
+            updatedData.put("street_address", "");
+            updatedData.put("city", "");
+            updatedData.put("state", "");
+            updatedData.put("country", "");
+            updatedData.put("walk_rate", (double)skRate.getProgress());
+            Log.d("WALKRATE", skRate.getProgress() + "");
+            updatedData.put("short_description", edShort.getText() + "");
+            updatedData.put("long_description", edLong.getText() + "");
+            updatedData.put("password", "");
+            updatedData.put("username", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/UpdateUser";
+
+        JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, updatedData,
+                response -> {
+
+                    try {
+                        String message = response.getString("response");
+                        if (message.equals("User updated successfully.")) {
+                            // Handle successful update
+                            Log.d("Update", "Data updated successfully" + " " + response.toString());
+                            Toast.makeText(Profile_View.this, "Your profile was updated, and your walking account is now " + activeStatus, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.d("Update", "Data couldnt be updated" + " " + response.toString());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    // Handle error
+                    Log.e("Update", "Didnt UPDATE: " + error.toString());
+                    Toast.makeText(Profile_View.this, "An error has occurred while updating", Toast.LENGTH_SHORT).show();
+                });
+
+        queue.add(updateRequest);
+
     }
     public static int getTuid() {
         return tuid;

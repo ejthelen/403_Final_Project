@@ -4,8 +4,11 @@ public class Walker {
 
     String fName;
     String lName;
+    String userName;
     String address;
     String City;
+
+
     String state;
     String country;
     boolean isWalker;
@@ -13,6 +16,26 @@ public class Walker {
 
 
     String sDesc;
+
+    public Walker(String fName, String lName, String userName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double latitude, double longitude, int TUID) {
+        this.fName = fName;
+        this.lName = lName;
+        this.userName = userName;
+        this.address = address;
+        City = city;
+        this.state = state;
+        this.country = country;
+        this.isWalker = isWalker;
+        this.walkRate = walkRate;
+        this.sDesc = sDesc;
+        Charge = charge;
+        this.lDesc = lDesc;
+        PhoneNumber = phoneNumber;
+        Email = email;
+        Latitude = latitude;
+        Longitude = longitude;
+        this.TUID = TUID;
+    }
 
     @Override
     public String toString() {
@@ -30,24 +53,14 @@ public class Walker {
     double Longitude;
     int TUID;
 
-    public Walker(String fName, String lName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double latitude, double longitude, int TUID) {
-        this.fName = fName;
-        this.lName = lName;
-        this.address = address;
-        City = city;
-        this.state = state;
-        this.country = country;
-        this.isWalker = isWalker;
-        this.walkRate = walkRate;
-        this.sDesc = sDesc;
-        Charge = charge;
-        this.lDesc = lDesc;
-        PhoneNumber = phoneNumber;
-        Email = email;
-        Latitude = latitude;
-        Longitude = longitude;
-        this.TUID = TUID;
+    public String getUserName() {
+        return userName;
     }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 
     public Walker() {
     }
