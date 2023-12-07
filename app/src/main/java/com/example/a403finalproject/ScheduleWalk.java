@@ -100,6 +100,8 @@ public class ScheduleWalk extends AppCompatActivity {
             } catch (ParseException ex) {
                 throw new RuntimeException(ex);
             }
+
+
         });
 
 
@@ -124,9 +126,9 @@ public class ScheduleWalk extends AppCompatActivity {
         // Prepare the JSON request data
         JSONObject requestData = new JSONObject();
         try {
+            requestData.put("client_username", clientUsername);
 
             requestData.put("walker_username", walkerUsername);
-            requestData.put("client_username", clientUsername);
 
             appointmentDate+= " "+edTime.getText()+":00";
 
@@ -147,13 +149,13 @@ public class ScheduleWalk extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestData,
                 response -> {
                     // Handle the response, e.g., log success or update UI
-                    //Log.d("setAppointment", "Response: " + response.toString());
-                    //Toast.makeText(this, "appointment created successfully", Toast.LENGTH_SHORT).show();
+                    Log.d("HESH", "Response: " + response.toString());
+                    Toast.makeText(this, "appointment created successfully", Toast.LENGTH_SHORT).show();
                 },
                 error -> {
                     // Handle the error, e.g., log error or update UI
-                    //Log.e("setAppointmentERROR", "Error creating appointment: " + error.toString());
-                    //Toast.makeText(this,"appointment failed to create",Toast.LENGTH_SHORT);
+                    Log.d("HESH", "Error creating appointment: " + error.toString());
+                    Toast.makeText(this,"appointment failed to create",Toast.LENGTH_SHORT);
                 });
 
         // Add the request to the request queue
