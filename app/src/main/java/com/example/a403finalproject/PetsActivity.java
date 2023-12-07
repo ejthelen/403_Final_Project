@@ -107,7 +107,7 @@ public class PetsActivity extends AppCompatActivity {
 
                             // Check if the dog is owned by user
                             if (username.matches(user)) {
-                                Pet p = new Pet(categoryObj.getString("pet_name"), categoryObj.getString("pet_breed"), categoryObj.getString("pet_description"));
+                                Pet p = new Pet(categoryObj.getInt("TuID"), categoryObj.getString("person_username"), categoryObj.getString("pet_name"), categoryObj.getString("pet_breed"), categoryObj.getString("pet_description"));
                                 pets.add(p);
 
                             }

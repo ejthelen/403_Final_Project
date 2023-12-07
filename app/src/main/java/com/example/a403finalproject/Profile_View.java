@@ -38,17 +38,18 @@ public class Profile_View extends AppCompatActivity {
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
-    static int tuid = 9;
+    static int tuid;
 
     TextView txtRate, txtRateChange;
 
     // Boolean value to check if walking account is active
     static boolean walkingStatus;
+    String username;
 
     // Will fill profile page with user information from database
     public void getData(){
         /** Here ya go I passed the username from login  **/
-        String username = sharedPreferences.getString("username","default_val");
+        username = sharedPreferences.getString("username","default_val");
         Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
 
@@ -60,10 +61,11 @@ public class Profile_View extends AppCompatActivity {
                     try {
                         for(int i = 0; i < response.length(); i++){
                             JSONObject categoryObj = response.getJSONObject(i);
-                            int id = categoryObj.getInt("TuID");
+                            String user = categoryObj.getString("username");
 
-                            if (id == tuid) {
-                                Log.d("UHH", id + "");
+                            if (username.matches(user)) {
+                                tuid = categoryObj.getInt("TuID");
+                                Log.d("UHH", tuid + "");
                                 edFirstName.setText(categoryObj.getString("first_name"));
                                 edLastName.setText(categoryObj.getString("last_name"));
                                 edNumber.setText(categoryObj.getString("phone_number"));
@@ -97,7 +99,6 @@ public class Profile_View extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
-
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
@@ -176,7 +177,6 @@ public class Profile_View extends AppCompatActivity {
 
             Toast.makeText(Profile_View.this, "Your profile was updated, and your walking account is now " + activeStatus, Toast.LENGTH_SHORT).show();
 
-
             // Change walking active status and update database info about user profile
             JSONObject updatedData = new JSONObject();
             try {
@@ -193,7 +193,7 @@ public class Profile_View extends AppCompatActivity {
                 updatedData.put("short_description", edShort.getText() + "");
                 updatedData.put("long_description", edLong.getText() + "");
                 updatedData.put("password", "");
-                updatedData.put("username", "testuserbob");
+                updatedData.put("username", username);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

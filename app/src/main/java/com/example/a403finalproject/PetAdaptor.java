@@ -1,22 +1,32 @@
 package com.example.a403finalproject;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.cardview.widget.CardView;
 
 import java.util.ArrayList;
 
 public class PetAdaptor extends BaseAdapter {
     ArrayList<Pet> pets;
+    ActivityResultLauncher resultLauncher;
+
     Context context;
     public PetAdaptor( Context context,ArrayList<Pet> pets) {
         this.pets = pets;
@@ -47,6 +57,7 @@ public class PetAdaptor extends BaseAdapter {
         TextView txtName = view.findViewById(R.id.txtDogName);
         TextView txtBreed = view.findViewById(R.id.txtBreed);
         TextView txtDesc = view.findViewById(R.id.txtDesc);
+        Button btnEditPet = view.findViewById(R.id.btnEditPet);
 
 
 
@@ -64,16 +75,30 @@ public class PetAdaptor extends BaseAdapter {
             if (txtDesc.getVisibility() == View.VISIBLE && txtBreed.getVisibility() == View.VISIBLE) {
                 txtDesc.setVisibility(View.GONE);
                 txtBreed.setVisibility(View.GONE);
+                btnEditPet.setVisibility(View.GONE);
 
             } else {
                 txtDesc.setVisibility(View.VISIBLE);
                 txtBreed.setVisibility(View.VISIBLE);
-
+                btnEditPet.setVisibility(View.VISIBLE);
             }
         });
 
-
+        View finalView = view;
+        btnEditPet.setOnClickListener(e -> {
+            Intent intent = new Intent(context, EditPet.class);
+            Bundle b = new Bundle();
+            b.putInt("pet_tuid", pet.tuid);
+            Log.d("From adaptor", pet.tuid + "");
+            b.putString("pet_owner", pet.owner);
+            intent.putExtras(b);
+            startActivity(context,intent,b);
+        });
 
         return view;
+    }
+
+    public PetAdaptor(Context context) {
+        this.context = context;
     }
 }
