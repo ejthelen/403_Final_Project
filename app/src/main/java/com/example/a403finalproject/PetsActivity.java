@@ -64,12 +64,12 @@ public class PetsActivity extends AppCompatActivity {
         btnToProfileFromPets = findViewById(R.id.btnToProfileFromPets);
         btnToInfoFromPets = findViewById(R.id.btnToInfoFromPets);
 
-        //        btnToAptFromPets.setOnClickListener(e -> {
-//
-//            Intent i = new Intent(this, Appointments.class);
-//
-//            resultLauncher.launch(i);
-//        });
+        btnToAptFromPets.setOnClickListener(e -> {
+
+            Intent i = new Intent(this, ScheduleWalk.class);
+
+            resultLauncher.launch(i);
+        });
 
         btnToHomeFromPets.setOnClickListener(e -> {
             Intent i = new Intent(this, WalkerList.class);

@@ -35,12 +35,10 @@ public class InfoScrolling extends AppCompatActivity {
         btnToProfileFromInfo = findViewById(R.id.btnToProfileFromInfo);
         btnToPetsFromInfo = findViewById(R.id.btnToPetsFromInfo);
 
-        //        btnToAptFromInfo.setOnClickListener(e -> {
-//
-//            Intent i = new Intent(this, Appointments.class);
-//
-//            resultLauncher.launch(i);
-//        });
+        btnToAptFromInfo.setOnClickListener(e -> {
+            Intent i = new Intent(this, ScheduleWalk.class);
+            resultLauncher.launch(i);
+        });
 
         btnToHomeFromInfo.setOnClickListener(e -> {
             Intent i = new Intent(this, WalkerList.class);
@@ -57,19 +55,6 @@ public class InfoScrolling extends AppCompatActivity {
             resultLauncher.launch(i);
         });
 
-        //Toolbar toolbar = bindi//ng.toolbar;
-        //setSupportActionBar(toolbar);
-        //CollapsingToolbarLayout toolBarLayout = binding.toolbarLayout;
-//        toolBarLayout.setTitle(getTitle());
-//
-//        FloatingActionButton fab = binding.fab;
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         // Initialize the resultLauncher
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
