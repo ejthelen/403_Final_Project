@@ -49,6 +49,7 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     private ActivityWalkerMapBinding binding;
     RequestQueue queue;
     ArrayList<Walker> walker = new ArrayList<>();
+    ArrayList<String> walkerArrayListString = new ArrayList<>();
     Distance distance;
     Walker currentWalker;
 
@@ -87,22 +88,38 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
 
         queue = Volley.newRequestQueue(this);
 //        getData();
-        walker.add(new Walker("1","Test1","t1","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",43.51,-83.95543166233124,1));
-        walker.add(new Walker("2","Test2","t2","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",43.52,-83.95543166233124,2));
-        walker.add(new Walker("3","Test3","t3","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",43.53,-83.95543166233124,3));
-        walker.add(new Walker("4","Test4","t4","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",43.54,-83.95543166233124,4));
-
+//        walker.add(new Walker("1","Test1","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",43.51,-83.95543166233124,1));
+//        walker.add(new Walker("2","Test2","jane road","johnsville","ms","USA",true,15.0,"likes to walk",20.0,"really really likes to walk","989 989 8998","a@aol.com",43.52,-83.95543166233124,2));
+//        walker.add(new Walker("3","Test3","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",43.58,-83.95543166233124,3));
+//        walker.add(new Walker("4","Test4","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",43.54,-83.95543166233124,4));
 
         //            Walker currentWalker = walker.get(Profile_View.getTuid());
+
+        Intent i = getIntent();
+//        Bundle bundle = i.getBundleExtra("walkerArrayList");
+        walkerArrayListString = i.getStringArrayListExtra("walkerArrayList");
+
+        for (String walkerCSV : walkerArrayListString) {
+            String[] walkerSplitString = walkerCSV.split(",");
+            int index = 0;
+            Walker walker1 = new Walker(walkerSplitString[0],
+                    walkerSplitString[1], walkerSplitString[2], walkerSplitString[3],
+                    walkerSplitString[4], (walkerSplitString[5]), Boolean.parseBoolean(walkerSplitString[6]),
+                Double.parseDouble(walkerSplitString[7]), walkerSplitString[8], Double.parseDouble(walkerSplitString[9]),
+                    walkerSplitString[10], walkerSplitString[11], (walkerSplitString[12]),
+                    Double.parseDouble(walkerSplitString[13]), Double.parseDouble(walkerSplitString[14]),
+                    Integer.parseInt(walkerSplitString[15]));
+            walker.add(walker1);
+        }
         currentWalker = walker.get(2);
 
         setWalkerMarkers();
 
         mMap.setOnInfoWindowLongClickListener(marker -> {
             Walker w = (Walker) marker.getTag();
-            Intent i = new Intent(Walker_Map.this, WalkerList.class);
-            i.putExtra("walker_ID", w.getTUID());
-            startActivity(i);
+            Intent walkerListIntent = new Intent(Walker_Map.this, WalkerList.class);
+            walkerListIntent.putExtra("walker_ID", w.getTUID());
+            startActivity(walkerListIntent);
         });
     }
 
