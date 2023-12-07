@@ -44,8 +44,6 @@ public class ScheduleWalk extends AppCompatActivity {
     String walkerUsername, clientUsername;
     String appointmentDate;
 
-    String appointmentTime;
-
     String status;
 
     SharedPreferences preferences;
@@ -116,9 +114,6 @@ public class ScheduleWalk extends AppCompatActivity {
 
     public void setAppointment() throws ParseException {
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/InsertAppointment";
-        String status = "Scheduled";
-
-
 
         //UTC: 2023-12-06 15:00:00
 
@@ -127,17 +122,13 @@ public class ScheduleWalk extends AppCompatActivity {
         JSONObject requestData = new JSONObject();
         try {
             requestData.put("client_username", clientUsername);
-
             requestData.put("walker_username", walkerUsername);
-
-            appointmentDate+= " "+edTime.getText()+":00";
-
-            requestData.put("appointment_date", appointmentDate);
-
-
-
-            requestData.put("appointment_endtime", appointmentDate);
-
+            requestData.put("appointment_date", appointmentDate+" "+edTime.getText()+":00");
+            String timeSplit[] = edTime.getText().toString().split(":");
+            int endtime = Integer.parseInt(timeSplit[0]);
+            endtime +=1;
+            String appointmentEndTime = appointmentDate+" "+endtime+":"+timeSplit[1]+":00";
+            requestData.put("appointment_endtime", appointmentEndTime);
             requestData.put("status", "Scheduled");
 
         } catch (JSONException e) {
