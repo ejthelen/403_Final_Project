@@ -44,18 +44,19 @@ public class Profile_View extends AppCompatActivity {
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
+    static int tuid;
+
     /** Here ya go I passed the username from login  **/
     String username;
-
-    static int tuid = 9;
 
     TextView txtRate, txtRateChange;
 
     // Boolean value to check if walking account is active
     static boolean walkingStatus;
+
+
+    /** Here ya go I passed the username from login  **/
     String activeStatus;
-
-
 
     // Will fill profile page with user information from database
     public void getData(){
@@ -72,6 +73,7 @@ public class Profile_View extends AppCompatActivity {
                     try {
                         for(int i = 0; i < response.length(); i++){
                             JSONObject categoryObj = response.getJSONObject(i);
+
                             int id = categoryObj.getInt("TuID");
                             String serverUsername = categoryObj.getString("username");
                             Log.d("SERVER-NAME",serverUsername);
@@ -191,7 +193,6 @@ public class Profile_View extends AppCompatActivity {
                 activeStatus = "active";
             } else {
                 activeStatus = "inactive";
-
             }
             updateProfile();
 

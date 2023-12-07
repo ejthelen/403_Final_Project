@@ -5,6 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="10dp"
     tools:context=".PetsActivity">
 
     <ListView
@@ -61,6 +62,7 @@
         android:backgroundTint="#B2FFFFFF"
         android:contentDescription="pets page"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/btnToAptFromPets"
         app:layout_constraintEnd_toStartOf="@+id/btnToHomeFromPets"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnToAptFromPets"
@@ -74,6 +76,7 @@
         android:backgroundTint="#B2FFFFFF"
         android:contentDescription="home page"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/btnToAptFromPets"
         app:layout_constraintEnd_toStartOf="@+id/btnToProfileFromPets"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnToPetsFromPets"
@@ -87,6 +90,7 @@
         android:backgroundTint="#B2FFFFFF"
         android:contentDescription="profile page"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/btnToAptFromPets"
         app:layout_constraintEnd_toStartOf="@+id/btnToInfoFromPets"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnToHomeFromPets"
@@ -100,6 +104,7 @@
         android:backgroundTint="#B2FFFFFF"
         android:contentDescription="info page"
         android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/btnToAptFromPets"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnToProfileFromPets"
