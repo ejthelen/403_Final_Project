@@ -7,6 +7,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +27,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -86,15 +92,11 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         walker.add(new Walker("3","Test3","t3","jane road","johnsville","ms","USA",true,10.0,"likes to walk",30.0,"really really likes to walk","989 989 8998","a@aol.com",43.53,-83.95543166233124,3));
         walker.add(new Walker("4","Test4","t4","jane road","johnsville","ms","USA",true,2.0,"likes to walk",40.0,"really really likes to walk","989 989 8998","a@aol.com",43.54,-83.95543166233124,4));
 
+
         //            Walker currentWalker = walker.get(Profile_View.getTuid());
         currentWalker = walker.get(2);
 
         setWalkerMarkers();
-
-        mMap.setOnMapLongClickListener(latLng -> {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
-            marker.setTitle("");
-        });
 
         mMap.setOnInfoWindowLongClickListener(marker -> {
             Walker w = (Walker) marker.getTag();
@@ -105,22 +107,56 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void setWalkerMarkers() {
+        LatLng latLngCurrentWalker = new LatLng(walker.get(currentWalker.getTUID()-1).getLatitude(),
+                walker.get(currentWalker.getTUID()-1).getLongitude());
+
             for (Walker walker : walker) {
                 if (walker.getTUID() != currentWalker.getTUID()) {
                     LatLng walkerPosition = new LatLng(walker.getLatitude(), walker.getLongitude());
                     Marker marker = mMap.addMarker(new MarkerOptions().position(walkerPosition));
                     marker.setTitle((walker.getfName()));
                     marker.setTag(walker);
+                } else {
+                    int markerColor = Color.BLUE;
+                    addCustomMarker(latLngCurrentWalker, markerColor, currentWalker);
                 }
             }
-            LatLng latLngCurrentWalker = new LatLng(walker.get(currentWalker.getTUID()).getLatitude(),
-                    walker.get(currentWalker.getTUID()).getLongitude());
+
 //            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngCurrentWalker));
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(latLngCurrentWalker)
                 .zoom(12)
                 .build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    private void addCustomMarker(LatLng position, int color, Walker walker) {
+        BitmapDescriptor customMarker = getMarkerIconFromColor(color);
+
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(position)
+                .icon(customMarker));
+        marker.setTitle((walker.getfName()));
+        marker.setTag(walker);
+
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+    }
+
+    private BitmapDescriptor getMarkerIconFromColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+
+        Bitmap icon = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(icon);
+
+        Paint paint = new Paint();
+        paint.setColor(color);
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.FILL);
+
+        canvas.drawCircle(50, 50, 50, paint);
+
+        return BitmapDescriptorFactory.fromBitmap(icon);
     }
 
     public void getData() {
@@ -209,15 +245,25 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
             TextView txtPrice = v.findViewById(R.id.tvPrice);
             TextView txtWalkerRate = v.findViewById(R.id.txtWalkerRate);
             Walker walker1 = (Walker) marker.getTag();
+
             txtWalkerName.setText("Name: " + walker1.getlName());
-            txtPrice.setText(String.format(Locale.US, "Charge: $%,.2f",
-                    walker1.getCharge()));
-            txtWalkerDistance.setText("Distance: " +
-                    distance.calculateDistance(walker1.getLatitude(),
-                    walker1.getLongitude(), currentWalker.getLatitude(),
-                    currentWalker.getLongitude()) + " miles");
-            txtWalkerRate.setText(String.format(Locale.US, "Rate: $%,.2f per walk",
-                    walker1.getWalkRate()));
+
+            if (walker1.getTUID() != currentWalker.getTUID()) {
+                txtPrice.setText(String.format(Locale.US, "Charge: $%,.2f",
+                        walker1.getCharge()));
+                txtWalkerDistance.setText("Distance: " +
+                        distance.calculateDistance(walker1.getLatitude(),
+                                walker1.getLongitude(), currentWalker.getLatitude(),
+                                currentWalker.getLongitude()) + " miles");
+                txtWalkerRate.setText(String.format(Locale.US, "Rate: $%,.2f per walk",
+                        walker1.getWalkRate()));
+            } else {
+                txtWalkerName.setText(txtWalkerName.getText() + " (Me)");
+                txtPrice.setText("City: " + walker1.getCity().substring(0,1).toUpperCase() +
+                        walker1.getCity().substring(1, walker1.getCity().length()));
+                txtWalkerDistance.setText("State: " + walker1.getState().toUpperCase());
+                txtWalkerRate.setText("Country: " + walker1.getCountry());
+            }
 
             return v;
         }

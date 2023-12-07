@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+// Checking that new cloned repo works
+
 public class Profile_View extends AppCompatActivity {
     ActivityResultLauncher resultLauncher;
     Switch swActivate;
@@ -35,9 +38,11 @@ public class Profile_View extends AppCompatActivity {
 
     SeekBar skRate;
     Button btnUpdate;
+    Button btnLogOut;
     RequestQueue queue;
     SharedPreferences sharedPreferences;
-
+    /** Here ya go I passed the username from login  **/
+    String username;
     static int tuid = 9;
 
     TextView txtRate, txtRateChange;
@@ -47,8 +52,8 @@ public class Profile_View extends AppCompatActivity {
 
     // Will fill profile page with user information from database
     public void getData(){
-        /** Here ya go I passed the username from login  **/
-        String username = sharedPreferences.getString("username","default_val");
+        username = sharedPreferences.getString("username","default_val");
+
         Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
 
@@ -61,8 +66,10 @@ public class Profile_View extends AppCompatActivity {
                         for(int i = 0; i < response.length(); i++){
                             JSONObject categoryObj = response.getJSONObject(i);
                             int id = categoryObj.getInt("TuID");
+                            String serverUsername = categoryObj.getString("username");
+                            Log.d("SERVERNAME",serverUsername);
 
-                            if (id == tuid) {
+                            if (serverUsername.equals(username)) {
                                 Log.d("UHH", id + "");
                                 edFirstName.setText(categoryObj.getString("first_name"));
                                 edLastName.setText(categoryObj.getString("last_name"));
@@ -102,6 +109,7 @@ public class Profile_View extends AppCompatActivity {
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
 
+        btnLogOut = findViewById(R.id.btnLogOut);
         btnToAptFromProfile = findViewById(R.id.btnToAptFromProfile);
         btnToHomeFromProfile = findViewById(R.id.btnToHomeFromProfile);
         btnToPetsFromProfile = findViewById(R.id.btnToPetsFromProfile);
@@ -133,6 +141,9 @@ public class Profile_View extends AppCompatActivity {
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Log.d("Main_Activity", "Activity was finished.");
             Log.d("Main_Activity", result.getResultCode() + "");
+        });
+        btnLogOut.setOnClickListener(e->{
+            logout();
         });
 
         // Call methods to get user data from database,
@@ -193,7 +204,7 @@ public class Profile_View extends AppCompatActivity {
                 updatedData.put("short_description", edShort.getText() + "");
                 updatedData.put("long_description", edLong.getText() + "");
                 updatedData.put("password", "");
-                updatedData.put("username", "testuserbob");
+                updatedData.put("username", "");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -265,6 +276,18 @@ public class Profile_View extends AppCompatActivity {
             txtRateChange.setEnabled(false);
             skRate.setEnabled(false);
         }
+    }
+    public void logout(){
+        //clear the users data and change their login status to false
+        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn",false);
+        editor.remove(username);
+        editor.apply();
+
+        Intent intent = new Intent(this,StartupLogin.class);
+        startActivity(intent);
+        finish();
     }
     public static int getTuid() {
         return tuid;

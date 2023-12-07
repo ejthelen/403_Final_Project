@@ -3,7 +3,6 @@ package com.example.a403finalproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,14 +15,13 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AddressComponent;
-import com.google.android.libraries.places.api.model.AddressComponents;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
@@ -32,7 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class SignUp extends AppCompatActivity {
@@ -47,15 +47,15 @@ public class SignUp extends AppCompatActivity {
                     "(?=\\S+$)" +           //no white spaces
                     ".{8,}" +               //at least 8 characters
                     "$");
-    EditText etFirstName,etZipCode, etLastName,
-            etEmail,etCountry, etPhone, etCity, etState, etAddress,
-            etPassword,etShortDescription,etLongDescription,etSignUpUserName, etWalkRate;
-    Button btnResgister,btnBackToLogin;
+    EditText etFirstName, etZipCode, etLastName,
+            etEmail, etCountry, etPhone, etCity, etState, etAddress,
+            etPassword, etShortDescription, etLongDescription, etSignUpUserName, etWalkRate;
+    Button btnResgister, btnBackToLogin;
     RequestQueue requestQueue;
     TextView txtCheckStuff;
     public double latitude;
     public double longitude;
-
+    boolean exists = false;
 
 
 
@@ -64,7 +64,6 @@ public class SignUp extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
 
 
         // Call the findById method for each EditText
@@ -87,13 +86,17 @@ public class SignUp extends AppCompatActivity {
         txtCheckStuff = findViewById(R.id.txtCheckStuff);
         etZipCode = findViewById(R.id.etZipCode);
         etWalkRate = findViewById(R.id.etWalkRate);
+
+
+
+
         Places.initialize(getApplicationContext(), "AIzaSyB93L6kI1kDueyE7lBAJXBEMJqAzv-Ithw");
 
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS,Place.Field.ADDRESS_COMPONENTS,Place.Field.LAT_LNG));
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG));
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onError(@NonNull Status status) {
@@ -109,9 +112,9 @@ public class SignUp extends AppCompatActivity {
                 LatLng latLng = place.getLatLng();
                 // Get the address components
                 latitude = latLng.latitude;
-               longitude = latLng.longitude;
+                longitude = latLng.longitude;
 
-               Log.d("COORDINATES", "" + longitude + "," + latitude);
+                Log.d("COORDINATES", "" + longitude + "," + latitude);
 
                 // Check if address components are not null
                 if (place.getAddressComponents() != null) {
@@ -131,21 +134,20 @@ public class SignUp extends AppCompatActivity {
 
                     //Log users address
                     assert cityAddress != null;
-                    Log.d("USER ADDRESS",cityAddress);
+                    Log.d("USER ADDRESS", cityAddress);
 
 
-                }else {
+                } else {
                     Log.e("components are NULL", "NULL");
                 }
-
 
 
             }
 
         });
 
-        btnBackToLogin.setOnClickListener(e->{
-            Intent intent = new Intent(this,StartupLogin.class);
+        btnBackToLogin.setOnClickListener(e -> {
+            Intent intent = new Intent(this, StartupLogin.class);
             startActivity(intent);
         });
 
@@ -158,16 +160,17 @@ public class SignUp extends AppCompatActivity {
             boolean isValidShortDesc = validateShortDescription();
             boolean isValidWalkRate = validateWalkRate();
 
-            if (isValidEmail && isValidPassword&&isValidPhoneNumber&&isValidLongDesc&&isValidShortDesc&&isValidWalkRate) {
-                setUser();
-                Intent intent = new Intent(this, Profile_View.class);
-                startActivity(intent);
+
+            if (isValidEmail && isValidPassword && isValidPhoneNumber && isValidLongDesc && isValidShortDesc && isValidWalkRate) {
+               setUser();
             }
         }));
 
 
 
+
     }
+
     // this method returns a part of the address depending on its type
     private String getAddressComponent(List<AddressComponent> addressComponents, String type) {
         for (AddressComponent component : addressComponents) {
@@ -180,6 +183,7 @@ public class SignUp extends AppCompatActivity {
         }
         return null;
     }
+
     //validates email address based off the regex expression in the Patterns class
     public boolean validateEmail() {
         String emailInput = etEmail.getText().toString().trim();
@@ -208,6 +212,12 @@ public class SignUp extends AppCompatActivity {
         }
         return true;
     }
+
+
+
+
+
+
     public void setUser() {
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/CreateUser";
         String firstName = etFirstName.getText().toString().trim();
@@ -223,6 +233,7 @@ public class SignUp extends AppCompatActivity {
         String long_description = etLongDescription.getText().toString().trim();
         String username = etSignUpUserName.getText().toString().trim();
         String zipcode = etZipCode.getText().toString().trim();
+
 
 
         String postal_address = address + "," + state + ","+zipcode+"," + country;
@@ -255,14 +266,32 @@ public class SignUp extends AppCompatActivity {
         // Create a new JsonObjectRequest with POST method
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestData,
                 response -> {
-                    // Handle the response, e.g., log success or update UI
-                    Log.d("SetUser", "Response: " + response.toString());
-                    Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show();
+                    try {
+                        String message = response.getString("response");
+                        //the response returned will say whether or not the username is taken or not
+                        if ("User Already Exists".equals(message)) {
+                            Toast.makeText(this, "This username is already taken. Enter another username", Toast.LENGTH_SHORT).show();
+                            Log.d("USERNAME ALREADY EXISTS", username + " is taken");
+                            exists = false;
+                        } else {
+                            // Handle the response and create the user is the username isnt taken
+                            Log.d("SetUser", "Response: " + response.toString());
+                            Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show();
+
+                            //take the user to their profile
+                            Intent intent = new Intent(this, Profile_View.class);
+                            startActivity(intent);
+                        }
+                    } catch (JSONException e) {
+                        // Handle JSON exception
+                        Log.e("UserSetError", "Error parsing JSON response: " + e.toString());
+                        Toast.makeText(this, "Error parsing JSON response", Toast.LENGTH_SHORT).show();
+                    }
                 },
                 error -> {
                     // Handle the error, e.g., log error or update UI
                     Log.e("UserSetError", "Error creating user: " + error.toString());
-                    Toast.makeText(this,"User failed to create",Toast.LENGTH_SHORT);
+                    Toast.makeText(this, "User failed to create", Toast.LENGTH_SHORT).show();
                 });
 
         // Add the request to the request queue

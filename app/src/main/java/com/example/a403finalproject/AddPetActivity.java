@@ -26,24 +26,19 @@ public class AddPetActivity extends AppCompatActivity {
     Button btnAddPet, btnBackToPets;
 
     RequestQueue queue;
-    SharedPreferences sharedPreferences;
-
-    // Will update when we figure out how to move name throughout activities
-    // Maybe through preferences
-    //String username = "testuserstan";
-
 
     /** Username passed from login  **/
-    String username = sharedPreferences.getString("username","default_val");
-
-
+    SharedPreferences sharedPreferences;
     ActivityResultLauncher resultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
+        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
+
         /** Here ya go I passed the username from login  **/
+        String username = sharedPreferences.getString("username","default_val");
         Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
 
