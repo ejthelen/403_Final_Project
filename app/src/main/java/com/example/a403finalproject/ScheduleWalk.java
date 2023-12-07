@@ -2,6 +2,7 @@ package com.example.a403finalproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -39,18 +40,30 @@ public class ScheduleWalk extends AppCompatActivity {
     RadioButton rdoAM, rdoPM;
     RequestQueue requestQueue;
 
-    String walkerUsername, clientUsername="f";
+    String walkerUsername, clientUsername;
     String appointmentDate;
 
     String appointmentTime;
 
     String status;
 
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_walk);
+
+        preferences = getSharedPreferences("SETTINGS",MODE_PRIVATE);
+        editor = preferences.edit();
+
+        walkerUsername = preferences.getString("WU","");
+        clientUsername = preferences.getString("CU","");
+
+        Log.d("HESH",walkerUsername+" "+clientUsername);
 
         btnConfirmBooking = findViewById(R.id.btnConfirmBooking);
         cvDate = findViewById(R.id.cvDate);
@@ -66,11 +79,13 @@ public class ScheduleWalk extends AppCompatActivity {
 
         Calendar c = Calendar.getInstance();
 
-        cvDate.setDate(c.getTimeInMillis());
-        edTime.setText("12:01");
+
 
 
         btnConfirmBooking.setOnClickListener(e->{
+            cvDate.setDate(c.getTimeInMillis());
+            edTime.setText("12:01");
+
             try {
                 setAppointment();
             } catch (ParseException ex) {
@@ -90,22 +105,20 @@ public class ScheduleWalk extends AppCompatActivity {
 
     public void setAppointment() throws ParseException {
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/InsertAppointment";
-        String walkerUsername;
-        String clientUsername;
-        String appointmentDate = cvDate.getDate()+"";
-        String appointmentTime = edTime.getText().toString().trim();
         String status = "Scheduled";
 
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         String utcDateStr = sdf.format(cvDate.getDate());
+
+        utcDateStr +=" "+edTime.getText().toString().trim()+":00";
 
         Log.d("HESH",utcDateStr+"");
 
         //UTC: 2023-12-06 15:00:00
 
-/*
+
         // Prepare the JSON request data
         JSONObject requestData = new JSONObject();
         try {
@@ -118,7 +131,7 @@ public class ScheduleWalk extends AppCompatActivity {
 
             requestData.put("appointment_endtime", appointmentDate);
 
-            requestData.put("status", "booked");
+            requestData.put("status", "Scheduled");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -129,19 +142,18 @@ public class ScheduleWalk extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, requestData,
                 response -> {
                     // Handle the response, e.g., log success or update UI
-                    Log.d("setAppointment", "Response: " + response.toString());
-                    Toast.makeText(this, "appointment created successfully", Toast.LENGTH_SHORT).show();
+                    //Log.d("setAppointment", "Response: " + response.toString());
+                    //Toast.makeText(this, "appointment created successfully", Toast.LENGTH_SHORT).show();
                 },
                 error -> {
                     // Handle the error, e.g., log error or update UI
-                    Log.e("setAppointmentERROR", "Error creating appointment: " + error.toString());
-                    Toast.makeText(this,"appointment failed to create",Toast.LENGTH_SHORT);
+                    //Log.e("setAppointmentERROR", "Error creating appointment: " + error.toString());
+                    //Toast.makeText(this,"appointment failed to create",Toast.LENGTH_SHORT);
                 });
 
         // Add the request to the request queue
         requestQueue.add(request);
 
- */
     }
 
 }
