@@ -30,6 +30,7 @@ public class WalkerAdapter extends BaseAdapter {
 
 
 
+
     public WalkerAdapter(Context context, ArrayList<Walker> walkers){
         this.walkers = walkers;
         this.context = context;
@@ -74,6 +75,7 @@ public class WalkerAdapter extends BaseAdapter {
         w = new Walker();
 
         for(int j = 0;j<walkers.size();j++){
+            //Log.d("HESH","TUID: "+walkers.get(j).getTUID()+ " "+Profile_View.getTuid());
             if(walkers.get(j).getTUID()==Profile_View.getTuid()){
                 w = walkers.get(j);
             }
@@ -81,7 +83,7 @@ public class WalkerAdapter extends BaseAdapter {
 
         txtDistanceAway.setText("Distance: "+Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude()));
 
-        Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");
+        //Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");
 
         clHousing.setMaxHeight(300);
         btnBook.setVisibility(View.INVISIBLE);
@@ -99,7 +101,7 @@ public class WalkerAdapter extends BaseAdapter {
 
             if(clHousing.getMaxHeight()==300){
                 clHousing.setMaxHeight(1000);
-                Log.d("HESH",txtLongDesc.getHeight()+"");
+                //Log.d("HESH",txtLongDesc.getHeight()+"");
                 txtEC.setText("^");
                 btnBook.setVisibility(View.VISIBLE);
             }
@@ -117,7 +119,7 @@ public class WalkerAdapter extends BaseAdapter {
 
             Bundle b = new Bundle();
 
-            Log.d("HESH",walker.getUserName()+" "+w.getTUID());
+            Log.d("HESH",walker.getUserName()+" "+WalkerList.getUsername());
 
             b.putString("WU",""+walker.getUserName());
             b.putString("CU",""+w.getUserName());

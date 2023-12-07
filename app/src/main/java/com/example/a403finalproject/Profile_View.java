@@ -29,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.Preferences;
 
 // Checking that new cloned repo works
 
@@ -75,6 +77,7 @@ public class Profile_View extends AppCompatActivity {
                             JSONObject categoryObj = response.getJSONObject(i);
 
                             int id = categoryObj.getInt("TuID");
+                            //tuid = id;
                             String serverUsername = categoryObj.getString("username");
                             Log.d("SERVER-NAME",serverUsername);
 
@@ -133,6 +136,13 @@ public class Profile_View extends AppCompatActivity {
 
         btnToHomeFromProfile.setOnClickListener(e -> {
             Intent i = new Intent(this, WalkerList.class);
+
+            Log.d("HESH","H "+username);
+            SharedPreferences p = getSharedPreferences("HESH",MODE_PRIVATE);
+            SharedPreferences.Editor ed = p.edit();
+
+            ed.putString("uname",username);
+            ed.apply();
             resultLauncher.launch(i);
         });
 
