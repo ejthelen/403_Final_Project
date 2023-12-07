@@ -1,5 +1,6 @@
 package com.example.a403finalproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
@@ -52,6 +53,8 @@ public class ScheduleWalk extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,12 +82,18 @@ public class ScheduleWalk extends AppCompatActivity {
 
         Calendar c = Calendar.getInstance();
 
+        cvDate.setDate(c.getTimeInMillis());
+        edTime.setText("12:01");
 
+        cvDate.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            String readableDate = getReadableDate(year, month, dayOfMonth);
+            appointmentDate = readableDate;
+
+        });
 
 
         btnConfirmBooking.setOnClickListener(e->{
-            cvDate.setDate(c.getTimeInMillis());
-            edTime.setText("12:01");
+
 
             try {
                 setAppointment();
@@ -107,14 +116,7 @@ public class ScheduleWalk extends AppCompatActivity {
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/InsertAppointment";
         String status = "Scheduled";
 
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        String utcDateStr = sdf.format(cvDate.getDate());
-
-        utcDateStr +=" "+edTime.getText().toString().trim()+":00";
-
-        Log.d("HESH",utcDateStr+"");
 
         //UTC: 2023-12-06 15:00:00
 
@@ -125,6 +127,9 @@ public class ScheduleWalk extends AppCompatActivity {
 
             requestData.put("walker_username", walkerUsername);
             requestData.put("client_username", clientUsername);
+
+            appointmentDate+= " "+edTime.getText()+":00";
+
             requestData.put("appointment_date", appointmentDate);
 
 
@@ -154,6 +159,11 @@ public class ScheduleWalk extends AppCompatActivity {
         // Add the request to the request queue
         requestQueue.add(request);
 
+    }
+    private String getReadableDate(int year, int month, int day) {
+        month++;
+
+        return String.format("%04d-%02d-%02d", year, month, day);
     }
 
 }
