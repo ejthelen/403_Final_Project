@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -53,6 +54,8 @@ public class SignUp extends AppCompatActivity {
     Button btnResgister, btnBackToLogin;
     RequestQueue requestQueue;
     TextView txtCheckStuff;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     public double latitude;
     public double longitude;
     boolean exists = false;
@@ -86,6 +89,8 @@ public class SignUp extends AppCompatActivity {
         txtCheckStuff = findViewById(R.id.txtCheckStuff);
         etZipCode = findViewById(R.id.etZipCode);
         etWalkRate = findViewById(R.id.etWalkRate);
+        sharedPreferences = getSharedPreferences("MODE", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
 
 
@@ -159,7 +164,6 @@ public class SignUp extends AppCompatActivity {
             boolean isValidLongDesc = validateLongDescription();
             boolean isValidShortDesc = validateShortDescription();
             boolean isValidWalkRate = validateWalkRate();
-
 
             if (isValidEmail && isValidPassword && isValidPhoneNumber && isValidLongDesc && isValidShortDesc && isValidWalkRate) {
                setUser();
@@ -272,11 +276,18 @@ public class SignUp extends AppCompatActivity {
                         if ("User Already Exists".equals(message)) {
                             Toast.makeText(this, "This username is already taken. Enter another username", Toast.LENGTH_SHORT).show();
                             Log.d("USERNAME ALREADY EXISTS", username + " is taken");
+
+
                             exists = false;
                         } else {
                             // Handle the response and create the user is the username isnt taken
                             Log.d("SetUser", "Response: " + response.toString());
                             Toast.makeText(this, "User created successfully", Toast.LENGTH_SHORT).show();
+                           //save the users username in shared preferences from sign up
+                            Log.d("USERNAME", username);
+                            editor.putString("username", username);
+                            editor.putBoolean("isLoggedIn", true);
+                            editor.apply();
 
                             //take the user to their profile
                             Intent intent = new Intent(this, Profile_View.class);
