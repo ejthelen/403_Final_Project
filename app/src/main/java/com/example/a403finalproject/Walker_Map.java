@@ -102,13 +102,15 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         for (String walkerCSV : walkerArrayListString) {
             String[] walkerSplitString = walkerCSV.split(",");
             int index = 0;
-            Walker walker1 = new Walker(walkerSplitString[0],
-                    walkerSplitString[1], walkerSplitString[2], walkerSplitString[3],
-                    walkerSplitString[4], (walkerSplitString[5]), Boolean.parseBoolean(walkerSplitString[6]),
-                Double.parseDouble(walkerSplitString[7]), walkerSplitString[8], Double.parseDouble(walkerSplitString[9]),
-                    walkerSplitString[10], walkerSplitString[11], (walkerSplitString[12]),
-                    Double.parseDouble(walkerSplitString[13]), Double.parseDouble(walkerSplitString[14]),
-                    Integer.parseInt(walkerSplitString[15]));
+//                public Walker(String fName, String lName, String userName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double latitude, double longitude, int TUID) {
+
+                Walker walker1 = new Walker(walkerSplitString[0],
+                    walkerSplitString[1], walkerSplitString[2], walkerSplitString[3], walkerSplitString[4],
+                    walkerSplitString[5], (walkerSplitString[6]), Boolean.parseBoolean(walkerSplitString[7]),
+                    Double.parseDouble(walkerSplitString[8]), walkerSplitString[9], Double.parseDouble(walkerSplitString[10]),
+                    walkerSplitString[11], walkerSplitString[12], (walkerSplitString[13]),
+                    Double.parseDouble(walkerSplitString[14]), Double.parseDouble(walkerSplitString[15]),
+                    Integer.parseInt(walkerSplitString[16]));
             walker.add(walker1);
         }
         currentWalker = walker.get(2);

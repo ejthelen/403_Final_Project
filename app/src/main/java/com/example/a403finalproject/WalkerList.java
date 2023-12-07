@@ -112,10 +112,8 @@ public class WalkerList extends AppCompatActivity {
             Bundle bundle = new Bundle();
 
             for (Walker walker1 : walker) {
-//                    public Walker(String fName, String lName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double latitude, double longitude, int TUID) {
-
-//                "1","johnson","jane road","johnsville","ms","USA",true,20.0,"likes to walk",10.0,"really really likes to walk","989 989 8998","a@aol.com",45.75,88.75,1
                 walkerArrayList.add(walker1.getfName() + "," + walker1.getlName() + "," +
+                        walker1.getUserName() + "," +
                         walker1.getAddress() + "," + walker1.getCity() + "," + walker1.getState() + "," +
                         walker1.getCountry() + "," + walker1.isWalker() + "," + walker1.getWalkRate() + "," +
                         walker1.getsDesc() + "," + walker1.getCharge() + "," +walker1.getlDesc() + "," +
