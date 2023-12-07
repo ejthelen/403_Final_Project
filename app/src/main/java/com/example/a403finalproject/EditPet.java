@@ -91,7 +91,7 @@ public class EditPet extends AppCompatActivity {
             }
             String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/DeletePet";
 
-            JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.DELETE, updateUrl, deletePet,
+            JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, deletePet,
                     response -> {
                         // Handle successful update
                         Log.d("Delete", "Data deleted successfully");
