@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
+        android:hint="Search by Name"
         android:inputType="text"
         app:layout_constraintEnd_toStartOf="@+id/btnFilter"
         app:layout_constraintHorizontal_bias="0.5"
