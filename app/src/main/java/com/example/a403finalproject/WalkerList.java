@@ -402,42 +402,7 @@ public class WalkerList extends AppCompatActivity {
         });
 
         //sbSpeed seekbar change listener for checking max speed.
-        sbSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //loop through all walkers and find the ones with a speed less than or
-                //equal to the sb progress.
-
-                edSpeed.setText(""+progress);
-                ArrayList<Walker> f = new ArrayList<>();
-                for(int i = 0;i<=walker.size();i++){
-                    if(walker.get(i).walkRate < progress){
-                for(int i = 0;i<=walker.size() - 1;i++){
-                    if(Distance.calculateDistance(walker.get(i).getLatitude(),walker.get(i).getLongitude(),lat,lon) < progress){
-                        f.add(walker.get(i));
-
-                    }
-
-                }
-                ////Log.d("HESH",f.toString());
-
-                adapter = new WalkerAdapter(context,f);
-                adapter.notifyDataSetChanged();
-                lstWalkers.setAdapter(adapter);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
     }
 
 
