@@ -184,9 +184,8 @@
                     android:text="Update Profile"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/etZipCode2"
-                    app:layout_constraintStart_toStartOf="@+id/etZipCode2"
-                    app:layout_constraintTop_toBottomOf="@+id/etZipCode2" />
+                    app:layout_constraintTop_toBottomOf="@id/etCountry2"
+                    tools:layout_editor_absoluteX="6dp" />
 
                 <SeekBar
                     android:id="@+id/skRate"
@@ -238,19 +237,6 @@
                 </androidx.cardview.widget.CardView>
 
                 <EditText
-                    android:id="@+id/etZipCode2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:ems="10"
-                    android:hint="ZipCode"
-                    android:inputType="number"
-                    app:layout_constraintBottom_toTopOf="@+id/btnUpdate"
-                    app:layout_constraintEnd_toEndOf="@+id/etCountry2"
-                    app:layout_constraintStart_toStartOf="@+id/etCountry2"
-                    app:layout_constraintTop_toBottomOf="@+id/etCountry2" />
-
-                <EditText
                     android:id="@+id/etCountry2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -260,10 +246,10 @@
                     android:hint="@string/country"
                     android:inputType="text"
                     android:maxLength="25"
-                    app:layout_constraintBottom_toTopOf="@+id/etZipCode2"
                     app:layout_constraintEnd_toEndOf="@+id/etState2"
                     app:layout_constraintStart_toStartOf="@+id/etState2"
-                    app:layout_constraintTop_toBottomOf="@+id/etState2" />
+                    app:layout_constraintTop_toBottomOf="@+id/etState2"
+                    app:layout_constraintBottom_toTopOf="@+id/btnUpdate"/>
 
                 <EditText
                     android:id="@+id/etState2"

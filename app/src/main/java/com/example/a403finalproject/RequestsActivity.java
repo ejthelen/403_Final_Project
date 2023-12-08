@@ -29,7 +29,6 @@ public class RequestsActivity extends AppCompatActivity {
     ArrayList<WalkerRequest> requests;
     RequestAdaptor adapter;
     ImageButton btnToAptFromReq, btnToPetsFromReq, btnToHomeFromReq, btnToProfileFromReq, btnToInfoFromReq;
-
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
@@ -39,19 +38,17 @@ public class RequestsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_requests);
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
 
+        // Get user from shared preferences
         String user = sharedPreferences.getString("username", "def");
-//        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + user);
-
 
         btnToPetsFromReq = findViewById(R.id.btnToPetsFromReq);
         btnToHomeFromReq = findViewById(R.id.btnToHomeFromReq);
         btnToProfileFromReq = findViewById(R.id.btnToProfileFromReq);
         btnToInfoFromReq = findViewById(R.id.btnToInfoFromReq);
 
+        // These image buttons will act as a navigation bar
         btnToPetsFromReq.setOnClickListener(e -> {
-
             Intent i = new Intent(this, PetsActivity.class);
-
             resultLauncher.launch(i);
         });
 
@@ -73,8 +70,11 @@ public class RequestsActivity extends AppCompatActivity {
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
 
-        // Will add actual stuff when the getPets is made
+        // Will hold a users requests
         requests = new ArrayList<>();
+
+        // Update when api is made
+        // Will get all of users requests
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetRequests";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -87,7 +87,7 @@ public class RequestsActivity extends AppCompatActivity {
                             // Get username from database
                             String username = categoryObj.getString("person_username");
 
-                            // Check if the dog is owned by user
+                            // Check if the request is owned by user and add request to list
                             if (username.matches(user)) {
                                 WalkerRequest p = new WalkerRequest(categoryObj.getString("req_username"), categoryObj.getString("req_name"), categoryObj.getString("walker_username"), categoryObj.getString("pet_name"), categoryObj.getString("phone_number"), categoryObj.getString("email"));
                                 requests.add(p);

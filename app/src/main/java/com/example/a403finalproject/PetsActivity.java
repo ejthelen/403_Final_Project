@@ -29,11 +29,8 @@ public class PetsActivity extends AppCompatActivity {
     ListView lstPets;
     ArrayList<Pet> pets;
     PetAdaptor petAdaptor;
-
     Button btnAddPetPage;
-
     ImageButton btnToAptFromPets, btnToPetsFromPets, btnToHomeFromPets, btnToProfileFromPets, btnToInfoFromPets;
-
     RequestQueue queue;
     SharedPreferences sharedPreferences;
 
@@ -43,19 +40,18 @@ public class PetsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pets);
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
 
+        // Get user from shared preferences
         String user = sharedPreferences.getString("username", "def");
-        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + user);
-
 
         btnToAptFromPets = findViewById(R.id.btnToAptFromPets);
         btnToHomeFromPets = findViewById(R.id.btnToHomeFromPets);
         btnToProfileFromPets = findViewById(R.id.btnToProfileFromPets);
         btnToInfoFromPets = findViewById(R.id.btnToInfoFromPets);
+        btnAddPetPage = findViewById(R.id.btnAddPetPage);
 
+        // These image buttons will act as a navigation bar to the different activities
         btnToAptFromPets.setOnClickListener(e -> {
-
             Intent i = new Intent(this, RequestsActivity.class);
-
             resultLauncher.launch(i);
         });
 
@@ -77,10 +73,10 @@ public class PetsActivity extends AppCompatActivity {
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
 
-        btnAddPetPage = findViewById(R.id.btnAddPetPage);
-
-        // Will add actual stuff when the getPets is made
+        // This array list will hold all of the users pets
         pets = new ArrayList<>();
+
+        // GET request will get all of the users requests
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetAllPets";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -93,7 +89,7 @@ public class PetsActivity extends AppCompatActivity {
                             // Get username from database
                             String username = categoryObj.getString("person_username");
 
-                            // Check if the dog is owned by user
+                            // Check if the dog is owned by user and add them to pets list
                             if (username.matches(user)) {
                                 Pet p = new Pet(categoryObj.getInt("TuID"), categoryObj.getString("person_username"), categoryObj.getString("pet_name"), categoryObj.getString("pet_breed"), categoryObj.getString("pet_description"));
                                 pets.add(p);
@@ -113,7 +109,8 @@ public class PetsActivity extends AppCompatActivity {
 
         queue.add(request);
 
-
+        // When this button is clicked, the app pets page will be opened
+        // when where the user can add a new pet to their list
         btnAddPetPage.setOnClickListener(e -> {
             Intent i = new Intent(this, AddPetActivity.class);
             resultLauncher.launch(i);

@@ -30,7 +30,6 @@ public class RequestAdaptor extends BaseAdapter {
     ArrayList<WalkerRequest> requests;
     ActivityResultLauncher resultLauncher;
     RequestQueue queue;
-
     Context context;
 
     // Place holder (change for actual implementation)
@@ -70,12 +69,12 @@ public class RequestAdaptor extends BaseAdapter {
         queue = Volley.newRequestQueue(context);
 
 
-        // Will update when we have to getPet api
+        // Update the card to show the request information
         txtRequestName.setText("Requested by:: "+request.requester_name);
         txtRequestFor.setText("Requested for: "+request.petName+"");
         txtContactInfo.setText("Contact info: "+request.phone_number+" or " + request.email);
 
-
+        // When button is clicked, the request will be removed from the database and the users list
         btnRemoveReq.setOnClickListener(e -> {
             JSONObject deleteReq = new JSONObject();
             try {

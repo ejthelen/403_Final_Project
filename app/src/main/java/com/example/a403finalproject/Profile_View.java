@@ -47,6 +47,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -68,7 +70,7 @@ public class Profile_View extends AppCompatActivity {
     public static final String TAG = "FinalProject";
     ActivityResultLauncher resultLauncher;
     Switch swActivate;
-    EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong, etZipCode2,
+    EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong,
     etCountry2, etCity2, etState2, etAddress2;
     ImageButton btnToAptFromProfile, btnToPetsFromProfile, btnToHomeFromProfile, btnToProfileFromProfile, btnToInfoFromProfile;
 
@@ -126,7 +128,6 @@ public class Profile_View extends AppCompatActivity {
                                 etAddress2.setText(categoryObj.getString("street_address"));
                                 etCity2.setText(categoryObj.getString("state"));
                                 etState2.setText(categoryObj.getString("country"));
-                                etZipCode2.setText(categoryObj.getString("zip_code"));
 
                                 boolean isWalking = categoryObj.getBoolean("is_walker");
 
@@ -169,9 +170,8 @@ public class Profile_View extends AppCompatActivity {
         etState2 = findViewById(R.id.etState2);
         etAddress2 = findViewById(R.id.etStreetAddy2);
         etCountry2 = findViewById(R.id.etCountry2);
-        etZipCode2 = findViewById(R.id.etZipCode2);
 
-
+        // This is where the user will search for with address and the text views will be filled in
         Places.initialize(getApplicationContext(), "AIzaSyB93L6kI1kDueyE7lBAJXBEMJqAzv-Ithw");
 
 
@@ -209,11 +209,11 @@ public class Profile_View extends AppCompatActivity {
                     String country = getAddressComponent(addressComponents, "country");
                     String state = getAddressComponent(addressComponents, "administrative_area_level_1");
 
+                    // Set the text views
                     etAddress2.setText(address);
                     etCity2.setText(city);
                     etCountry2.setText(country);
                     etState2.setText(state);
-                    etZipCode2.setText(zipCode);
 
                     //Log users address
                     assert cityAddress != null;
@@ -239,7 +239,6 @@ public class Profile_View extends AppCompatActivity {
         btnToHomeFromProfile.setOnClickListener(e -> {
             Intent i = new Intent(this, WalkerList.class);
 
-            Log.d("HESH","H "+username);
             SharedPreferences p = getSharedPreferences("HESH",MODE_PRIVATE);
             SharedPreferences.Editor ed = p.edit();
 
@@ -266,10 +265,6 @@ public class Profile_View extends AppCompatActivity {
         btnLogOut.setOnClickListener(e->{
             logout();
         });
-
-        // Call methods to get user data from database,
-        // change text edits to allow user to change profile based on if their account is active,
-        // and check is the account is active or not
 
         //populate the users data when onCreate is called
         getData();
@@ -298,9 +293,6 @@ public class Profile_View extends AppCompatActivity {
         // When button is clicked let use know
         // remove from database or add to database that they are walker
         btnUpdate.setOnClickListener(v ->{
-            // Toast
-            // Make toast depending on whether account is active or not
-
             if (walkingStatus) {
                 activeStatus = "active";
             } else {
@@ -311,6 +303,8 @@ public class Profile_View extends AppCompatActivity {
         });
     }
 
+    // Use this method to check if the user is an active walker
+    // Check the switch
     public void checkStatus() {
         swActivate = findViewById(R.id.swActivate);
         if (swActivate.isChecked()) {
@@ -377,7 +371,7 @@ public class Profile_View extends AppCompatActivity {
         finish();
     }
     public void updateProfile(){
-        //get the user's username they logged in with
+        // Get the user's username they logged in with
         username = sharedPreferences.getString("username","default_val").trim();
         Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
@@ -404,6 +398,7 @@ public class Profile_View extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // Handle post request here
         String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/UpdateUser";
 
         JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, updatedData,
@@ -433,7 +428,7 @@ public class Profile_View extends AppCompatActivity {
 
     }
 
-    // this method returns a part of the address depending on its type
+    // This method returns a part of the address depending on its type
     private String getAddressComponent(List<AddressComponent> addressComponents, String type) {
         for (AddressComponent component : addressComponents) {
             for (String componentType : component.getTypes()) {

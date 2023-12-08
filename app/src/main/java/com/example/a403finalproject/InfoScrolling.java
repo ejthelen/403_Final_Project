@@ -27,6 +27,7 @@ public class InfoScrolling extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // This class was created with the scrolling view activity
         binding = ActivityInfoScrollingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -35,6 +36,7 @@ public class InfoScrolling extends AppCompatActivity {
         btnToProfileFromInfo = findViewById(R.id.btnToProfileFromInfo);
         btnToPetsFromInfo = findViewById(R.id.btnToPetsFromInfo);
 
+        // Go to these pages using the image buttons as a navigation bar
         btnToAptFromInfo.setOnClickListener(e -> {
             Intent i = new Intent(this, RequestsActivity.class);
             resultLauncher.launch(i);
