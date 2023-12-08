@@ -4,6 +4,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 
@@ -122,7 +123,7 @@ public class WalkerAdapter extends BaseAdapter {
             Log.d("HESH",walker.getUserName()+" "+WalkerList.getUsername());
 
             b.putString("WU",""+walker.getUserName());
-            b.putString("CU",""+w.getUserName());
+            b.putString("CU",""+WalkerList.getUsername());
 
             //Log.d("HESH",""+walker.getTUID());
 
