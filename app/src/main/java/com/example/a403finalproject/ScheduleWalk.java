@@ -175,6 +175,7 @@ public class ScheduleWalk extends AppCompatActivity {
             requestQueue.add(request);
         }else{
             Toast.makeText(this,"improper time entered",Toast.LENGTH_LONG);
+            Log.d("HESH","IMPROPER TIME ENTERED");
         }
 
 
