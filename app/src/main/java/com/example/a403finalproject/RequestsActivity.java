@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -24,15 +23,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class PetsActivity extends AppCompatActivity {
+public class RequestsActivity extends AppCompatActivity {
     ActivityResultLauncher resultLauncher;
-    ListView lstPets;
-    ArrayList<Pet> pets;
-    PetAdaptor petAdaptor;
-
-    Button btnAddPetPage;
-
-    ImageButton btnToAptFromPets, btnToPetsFromPets, btnToHomeFromPets, btnToProfileFromPets, btnToInfoFromPets;
+    ListView lstRequests;
+    ArrayList<WalkerRequest> requests;
+    RequestAdaptor adapter;
+    ImageButton btnToAptFromReq, btnToPetsFromReq, btnToHomeFromReq, btnToProfileFromReq, btnToInfoFromReq;
 
     RequestQueue queue;
     SharedPreferences sharedPreferences;
@@ -40,36 +36,36 @@ public class PetsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pets);
+        setContentView(R.layout.activity_requests);
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
 
         String user = sharedPreferences.getString("username", "def");
-        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + user);
+//        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + user);
 
 
-        btnToAptFromPets = findViewById(R.id.btnToAptFromPets);
-        btnToHomeFromPets = findViewById(R.id.btnToHomeFromPets);
-        btnToProfileFromPets = findViewById(R.id.btnToProfileFromPets);
-        btnToInfoFromPets = findViewById(R.id.btnToInfoFromPets);
+        btnToPetsFromReq = findViewById(R.id.btnToPetsFromReq);
+        btnToHomeFromReq = findViewById(R.id.btnToHomeFromReq);
+        btnToProfileFromReq = findViewById(R.id.btnToProfileFromReq);
+        btnToInfoFromReq = findViewById(R.id.btnToInfoFromReq);
 
-        btnToAptFromPets.setOnClickListener(e -> {
+        btnToPetsFromReq.setOnClickListener(e -> {
 
-            Intent i = new Intent(this, RequestsActivity.class);
+            Intent i = new Intent(this, PetsActivity.class);
 
             resultLauncher.launch(i);
         });
 
-        btnToHomeFromPets.setOnClickListener(e -> {
+        btnToHomeFromReq.setOnClickListener(e -> {
             Intent i = new Intent(this, WalkerList.class);
             resultLauncher.launch(i);
         });
 
-        btnToProfileFromPets.setOnClickListener(e -> {
+        btnToProfileFromReq.setOnClickListener(e -> {
             Intent i = new Intent(this, Profile_View.class);
             resultLauncher.launch(i);
         });
 
-        btnToInfoFromPets.setOnClickListener(e -> {
+        btnToInfoFromReq.setOnClickListener(e -> {
             Intent i = new Intent(this, InfoScrolling.class);
             resultLauncher.launch(i);
         });
@@ -77,11 +73,9 @@ public class PetsActivity extends AppCompatActivity {
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
 
-        btnAddPetPage = findViewById(R.id.btnAddPetPage);
-
         // Will add actual stuff when the getPets is made
-        pets = new ArrayList<>();
-        String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetAllPets";
+        requests = new ArrayList<>();
+        String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetRequests";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -95,16 +89,16 @@ public class PetsActivity extends AppCompatActivity {
 
                             // Check if the dog is owned by user
                             if (username.matches(user)) {
-                                Pet p = new Pet(categoryObj.getInt("TuID"), categoryObj.getString("person_username"), categoryObj.getString("pet_name"), categoryObj.getString("pet_breed"), categoryObj.getString("pet_description"));
-                                pets.add(p);
+                                WalkerRequest p = new WalkerRequest(categoryObj.getString("req_username"), categoryObj.getString("req_name"), categoryObj.getString("walker_username"), categoryObj.getString("pet_name"), categoryObj.getString("phone_number"), categoryObj.getString("email"));
+                                requests.add(p);
 
                             }
                         }
 
-                        petAdaptor = new PetAdaptor(this, pets);
+                        adapter = new RequestAdaptor(this, requests);
 
-                        lstPets = findViewById(R.id.lstPets);
-                        lstPets.setAdapter(petAdaptor);
+                        lstRequests = findViewById(R.id.lstRequests);
+                        lstRequests.setAdapter(adapter);
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
@@ -113,11 +107,6 @@ public class PetsActivity extends AppCompatActivity {
 
         queue.add(request);
 
-
-        btnAddPetPage.setOnClickListener(e -> {
-            Intent i = new Intent(this, AddPetActivity.class);
-            resultLauncher.launch(i);
-        });
 
         // Initialize the resultLauncher
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {

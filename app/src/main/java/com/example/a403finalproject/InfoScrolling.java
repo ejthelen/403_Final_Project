@@ -36,7 +36,7 @@ public class InfoScrolling extends AppCompatActivity {
         btnToPetsFromInfo = findViewById(R.id.btnToPetsFromInfo);
 
         btnToAptFromInfo.setOnClickListener(e -> {
-            Intent i = new Intent(this, ScheduleWalk.class);
+            Intent i = new Intent(this, RequestsActivity.class);
             resultLauncher.launch(i);
         });
 

@@ -1,5 +1,7 @@
 package com.example.a403finalproject;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -31,6 +34,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class WalkerList extends AppCompatActivity {
+    ActivityResultLauncher resultLauncher;
 
     ListView lstWalkers;
     EditText edFilter;
@@ -40,6 +44,7 @@ public class WalkerList extends AppCompatActivity {
     ArrayList<Walker> walker;
 
     Button btnLocation;
+    ImageButton btnToReqFromHome, btnToPetsFromHome, btnToHomeFromHome, btnToProfileFromHome, btnToInfoFromHome;
     RequestQueue queue;
 
     SharedPreferences sp;
@@ -84,6 +89,39 @@ public class WalkerList extends AppCompatActivity {
         edSpeed = findViewById(R.id.edSpeed);
         clFilter = findViewById(R.id.clFilter);
         edMaxPrice = findViewById(R.id.edMaxPrice);
+
+        btnToPetsFromHome = findViewById(R.id.btnToPetsFromHome);
+        btnToReqFromHome = findViewById(R.id.btnToReqFromHome);
+        btnToProfileFromHome = findViewById(R.id.btnToProfileFromHome);
+        btnToInfoFromHome = findViewById(R.id.btnToInfoFromHome);
+
+        btnToPetsFromHome.setOnClickListener(e -> {
+
+            Intent i = new Intent(this, ScheduleWalk.class);
+
+            resultLauncher.launch(i);
+        });
+
+        btnToReqFromHome.setOnClickListener(e -> {
+            Intent i = new Intent(this, WalkerList.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToProfileFromHome.setOnClickListener(e -> {
+            Intent i = new Intent(this, Profile_View.class);
+            resultLauncher.launch(i);
+        });
+
+        btnToInfoFromHome.setOnClickListener(e -> {
+            Intent i = new Intent(this, InfoScrolling.class);
+            resultLauncher.launch(i);
+        });
+
+        // Initialize the resultLauncher
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Log.d("Main_Activity", "Activity was finished.");
+            Log.d("Main_Activity", result.getResultCode() + "");
+        });
 
         queue = Volley.newRequestQueue(this);
 

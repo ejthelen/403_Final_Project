@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     tools:context=".WalkerList">
 
     <EditText
@@ -35,7 +37,7 @@
         android:id="@+id/lstWalkers"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintnav1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clFilter" />
@@ -135,5 +137,94 @@
             android:inputType="text"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintnav1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnToReqFromHome"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="appointments"
+                android:cropToPadding="false"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/clock" />
+
+            <ImageButton
+                android:id="@+id/btnToPetsFromHome"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="pets page"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/pawprint" />
+
+            <ImageButton
+                android:id="@+id/btnToHomeFromHome"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="home page"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/house" />
+
+            <ImageButton
+                android:id="@+id/btnToProfileFromHome"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="profile page"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/user" />
+
+            <ImageButton
+                android:id="@+id/btnToInfoFromHome"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF"
+                android:contentDescription="info page"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/question" />
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
