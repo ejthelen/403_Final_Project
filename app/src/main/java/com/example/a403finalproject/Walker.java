@@ -165,8 +165,8 @@ public class Walker {
         return latitude;
     }
 
-    public void setLatitude(double Latitude) {
-        Latitude = Latitude;
+    public void setLatitude(double latitude) {
+        Latitude = latitude;
     }
 
     public double getLongitude() {
