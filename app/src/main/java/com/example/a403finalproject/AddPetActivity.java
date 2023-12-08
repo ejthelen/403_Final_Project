@@ -22,12 +22,8 @@ import org.json.JSONObject;
 
 public class AddPetActivity extends AppCompatActivity {
     EditText edPetName, edPetBreed, edPetDesc;
-
     Button btnAddPet, btnBackToPets;
-
     RequestQueue queue;
-
-    /** Username passed from login  **/
     SharedPreferences sharedPreferences;
     ActivityResultLauncher resultLauncher;
 
@@ -35,32 +31,31 @@ public class AddPetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
+
+        // Get shared preferences
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
 
-        /** Here ya go I passed the username from login  **/
+        // Get username from preferences
         String username = sharedPreferences.getString("username","default_val");
-        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
-
+        // Initialize queue
         queue = Volley.newRequestQueue(this);
 
         edPetName = findViewById(R.id.edPetName);
         edPetBreed = findViewById(R.id.edPetBreed);
         edPetDesc = findViewById(R.id.edPetDesc);
         btnBackToPets = findViewById(R.id.btnBackToPets);
+        btnAddPet = findViewById(R.id.btnAddPet);
       
-        // Character limit for short and long description
+        // Set character limit for pet description using a filter
         int maxLong = 155;
-
         InputFilter[] filter1 = new InputFilter[1];
         filter1[0] = new InputFilter.LengthFilter(maxLong);
-
         edPetDesc.setFilters(filter1);
 
-        btnAddPet = findViewById(R.id.btnAddPet);
-
+        // When button is clicked, use post request to add a pet to the database
         btnAddPet.setOnClickListener(e -> {
-            // Create a newPet object that will be put into the database
+            // Create a newPet object for user
             // Get info from the edit texts
             JSONObject newPet = new JSONObject();
             try {
@@ -88,13 +83,13 @@ public class AddPetActivity extends AppCompatActivity {
 
             queue.add(updateRequest);
 
+            // Go back to pets activity
             Intent i = new Intent(this, PetsActivity.class);
-
             resultLauncher.launch(i);
         });
 
 
-        // Button to go back to pets page
+        // Button to go back to pets page without adding pet
         btnBackToPets.setOnClickListener(e -> {
             Intent i = new Intent(this, PetsActivity.class);
 

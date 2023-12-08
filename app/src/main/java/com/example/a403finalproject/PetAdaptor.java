@@ -25,8 +25,6 @@ import java.util.ArrayList;
 
 public class PetAdaptor extends BaseAdapter {
     ArrayList<Pet> pets;
-    ActivityResultLauncher resultLauncher;
-
     Context context;
     public PetAdaptor( Context context,ArrayList<Pet> pets) {
         this.pets = pets;
@@ -50,8 +48,12 @@ public class PetAdaptor extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup parent) {
+        // Grab things from the activity_pets_page view
         view =  LayoutInflater.from(context).inflate(R.layout.activity_pets_page,parent,false);
+
+        // Get the pet object that cooresponds with the view
         Pet pet = pets.get(i);
+
         CardView cardView = view.findViewById(R.id.cardView);
         ImageView imgDog = view.findViewById(R.id.ivDog);
         TextView txtName = view.findViewById(R.id.txtDogName);
@@ -59,14 +61,13 @@ public class PetAdaptor extends BaseAdapter {
         TextView txtDesc = view.findViewById(R.id.txtDesc);
         Button btnEditPet = view.findViewById(R.id.btnEditPet);
 
-
-
-        // Will update when we have to getPet api
+        // Add info about pet to list item
         imgDog.setImageResource(R.drawable.doggo);
         txtName.setText("Name: "+pet.name);
         txtBreed.setText("Breed: "+pet.breed+"");
         txtDesc.setText("Description: "+pet.description+"");
 
+        // When card is clicked, it will expand to show more info
         cardView.setOnClickListener(v->{
             //Animation when the card expands
             TransitionManager.beginDelayedTransition(cardView,new AutoTransition());
@@ -85,12 +86,15 @@ public class PetAdaptor extends BaseAdapter {
         });
 
         View finalView = view;
+
+        // When this button is clicked a bundle would be sent over with user and pet info
+        // Will redirect user to esit pets page
         btnEditPet.setOnClickListener(e -> {
             Intent intent = new Intent(context, EditPet.class);
             Bundle b = new Bundle();
             b.putInt("pet_tuid", pet.tuid);
-            Log.d("From adaptor", pet.tuid + "");
             b.putString("pet_owner", pet.owner);
+
             intent.putExtras(b);
             startActivity(context,intent,b);
         });

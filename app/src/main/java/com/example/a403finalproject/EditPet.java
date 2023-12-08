@@ -22,10 +22,11 @@ import org.json.JSONObject;
 public class EditPet extends AppCompatActivity {
     RequestQueue queue;
     ActivityResultLauncher resultLauncher;
-
     EditText edPetNameED, edPetBreedED, edPetDescED;
     Button btnDeletePet, btnUpdatePet, btnBackToPetsED;
 
+    // String that will hold the pets owner and int value for pet
+    // Both passed from bundle in pet activity
     String owner;
     int tuid;
 
@@ -45,14 +46,16 @@ public class EditPet extends AppCompatActivity {
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
 
+        // Get bundle data from pet activity
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         tuid = bundle.getInt("pet_tuid");
         owner = bundle.getString("pet_owner");
 
-        Log.d("PASSED PET ID", tuid + " " + owner);
+        // Get pet data using method
         getData();
 
+        // When button is clicked grab data from edit texts and add them to a JSONObject
         btnUpdatePet.setOnClickListener(e -> {
             JSONObject updatedData = new JSONObject();
             try {
@@ -64,6 +67,7 @@ public class EditPet extends AppCompatActivity {
                 ex.printStackTrace();
             }
 
+            // Make request to update a pet using the created pet object
             String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/UpdatePet";
 
             JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, updatedData,
@@ -76,13 +80,16 @@ public class EditPet extends AppCompatActivity {
                         Log.e("Update", "Error updating data: " + error.toString());
                     });
 
-            Intent i = new Intent(this, PetsActivity.class);
-
-            resultLauncher.launch(i);
             queue.add(updateRequest);
+            // Go back to pet activity
+            Intent i = new Intent(this, PetsActivity.class);
+            resultLauncher.launch(i);
+
         });
 
+        // When button is clicked, the pet will be removed from the database
         btnDeletePet.setOnClickListener(e -> {
+            // Create object using the tuid of the pet user wishes to delete
             JSONObject deletePet = new JSONObject();
             try {
                 deletePet.put("TuID", tuid);
@@ -102,12 +109,13 @@ public class EditPet extends AppCompatActivity {
                     });
 
             queue.add(updateRequest);
-            Intent i = new Intent(this, PetsActivity.class);
 
+            // Go back to pet activity
+            Intent i = new Intent(this, PetsActivity.class);
             resultLauncher.launch(i);
         });
 
-        // Button to go back to pets page
+        // Button to go back to pets page without editing pet
         btnBackToPetsED.setOnClickListener(e -> {
             Intent i = new Intent(this, PetsActivity.class);
 
@@ -121,15 +129,8 @@ public class EditPet extends AppCompatActivity {
         });
     }
 
+    // Get pet data using a GET request
     public void getData(){
-        /** Here ya go I passed the username from login  **/
-//        String username = sharedPreferences.getString("username","default_val");
-//        Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
-
-        Intent intent = getIntent();
-
-// Retrieve the int value from the bundle
-
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetAllPets";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -139,9 +140,8 @@ public class EditPet extends AppCompatActivity {
                             JSONObject categoryObj = response.getJSONObject(i);
                             int id = categoryObj.getInt("TuID");
 
-                            Log.d("PET ID", id + " for chip");
+                            // If the tuids match, you have the correct pet
                             if (id == tuid) {
-                                Log.d("UHH", id + " for chip");
                                 edPetNameED.setText(categoryObj.getString("pet_name"));
                                 edPetBreedED.setText(categoryObj.getString("pet_breed"));
                                 edPetDescED.setText(categoryObj.getString("pet_description"));
