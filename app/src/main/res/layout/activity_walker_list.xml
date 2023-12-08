@@ -10,9 +10,10 @@
 
     <EditText
         android:id="@+id/edFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="185dp"
+        android:layout_height="43dp"
         android:ems="10"
+        android:hint="Search by Name"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
