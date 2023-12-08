@@ -10,7 +10,7 @@
     tools:context=".InfoScrolling">
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/txtHeader"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#FFFFFF"
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10">
+        app:layout_constraintTop_toBottomOf="@+id/txtHeader">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
