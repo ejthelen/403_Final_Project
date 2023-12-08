@@ -2,6 +2,7 @@ package com.example.a403finalproject;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,19 +24,29 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AddressComponent;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 // Checking that new cloned repo works
 
 public class Profile_View extends AppCompatActivity {
     ActivityResultLauncher resultLauncher;
     Switch swActivate;
-    EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong;
+    EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong, etZipCode2,
+    etCountry2, etCity2, etState2, etAddress2;
     ImageButton btnToAptFromProfile, btnToPetsFromProfile, btnToHomeFromProfile, btnToProfileFromProfile, btnToInfoFromProfile;
 
     SeekBar skRate;
@@ -43,6 +54,9 @@ public class Profile_View extends AppCompatActivity {
     Button btnLogOut;
     RequestQueue queue;
     SharedPreferences sharedPreferences;
+
+    public double latitude;
+    public double longitude;
 
     static int tuid;
 
@@ -87,6 +101,10 @@ public class Profile_View extends AppCompatActivity {
                                 edShort.setText(categoryObj.getString("short_description"));
                                 edLong.setText(categoryObj.getString("long_description"));
                                 skRate.setProgress((int)categoryObj.getDouble("walk_rate"));
+                                etAddress2.setText(categoryObj.getString("street_address"));
+                                etCity2.setText(categoryObj.getString("state"));
+                                etState2.setText(categoryObj.getString("country"));
+                                etZipCode2.setText(categoryObj.getString("zip_code"));
 
                                 boolean isWalking = categoryObj.getBoolean("is_walker");
 
@@ -123,6 +141,70 @@ public class Profile_View extends AppCompatActivity {
         btnToHomeFromProfile = findViewById(R.id.btnToHomeFromProfile);
         btnToPetsFromProfile = findViewById(R.id.btnToPetsFromProfile);
         btnToInfoFromProfile = findViewById(R.id.btnToInfoFromProfile);
+
+        etCity2 = findViewById(R.id.etCity2);
+        etState2 = findViewById(R.id.etState2);
+        etAddress2 = findViewById(R.id.etStreetAddy2);
+        etCountry2 = findViewById(R.id.etCountry2);
+        etZipCode2 = findViewById(R.id.etZipCode2);
+
+
+        Places.initialize(getApplicationContext(), "AIzaSyB93L6kI1kDueyE7lBAJXBEMJqAzv-Ithw");
+
+
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment2);
+
+        assert autocompleteFragment != null;
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG));
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.e("GOOGLE STUFF", "Error fetching place predictions: " + status);
+
+            }
+
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // Handle the selected place
+                String address = place.getName();
+                String cityAddress = place.getAddress();
+                LatLng latLng = place.getLatLng();
+                // Get the address components
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
+
+                Log.d("COORDINATES", "" + longitude + "," + latitude);
+
+                // Check if address components are not null
+                if (place.getAddressComponents() != null) {
+                    // Extract components from the address
+                    List<AddressComponent> addressComponents = place.getAddressComponents().asList();
+
+                    String zipCode = getAddressComponent(addressComponents, "postal_code");
+                    String city = getAddressComponent(addressComponents, "locality");
+                    String country = getAddressComponent(addressComponents, "country");
+                    String state = getAddressComponent(addressComponents, "administrative_area_level_1");
+
+                    etAddress2.setText(address);
+                    etCity2.setText(city);
+                    etCountry2.setText(country);
+                    etState2.setText(state);
+                    etZipCode2.setText(zipCode);
+
+                    //Log users address
+                    assert cityAddress != null;
+                    Log.d("USER ADDRESS", cityAddress);
+
+
+                } else {
+                    Log.e("components are NULL", "NULL");
+                }
+
+
+            }
+
+        });
 
         btnToAptFromProfile.setOnClickListener(e -> {
 
@@ -277,11 +359,12 @@ public class Profile_View extends AppCompatActivity {
             updatedData.put("last_name", edLastName.getText() + "");
             updatedData.put("phone_number", edNumber.getText() + "");
             updatedData.put("email", edMail.getText()+"");
-            updatedData.put("street_address", "");
-            updatedData.put("city", "");
-            updatedData.put("state", "");
-            updatedData.put("country", "");
+            updatedData.put("street_address", etAddress2.getText() +"");
+            updatedData.put("city", etCity2.getText() +"");
+            updatedData.put("state", etState2.getText()+"");
+            updatedData.put("country", etCountry2.getText()+"");
             updatedData.put("walk_rate", (double)skRate.getProgress());
+            updatedData.put("is_walker", walkingStatus);
             Log.d("WALKRATE", skRate.getProgress() + "");
             updatedData.put("short_description", edShort.getText() + "");
             updatedData.put("long_description", edLong.getText() + "");
@@ -317,6 +400,19 @@ public class Profile_View extends AppCompatActivity {
 
         queue.add(updateRequest);
 
+    }
+
+    // this method returns a part of the address depending on its type
+    private String getAddressComponent(List<AddressComponent> addressComponents, String type) {
+        for (AddressComponent component : addressComponents) {
+            for (String componentType : component.getTypes()) {
+                if (componentType.equals(type)) {
+                    Log.d("COMPONENTS", component.toString());
+                    return component.getName();
+                }
+            }
+        }
+        return null;
     }
     public static int getTuid() {
         return tuid;
