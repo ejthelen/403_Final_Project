@@ -89,9 +89,8 @@ public class RequestsActivity extends AppCompatActivity {
 
                             // Check if the request is owned by user and add request to list
                             if (username.matches(user)) {
-                                WalkerRequest p = new WalkerRequest(categoryObj.getString("req_username"), categoryObj.getString("req_name"), categoryObj.getString("walker_username"), categoryObj.getString("pet_name"), categoryObj.getString("phone_number"), categoryObj.getString("email"));
+                                WalkerRequest p = new WalkerRequest(categoryObj.getString("req_username"), categoryObj.getString("req_name"), categoryObj.getString("walker_username"), categoryObj.getString("pet_name"), categoryObj.getString("phone_number"), categoryObj.getString("email"), categoryObj.getString("pet_description"));
                                 requests.add(p);
-
                             }
                         }
 

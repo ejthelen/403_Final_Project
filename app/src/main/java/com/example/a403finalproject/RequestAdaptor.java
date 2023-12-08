@@ -62,6 +62,7 @@ public class RequestAdaptor extends BaseAdapter {
         CardView cardViewReq = view.findViewById(R.id.cardViewReq);
         TextView txtRequestName = view.findViewById(R.id.txtRequestName);
         TextView txtRequestFor = view.findViewById(R.id.txtRequestFor);
+        TextView txtReqPetDesc = view.findViewById(R.id.txtReqPetDesc);
         TextView txtContactInfo = view.findViewById(R.id.txtContactInfo);
         Button btnRemoveReq = view.findViewById(R.id.btnRemoveReq);
 
@@ -72,6 +73,7 @@ public class RequestAdaptor extends BaseAdapter {
         // Update the card to show the request information
         txtRequestName.setText("Requested by:: "+request.requester_name);
         txtRequestFor.setText("Requested for: "+request.petName+"");
+        txtReqPetDesc.setText("Pet description: "+request.pet_description+"");
         txtContactInfo.setText("Contact info: "+request.phone_number+" or " + request.email);
 
         // When button is clicked, the request will be removed from the database and the users list
