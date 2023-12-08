@@ -193,7 +193,12 @@ public class WalkerList extends AppCompatActivity {
 
         // Add the request to the request queue
         queue.add(request);
-
+        try {
+            // Sleep for 3 seconds (3000 milliseconds)
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for(int j = 0;j<walker.size();j++){
             if(walker.get(j).getTUID()==Profile_View.getTuid()){
                 w = walker.get(j);

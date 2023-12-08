@@ -25,9 +25,11 @@
             android:layout_width="321dp"
             android:layout_height="53dp"
             android:layout_marginBottom="64dp"
-            android:text="Button"
+            android:text="Book Appointment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="@color/primary_color"
+
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
@@ -43,7 +45,7 @@
             app:layout_constraintVertical_bias="0.588" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/txtHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Select a date that aligns with this person's schedule:"

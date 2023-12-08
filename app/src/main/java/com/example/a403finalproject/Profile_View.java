@@ -3,10 +3,21 @@ package com.example.a403finalproject;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
@@ -45,6 +56,16 @@ import java.util.prefs.Preferences;
 // Checking that new cloned repo works
 
 public class Profile_View extends AppCompatActivity {
+
+
+
+
+    public static final int NOTIFICATION_REQUEST_CODE = 1;
+    public static final String CHANNEL_ID = "111";
+
+    public static final int NOTIFICATION_ID = 1;
+
+    public static final String TAG = "FinalProject";
     ActivityResultLauncher resultLauncher;
     Switch swActivate;
     EditText edFirstName, edLastName, edNumber, edMail, edShort, edLong, etZipCode2,
@@ -62,7 +83,6 @@ public class Profile_View extends AppCompatActivity {
 
     static int tuid;
 
-    /** Here ya go I passed the username from login  **/
     String username;
 
     TextView txtRate, txtRateChange;
@@ -71,7 +91,6 @@ public class Profile_View extends AppCompatActivity {
     static boolean walkingStatus;
 
 
-    /** Here ya go I passed the username from login  **/
     String activeStatus;
 
     // Will fill profile page with user information from database
@@ -133,6 +152,7 @@ public class Profile_View extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
+        createNotificationChannel();
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
 
         // Initialize the RequestQueue
@@ -394,6 +414,7 @@ public class Profile_View extends AppCompatActivity {
                         if (message.equals("User updated successfully.")) {
                             // Handle successful update
                             Log.d("Update", "Data updated successfully" + " " + response.toString());
+                            displayNotification();
                             Toast.makeText(Profile_View.this, "Your profile was updated, and your walking account is now " + activeStatus, Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d("Update", "Data couldnt be updated" + " " + response.toString());
@@ -423,6 +444,73 @@ public class Profile_View extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    public void createNotificationChannel() {
+        NotificationChannel channel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Notify App Main Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+        }
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel(channel);
+        }
+        Log.d(TAG, "Main Channel created");
+    }
+    public void displayNotification() {
+        Notification notification = new NotificationCompat.Builder(Profile_View.this,CHANNEL_ID)
+                .setSmallIcon(android.R.drawable.sym_def_app_icon)
+                .setContentTitle("You have made changes to your profile")
+                .setDeleteIntent(setOnDismissAction())
+                .build();
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        manager.notify(NOTIFICATION_ID,notification);
+    }
+    public PendingIntent setOnTapAction(){
+        Intent i = new Intent(this,SignUp.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                NOTIFICATION_ID,
+                i,
+                PendingIntent.FLAG_IMMUTABLE
+        );
+        return pendingIntent;
+    }
+
+    public PendingIntent setOnDismissAction(){
+        Intent i = new Intent("dismiss_broadcast");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                NOTIFICATION_ID,
+                i,
+                PendingIntent.FLAG_IMMUTABLE
+        );
+        return pendingIntent;
+    }
+
+    public NotificationCompat.Action setOnReplyAction(){
+        Intent i = new Intent(this,SignUp.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                NOTIFICATION_ID,
+                i,
+                PendingIntent.FLAG_IMMUTABLE
+        );
+
+        NotificationCompat.Action action = new NotificationCompat.Action(
+                android.R.drawable.btn_minus,
+                "REPLY",
+                pendingIntent
+        );
+
+        return action;
+
+
+
     }
     public static int getTuid() {
         return tuid;
