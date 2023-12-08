@@ -29,6 +29,7 @@ public class WalkerAdapter extends BaseAdapter {
     Context context;
     Walker w;
 
+    SharedPreferences sharedPreferences;
 
 
 
@@ -57,6 +58,7 @@ public class WalkerAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup parent) {
         view =  LayoutInflater.from(context).inflate(R.layout.layout_walker,parent,false);
         Walker walker = walkers.get(i);
+        sharedPreferences = context.getSharedPreferences("MODE", Context.MODE_PRIVATE);
 
         TextView txtName = view.findViewById(R.id.txtName);
         TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
@@ -74,14 +76,25 @@ public class WalkerAdapter extends BaseAdapter {
         txtLongDesc.setText(""+walker.lDesc);
 
         w = new Walker();
-
+        int tuid = sharedPreferences.getInt("TUID", 1);
+        Log.d("tuid", tuid+"");
         for(int j = 0;j<walkers.size();j++){
-            //Log.d("HESH","TUID: "+walkers.get(j).getTUID()+ " "+Profile_View.getTuid());
-            if(walkers.get(j).getTUID()==Profile_View.getTuid()){
+            Log.d("HESH","TUID: "+walkers.get(j).getTUID()+ " "+tuid);
+
+            if(walkers.get(j).getTUID()==tuid){
                 w = walkers.get(j);
+                Log.d("HESH","in loop");
+
             }
         }
 
+        Log.d("W",w +"");
+        Log.d("W",w +"");
+//        double lat = (double)sharedPreferences.getFloat("lat",1);
+//        double lon = (double)sharedPreferences.getFloat("lon",1);
+
+
+        Log.d("distance", w.getLatitude() + " " + w.getLongitude());
         txtDistanceAway.setText("Distance: "+Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude()));
 
         //Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");

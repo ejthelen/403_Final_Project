@@ -256,6 +256,7 @@ public class SignUp extends AppCompatActivity {
             requestData.put("country", country);
             requestData.put("zip_code", zipcode);
             requestData.put("walk_rate", 0.0);
+            requestData.put("is_walker", false);
             requestData.put("short_description", short_description);
             requestData.put("long_description", long_description);
             requestData.put("password", password);
