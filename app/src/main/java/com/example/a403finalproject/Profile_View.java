@@ -231,9 +231,9 @@ public class Profile_View extends AppCompatActivity {
 
         btnToAptFromProfile.setOnClickListener(e -> {
 
-            //Intent i = new Intent(this, ScheduleWalk.class);
+            Intent i = new Intent(this, RequestsActivity.class);
 
-            //resultLauncher.launch(i);
+            resultLauncher.launch(i);
         });
 
         btnToHomeFromProfile.setOnClickListener(e -> {
