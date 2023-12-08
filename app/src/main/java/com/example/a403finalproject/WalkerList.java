@@ -97,7 +97,7 @@ public class WalkerList extends AppCompatActivity {
 
         btnToPetsFromHome.setOnClickListener(e -> {
 
-            Intent i = new Intent(this, ScheduleWalk.class);
+            Intent i = new Intent(this, RequestsActivity.class);
 
             resultLauncher.launch(i);
         });
@@ -174,7 +174,6 @@ public class WalkerList extends AppCompatActivity {
                             w.setlDesc(longDescription);
                             //walker.setPassword(password);
                             w.setUserName(username);
-
                             w.setLatitude(latitude);
                             w.setLongitude(longitude);
 
@@ -199,8 +198,10 @@ public class WalkerList extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        int tuid = sp.getInt("TUID", 1);
         for(int j = 0;j<walker.size();j++){
-            if(walker.get(j).getTUID()==Profile_View.getTuid()){
+            if(walker.get(j).getTUID()==tuid){
                 w = walker.get(j);
             }
         }

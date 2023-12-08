@@ -58,15 +58,9 @@ import java.util.prefs.Preferences;
 // Checking that new cloned repo works
 
 public class Profile_View extends AppCompatActivity {
-
-
-
-
     public static final int NOTIFICATION_REQUEST_CODE = 1;
     public static final String CHANNEL_ID = "111";
-
     public static final int NOTIFICATION_ID = 1;
-
     public static final String TAG = "FinalProject";
     ActivityResultLauncher resultLauncher;
     Switch swActivate;
@@ -79,7 +73,7 @@ public class Profile_View extends AppCompatActivity {
     Button btnLogOut;
     RequestQueue queue;
     SharedPreferences sharedPreferences;
-
+    SharedPreferences.Editor editor;
     public double latitude;
     public double longitude;
 
@@ -112,7 +106,13 @@ public class Profile_View extends AppCompatActivity {
                             JSONObject categoryObj = response.getJSONObject(i);
 
                             int id = categoryObj.getInt("TuID");
-                            //tuid = id;
+
+                            // Set preferences for lat and lon of user
+                            editor.putInt("TUID", id);
+                            editor.putFloat("lat", Float.parseFloat(categoryObj.getString("latitude")));
+                            editor.putFloat("lon", Float.parseFloat(categoryObj.getString("longitude")));
+                            editor.apply();
+
                             String serverUsername = categoryObj.getString("username");
                             Log.d("SERVER-NAME",serverUsername);
 
@@ -155,6 +155,7 @@ public class Profile_View extends AppCompatActivity {
         setContentView(R.layout.activity_profile_view);
         createNotificationChannel();
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
@@ -299,7 +300,9 @@ public class Profile_View extends AppCompatActivity {
                 activeStatus = "inactive";
             }
             updateProfile();
-
+            editor.putFloat("lat", (float)latitude);
+            editor.putFloat("lon", (float)longitude);
+            editor.apply();
         });
     }
 

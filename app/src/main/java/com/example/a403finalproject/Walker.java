@@ -14,6 +14,13 @@ public class Walker {
     boolean isWalker;
     double walkRate;
 
+    double Charge;
+    String lDesc;
+    String PhoneNumber;
+    String Email;
+    double latitude;
+    double longitude;
+    int TUID;
 
     String sDesc;
 
@@ -32,8 +39,8 @@ public class Walker {
         this.lDesc = lDesc;
         PhoneNumber = phoneNumber;
         Email = email;
-        Latitude = latitude;
-        Longitude = longitude;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.TUID = TUID;
     }
 
@@ -44,14 +51,6 @@ public class Walker {
                 ", lName='" + lName + '\'' +
                 '}';
     }
-
-    double Charge;
-    String lDesc;
-    String PhoneNumber;
-    String Email;
-    double Latitude;
-    double Longitude;
-    int TUID;
 
     public String getUserName() {
         return userName;
@@ -163,7 +162,7 @@ public class Walker {
     }
 
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(double Latitude) {
@@ -171,11 +170,11 @@ public class Walker {
     }
 
     public double getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(double longitude) {
-        Longitude = longitude;
+        longitude = longitude;
     }
 
     public int getTUID() {
