@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,6 +34,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.a403finalproject.databinding.ActivityWalkerMapBinding;
 
@@ -55,6 +57,7 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     Walker currentWalker;
     SharedPreferences sp;
     String username;
+    Button btnMapBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +68,23 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         distance = new Distance();
 
 
+
         sp = getSharedPreferences("HESH",MODE_PRIVATE);
         username = sp.getString("uname","err");
         SharedPreferences.Editor ed = sp.edit();
+        btnMapBack = findViewById(R.id.btnMapBack);
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        btnMapBack.setOnClickListener(v->{
+            Intent intent = new Intent(this,WalkerList.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     /**
