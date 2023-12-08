@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,6 +49,7 @@ public class ScheduleWalk extends AppCompatActivity {
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    TextView txtHeader;
 
 
 
@@ -58,6 +60,8 @@ public class ScheduleWalk extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_walk);
 
+        txtHeader = findViewById(R.id.txtHeader);
+
         preferences = getPreferences(MODE_PRIVATE);
         editor = preferences.edit();
 
@@ -65,6 +69,8 @@ public class ScheduleWalk extends AppCompatActivity {
 
         walkerUsername = i.getStringExtra("WU");
         clientUsername = i.getStringExtra("CU");
+
+        txtHeader.setText("Select a date that aligns with "+walkerUsername+"'s schedule:");
 
         Log.d("HESH",walkerUsername+" f "+clientUsername);
 
@@ -103,9 +109,26 @@ public class ScheduleWalk extends AppCompatActivity {
         });
 
 
-        rdoAM.setOnCheckedChangeListener((buttonView, isChecked) -> rdoPM.setChecked(false));
+        rdoAM.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // If RadioButton 1 is checked, uncheck RadioButton 2
+                if (isChecked) {
+                    rdoPM.setChecked(false);
+                }
+            }
+        });
 
-        rdoPM.setOnCheckedChangeListener((buttonView, isChecked) -> rdoAM.setChecked(false));
+        // Set a listener for RadioButton 2
+        rdoPM.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // If RadioButton 2 is checked, uncheck RadioButton 1
+                if (isChecked) {
+                    rdoAM.setChecked(false);
+                }
+            }
+        });
 
 
 
