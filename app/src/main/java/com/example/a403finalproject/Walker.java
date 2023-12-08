@@ -2,6 +2,8 @@ package com.example.a403finalproject;
 
 public class Walker {
 
+
+    //initialize variables for use in class.
     String fName;
     String lName;
     String userName;
@@ -24,26 +26,32 @@ public class Walker {
 
     String sDesc;
 
+
+    //constructor for applying values.
     public Walker(String fName, String lName, String userName, String address, String city, String state, String country, boolean isWalker, double walkRate, String sDesc, double charge, String lDesc, String phoneNumber, String email, double latitude, double longitude, int TUID) {
         this.fName = fName;
         this.lName = lName;
         this.userName = userName;
         this.address = address;
-        City = city;
+        this.City = city;
         this.state = state;
         this.country = country;
         this.isWalker = isWalker;
         this.walkRate = walkRate;
         this.sDesc = sDesc;
-        Charge = charge;
+        this.Charge = charge;
         this.lDesc = lDesc;
-        PhoneNumber = phoneNumber;
-        Email = email;
+        this.PhoneNumber = phoneNumber;
+        this.Email = email;
         this.Latitude = latitude;
         this.Longitude = longitude;
         this.TUID = TUID;
     }
 
+    //no arg constructor
+    public Walker() {
+    }
+    //tostring for testing purposes.
     @Override
     public String toString() {
         return "Walker{" +
@@ -52,6 +60,8 @@ public class Walker {
                 '}';
     }
 
+
+    //getters and setters.
     public String getUserName() {
         return userName;
     }
@@ -59,11 +69,6 @@ public class Walker {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-
-    public Walker() {
-    }
-
 
     public String getfName() {
         return fName;

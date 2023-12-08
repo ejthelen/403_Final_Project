@@ -26,6 +26,7 @@ import java.util.TimerTask;
 
 public class WalkerAdapter extends BaseAdapter {
 
+    //initialize variables.
     ArrayList<Walker> walkers;
     Context context;
     Walker w;
@@ -33,12 +34,14 @@ public class WalkerAdapter extends BaseAdapter {
     SharedPreferences sp;
     SharedPreferences sharedPreferences;
 
+
+    //get context and walkers.
     public WalkerAdapter(Context context, ArrayList<Walker> walkers){
         this.walkers = walkers;
         this.context = context;
     }
 
-
+    //get values
     @Override
     public int getCount() {
         return walkers.size();
@@ -54,18 +57,24 @@ public class WalkerAdapter extends BaseAdapter {
         return 0;
     }
 
+
     @Override
     public View getView(int i, View view, ViewGroup parent) {
+
+        //apply view.
         view = LayoutInflater.from(context).inflate(R.layout.layout_walker, parent, false);
 
+        //get username for user in question.
         sp = context.getSharedPreferences("HESH", MODE_PRIVATE);
         username = sp.getString("uname", "err");
         SharedPreferences.Editor ed = sp.edit();
         sharedPreferences = view.getContext().getSharedPreferences("MODE", Context.MODE_PRIVATE);
 
 
+        //get current walker instance.
         Walker walker = walkers.get(i);
 
+        //apply textviews.
         TextView txtName = view.findViewById(R.id.txtName);
         TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
         TextView txtDistanceAway = view.findViewById(R.id.txtDistanceAway);
@@ -80,7 +89,8 @@ public class WalkerAdapter extends BaseAdapter {
         txtCharge.setText("Price: " + walker.walkRate);
         txtLongDesc.setText("" + walker.lDesc);
 
-            w = new Walker();
+
+        w = new Walker();
 
 //        for(int j = 0;j<walkers.size();j++){
 //            //Log.d("HESH","TUID: "+walkers.get(j).getTUID()+ " "+Profile_View.getTuid());
@@ -88,11 +98,14 @@ public class WalkerAdapter extends BaseAdapter {
 //                w = walkers.get(j);
 //            }
 //        }
+
+        //apply walker value.
             for (Walker walker1 : walkers) {
                 if (username.equals(walker1.getUserName())) {
                     w = walker1;
                 }
             }
+
 
         float lat = sharedPreferences.getFloat("lat",0);
         float lon = sharedPreferences.getFloat("lon", 0);
@@ -102,14 +115,18 @@ public class WalkerAdapter extends BaseAdapter {
 
             //Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");
 
+        //default max height
         clHousing.setMaxHeight(300);
+        //set button to invisible.
         btnBook.setVisibility(View.INVISIBLE);
 
+        //allow scrolling in the textview.
         txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
 
+        //notify dataset changed.
         notifyDataSetChanged();
 
-
+            //on constraintlayout being clicked expand and contract as necessary.
             clHousing.setOnClickListener(e -> {
                 //clHousing.setMaxHeight(300);
 
@@ -127,6 +144,8 @@ public class WalkerAdapter extends BaseAdapter {
 
             });
 
+            //on btnbook beign clicked send the walker username, the walker selected, and
+        //start schedulewalk activity.
             btnBook.setOnClickListener(e -> {
                 Intent intent = new Intent(context, ScheduleWalk.class);
 
