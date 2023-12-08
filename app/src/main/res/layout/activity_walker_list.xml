@@ -10,10 +10,13 @@
 
     <EditText
         android:id="@+id/edFilter"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="text"
+        app:layout_constraintEnd_toStartOf="@+id/btnFilter"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,9 +25,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:backgroundTint="@color/primary_color"
 
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/primary_color"
         android:text="Filter"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnLocation"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/edFilter"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,10 +39,13 @@
         android:id="@+id/btnLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:backgroundTint="@color/primary_color"
+        android:layout_marginEnd="8dp"
 
+        android:backgroundTint="@color/primary_color"
         android:text="Map"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnFilter"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,6 +53,7 @@
         android:id="@+id/lstWalkers"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintnav1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,42 +62,44 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clFilter"
         android:layout_width="0dp"
-        android:layout_height="330dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFilter">
+        app:layout_constraintTop_toBottomOf="@+id/edFilter">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:text="Max Price"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sbSpeed" />
+            app:layout_constraintTop_toBottomOf="@+id/edDistance" />
 
         <SeekBar
             android:id="@+id/sbDistance"
-            android:layout_width="371dp"
+            android:layout_width="0dp"
             android:layout_height="18dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:indeterminate="false"
             android:max="50"
             android:min="1"
             android:progress="10"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/edDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="10"
+            app:layout_constraintEnd_toEndOf="@+id/sbDistance"
             app:layout_constraintStart_toStartOf="@+id/sbDistance"
             app:layout_constraintTop_toBottomOf="@+id/sbDistance" />
 
@@ -97,52 +110,23 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Distance"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <SeekBar
-            android:id="@+id/sbSpeed"
-            android:layout_width="371dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="48dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:min="5"
-            android:progress="10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edDistance" />
-
-        <TextView
-            android:id="@+id/edSpeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:text="10"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sbSpeed" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="Walking Speed"
-            app:layout_constraintBottom_toTopOf="@+id/sbSpeed"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <EditText
             android:id="@+id/edMaxPrice"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:ems="10"
             android:inputType="text"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

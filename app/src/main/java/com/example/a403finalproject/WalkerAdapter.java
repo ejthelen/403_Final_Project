@@ -31,6 +31,7 @@ public class WalkerAdapter extends BaseAdapter {
     Walker w;
     String username;
     SharedPreferences sp;
+    SharedPreferences sharedPreferences;
 
     public WalkerAdapter(Context context, ArrayList<Walker> walkers){
         this.walkers = walkers;
@@ -60,6 +61,8 @@ public class WalkerAdapter extends BaseAdapter {
         sp = context.getSharedPreferences("HESH", MODE_PRIVATE);
         username = sp.getString("uname", "err");
         SharedPreferences.Editor ed = sp.edit();
+        sharedPreferences = view.getContext().getSharedPreferences("MODE", Context.MODE_PRIVATE);
+
 
         Walker walker = walkers.get(i);
 
@@ -74,7 +77,7 @@ public class WalkerAdapter extends BaseAdapter {
         txtName.setText("Name: " + walker.fName + " " + walker.lName);
         txtShortDesc.setText("" + walker.sDesc);
         //txtDistanceAway.setText("Name: "+walker.distanceAway);
-        txtCharge.setText("Price: " + walker.Charge);
+        txtCharge.setText("Price: " + walker.walkRate);
         txtLongDesc.setText("" + walker.lDesc);
 
             w = new Walker();
@@ -91,7 +94,11 @@ public class WalkerAdapter extends BaseAdapter {
                 }
             }
 
-            txtDistanceAway.setText("Distance: " + Distance.calculateDistance(walker.getLatitude(), walker.getLongitude(), w.getLatitude(), w.getLongitude()));
+        float lat = sharedPreferences.getFloat("lat",0);
+        float lon = sharedPreferences.getFloat("lon", 0);
+
+        Log.d("lat and lon", lat + " " + lon);
+            txtDistanceAway.setText("Distance: " + Distance.calculateDistance(walker.getLatitude(), walker.getLongitude(), lat, lon));
 
             //Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");
 

@@ -126,8 +126,9 @@ public class Profile_View extends AppCompatActivity {
                                 edLong.setText(categoryObj.getString("long_description"));
                                 skRate.setProgress((int)categoryObj.getDouble("walk_rate"));
                                 etAddress2.setText(categoryObj.getString("street_address"));
-                                etCity2.setText(categoryObj.getString("state"));
-                                etState2.setText(categoryObj.getString("country"));
+                                etCity2.setText(categoryObj.getString("city"));
+                                etState2.setText(categoryObj.getString("state"));
+                                etCountry2.setText(categoryObj.getString("country"));
 
                                 boolean isWalking = categoryObj.getBoolean("is_walker");
 
@@ -156,6 +157,10 @@ public class Profile_View extends AppCompatActivity {
         createNotificationChannel();
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        editor.putFloat("lat", (float)latitude);
+        editor.putFloat("lon", (float)longitude);
+        editor.apply();
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(this);
