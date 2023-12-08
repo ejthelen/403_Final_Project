@@ -133,8 +133,8 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void setWalkerMarkers() {
-        LatLng latLngCurrentWalker = new LatLng(walker.get(currentWalker.getTUID()-1).getLatitude(),
-                walker.get(currentWalker.getTUID()-1).getLongitude());
+        LatLng latLngCurrentWalker = new LatLng(currentWalker.getLatitude(),
+                currentWalker.getLongitude());
 
             for (Walker walker : walker) {
                 if (walker.getTUID() != currentWalker.getTUID()) {

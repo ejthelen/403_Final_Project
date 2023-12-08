@@ -18,8 +18,8 @@ public class Walker {
     String lDesc;
     String PhoneNumber;
     String Email;
-    double latitude;
-    double longitude;
+    double Latitude;
+    double Longitude;
     int TUID;
 
     String sDesc;
@@ -39,8 +39,8 @@ public class Walker {
         this.lDesc = lDesc;
         PhoneNumber = phoneNumber;
         Email = email;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.Latitude = latitude;
+        this.Longitude = longitude;
         this.TUID = TUID;
     }
 
@@ -162,7 +162,7 @@ public class Walker {
     }
 
     public double getLatitude() {
-        return latitude;
+        return Latitude;
     }
 
     public void setLatitude(double latitude) {
@@ -170,11 +170,11 @@ public class Walker {
     }
 
     public double getLongitude() {
-        return longitude;
+        return Longitude;
     }
 
     public void setLongitude(double longitude) {
-        longitude = longitude;
+        Longitude = longitude;
     }
 
     public int getTUID() {
