@@ -40,7 +40,6 @@ public class WalkerList extends AppCompatActivity {
 
     ListView lstWalkers;
     EditText edFilter;
-
     Button btnFilter;
     WalkerAdapter adapter;
     ArrayList<Walker> walker;
@@ -50,20 +49,19 @@ public class WalkerList extends AppCompatActivity {
     RequestQueue queue;
 
     SharedPreferences sp;
+    SharedPreferences sharedPreferences;
     String spTAG = "LOCATION";
 
     Context context;
 
     ConstraintLayout clFilter;
     SeekBar sbDistance;
-    SeekBar sbSpeed;
     TextView edDistance;
-    TextView edSpeed;
     EditText edMaxPrice;
 
     Walker w;
 
-    static String username;
+    static String uname;
     SharedPreferences.Editor editor;
 
     //oncreate to load visible data.
@@ -74,15 +72,14 @@ public class WalkerList extends AppCompatActivity {
 
         //sharedpreferences caller
         sp = getSharedPreferences("HESH",MODE_PRIVATE);
-        //editor = sp.edit();
+        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
 
 
-        //apply current user username.
-        username = sp.getString("uname","err");
+        uname = sp.getString("uname","err");
         SharedPreferences.Editor ed = sp.edit();
 
 
-        Log.d("HESH",username+"");
+        Log.d("HESH",uname+"");
 
         //apply field values.
         lstWalkers = findViewById(R.id.lstWalkers);
@@ -90,9 +87,7 @@ public class WalkerList extends AppCompatActivity {
         btnFilter = findViewById(R.id.btnFilter);
         btnLocation = findViewById(R.id.btnLocation);
         sbDistance = findViewById(R.id.sbDistance);
-        sbSpeed = findViewById(R.id.sbSpeed);
         edDistance = findViewById(R.id.edDistance);
-        edSpeed = findViewById(R.id.edSpeed);
         clFilter = findViewById(R.id.clFilter);
         edMaxPrice = findViewById(R.id.edMaxPrice);
         btnToPetsFromHome = findViewById(R.id.btnToPetsFromHome);
@@ -134,6 +129,10 @@ public class WalkerList extends AppCompatActivity {
 
         //get context.
         context = this;
+        double lat = (double)sharedPreferences.getFloat("lat",0);
+        double lon = (double)sharedPreferences.getFloat("lon", 0);
+
+        Log.d("lat and lon", lat + " " + lon);
 
         //initialize walker arraylist.
         walker = new ArrayList<>();
@@ -166,27 +165,30 @@ public class WalkerList extends AppCompatActivity {
                             double latitude = walkerObj.getDouble("latitude");
                             double longitude = walkerObj.getDouble("longitude");
 
-                            // Create a Walker object
-                            Walker w = new Walker();
-                            w.setTUID(tuId);
-                            w.setfName(firstName);
-                            w.setlName(lastName);
-                            w.setPhoneNumber(phoneNumber);
-                            w.setEmail(email);
-                            w.setAddress(streetAddress);
-                            w.setCity(city);
-                            w.setState(state);
-                            w.setCountry(country);
-                            w.setWalker(isWalker);
-                            w.setWalkRate(walkRate);
-                            w.setsDesc(shortDescription);
-                            w.setlDesc(longDescription);
-                            //walker.setPassword(password);
-                            w.setUserName(username);
-                            w.setLatitude(latitude);
-                            w.setLongitude(longitude);
+                            if (!username.matches(uname)) {
+                                // Create a Walker object
+                                Walker w = new Walker();
+                                w.setTUID(tuId);
+                                w.setfName(firstName);
+                                w.setlName(lastName);
+                                w.setPhoneNumber(phoneNumber);
+                                w.setEmail(email);
+                                w.setAddress(streetAddress);
+                                w.setCity(city);
+                                w.setState(state);
+                                w.setCountry(country);
+                                w.setWalker(isWalker);
+                                w.setWalkRate(walkRate);
+                                w.setsDesc(shortDescription);
+                                w.setlDesc(longDescription);
+                                //walker.setPassword(password);
+                                w.setUserName(username);
+                                w.setLatitude(latitude);
+                                w.setLongitude(longitude);
 
-                            walker.add(w);
+                                walker.add(w);
+                            }
+
                         }
 
                         // Process the list of walkers as needed
@@ -290,15 +292,16 @@ public class WalkerList extends AppCompatActivity {
                 ArrayList<Walker> f = new ArrayList<>();
                 try {
                     for (int i = 0; i < walker.size(); i++) {
-                        if (walker.get(i).Charge < Integer.parseInt(edMaxPrice.getText() + "")) {
+                        if (walker.get(i).walkRate <= Double.parseDouble(edMaxPrice.getText() + "")) {
                             f.add(walker.get(i));
-
+                            Log.d("added", "There was text");
                         }
 
                     }
                     ////Log.d("HESH",f.toString());
-
+                    adapter.notifyDataSetChanged();
                     adapter = new WalkerAdapter(context, f);
+
                     lstWalkers.setAdapter(adapter);
                 }catch (Exception e){
 
@@ -307,7 +310,27 @@ public class WalkerList extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                ArrayList<Walker> f = new ArrayList<>();
 
+                try {
+                    for (int i = 0; i < walker.size(); i++) {
+                        if (edMaxPrice.getText().toString().isEmpty()) {
+                            f.add(walker.get(i));
+                            Log.d("nothing", "There was no text");
+                        } else if (walker.get(i).walkRate <= Double.parseDouble(edMaxPrice.getText() + "")) {
+                            f.add(walker.get(i));
+                            Log.d("added", "There was text");
+                        }
+
+                    }
+                    ////Log.d("HESH",f.toString());
+                    adapter.notifyDataSetChanged();
+                    adapter = new WalkerAdapter(context, f);
+
+                    lstWalkers.setAdapter(adapter);
+                }catch (Exception e){
+
+                }
             }
         });
 
@@ -324,7 +347,7 @@ public class WalkerList extends AppCompatActivity {
 
                 ArrayList<Walker> f = new ArrayList<>();
                 for(int i = 0;i<walker.size();i++){
-                    if(walker.get(i).lName.contains(edFilter.getText()+"")||walker.get(i).fName.contains(edFilter.getText()+"")){
+                    if(walker.get(i).lName.toLowerCase().contains(edFilter.getText()+"".toLowerCase())||walker.get(i).fName.toLowerCase().contains(edFilter.getText()+"".toLowerCase())){
                         f.add(walker.get(i));
 
                     }
@@ -332,6 +355,7 @@ public class WalkerList extends AppCompatActivity {
                 }
                 ////Log.d("HESH",f.toString());
 
+                adapter.notifyDataSetChanged();
                 adapter = new WalkerAdapter(context,f);
                 lstWalkers.setAdapter(adapter);
             }
@@ -390,6 +414,8 @@ public class WalkerList extends AppCompatActivity {
                 ArrayList<Walker> f = new ArrayList<>();
                 for(int i = 0;i<=walker.size();i++){
                     if(walker.get(i).walkRate < progress){
+                for(int i = 0;i<=walker.size() - 1;i++){
+                    if(Distance.calculateDistance(walker.get(i).getLatitude(),walker.get(i).getLongitude(),lat,lon) < progress){
                         f.add(walker.get(i));
 
                     }
@@ -398,6 +424,7 @@ public class WalkerList extends AppCompatActivity {
                 ////Log.d("HESH",f.toString());
 
                 adapter = new WalkerAdapter(context,f);
+                adapter.notifyDataSetChanged();
                 lstWalkers.setAdapter(adapter);
             }
 
@@ -414,7 +441,7 @@ public class WalkerList extends AppCompatActivity {
     }
 
 
-    public static String getUsername(){return username;}
+    public static String getUsername(){return uname;}
 
 
 

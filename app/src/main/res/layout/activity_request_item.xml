@@ -34,55 +34,52 @@
 
                 <TextView
                     android:id="@+id/txtRequestName"
-                    android:layout_width="0dp"
+                    android:layout_width="351dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
                     android:text="Requested by:"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/txtRequestFor"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/txtRequestFor"
-                    android:layout_width="0dp"
+                    android:layout_width="367dp"
                     android:layout_height="wrap_content"
                     android:text="Requested for:"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@+id/txtContactInfo"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintBottom_toTopOf="@+id/txtReqPetDesc"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtRequestName" />
 
                 <TextView
                     android:id="@+id/txtContactInfo"
-                    android:layout_width="0dp"
+                    android:layout_width="351dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
                     android:text="Contact Information:"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/btnRemoveReq"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtReqPetDesc" />
+
+                <TextView
+                    android:id="@+id/txtReqPetDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pet description:"
+                    app:layout_constraintBottom_toTopOf="@+id/txtContactInfo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtRequestFor" />
 
                 <Button
                     android:id="@+id/btnRemoveReq"
-                    android:layout_width="0dp"
+                    android:layout_width="367dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/primary_color"
                     android:text="Remove Request"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtContactInfo" />
 
