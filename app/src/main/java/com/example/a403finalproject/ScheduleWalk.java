@@ -36,6 +36,7 @@ import java.util.TimeZone;
 
 public class ScheduleWalk extends AppCompatActivity {
 
+    //initialize variables.
     Button btnConfirmBooking;
     CalendarView cvDate;
     EditText edTime;
@@ -52,13 +53,16 @@ public class ScheduleWalk extends AppCompatActivity {
     TextView txtHeader;
 
 
+    //oncreate load data.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_walk);
 
+        //get header text.
         txtHeader = findViewById(R.id.txtHeader);
 
+        //get preferences and pull values.
         preferences = getPreferences(MODE_PRIVATE);
         editor = preferences.edit();
 
@@ -79,23 +83,27 @@ public class ScheduleWalk extends AppCompatActivity {
         rdoPM = findViewById(R.id.rdoPM);
         requestQueue = Volley.newRequestQueue(this);
 
-
+        //default PM to be checked off.
         rdoPM.setChecked(true);
 
+        //set default calendar values.
         Calendar c = Calendar.getInstance();
 
         cvDate.setDate(c.getTimeInMillis());
         edTime.setText("12:01");
 
+        //on cvDate value being edited apply necessary values.
         cvDate.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             String readableDate = getReadableDate(year, month, dayOfMonth);
             appointmentDate = readableDate;
         });
 
 
+        //on btnconfirm booking being selected.
         btnConfirmBooking.setOnClickListener(e -> {
             //UTC: 2023-12-06 15:00:00
 
+            //check if time value is valid.
             if (checkTime() == true) {
                 // Prepare the JSON request data
                 JSONObject requestData = new JSONObject();
@@ -107,12 +115,15 @@ public class ScheduleWalk extends AppCompatActivity {
                     int endtime = Integer.parseInt(timeSplit[0]);
                     endtime += 1;
 
+                    //add time for UTC standard.
                     if (rdoPM.isChecked()) {
                         endtime += 12;
                     }
 
+                    //perform time editing.
                     timeVals();
                     String appointmentEndTime;
+                    //if > 24 reset back to 1
                     if (endtime > 24) {
                         endtime -= 24;
                         appointmentEndTime = appointmentDate + " 0" + endtime + ":" + timeSplit[1] + ":0";
@@ -172,21 +183,18 @@ public class ScheduleWalk extends AppCompatActivity {
         });
 
 
+        //flip flop on rdos.
         rdoAM.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // If RadioButton 1 is checked, uncheck RadioButton 2
                 if (isChecked) {
                     rdoPM.setChecked(false);
                 }
             }
         });
-
-        // Set a listener for RadioButton 2
         rdoPM.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // If RadioButton 2 is checked, uncheck RadioButton 1
                 if (isChecked) {
                     rdoAM.setChecked(false);
                 }
@@ -271,12 +279,14 @@ public class ScheduleWalk extends AppCompatActivity {
 
     }
 
+    //returns UTC formatted date.
     private String getReadableDate(int year, int month, int day) {
         month++;
 
         return String.format("%04d-%02d-%02d", year, month, day);
     }
 
+    //checks if the time is valid by seeing if hour entered is <= 12 and if char's are valid
     private Boolean checkTime() {
         boolean b = true;
 
@@ -300,6 +310,7 @@ public class ScheduleWalk extends AppCompatActivity {
         return b;
     }
 
+    //apply time changes for PM as UTC uses 24 hour clock.
     private void timeVals() {
 
         int hrs = Integer.parseInt(edTime.getText().toString().trim().split(":")[0]);

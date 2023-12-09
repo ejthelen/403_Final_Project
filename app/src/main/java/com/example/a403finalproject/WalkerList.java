@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class WalkerList extends AppCompatActivity {
+
+    //initialize variables.
     ActivityResultLauncher resultLauncher;
 
     ListView lstWalkers;
@@ -62,13 +64,16 @@ public class WalkerList extends AppCompatActivity {
     static String uname;
     SharedPreferences.Editor editor;
 
+    //oncreate to load visible data.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walker_list);
 
+        //sharedpreferences caller
         sp = getSharedPreferences("HESH",MODE_PRIVATE);
         sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
+
 
         uname = sp.getString("uname","err");
         SharedPreferences.Editor ed = sp.edit();
@@ -76,6 +81,7 @@ public class WalkerList extends AppCompatActivity {
 
         Log.d("HESH",uname+"");
 
+        //apply field values.
         lstWalkers = findViewById(R.id.lstWalkers);
         edFilter = findViewById(R.id.edFilter);
         btnFilter = findViewById(R.id.btnFilter);
@@ -84,12 +90,12 @@ public class WalkerList extends AppCompatActivity {
         edDistance = findViewById(R.id.edDistance);
         clFilter = findViewById(R.id.clFilter);
         edMaxPrice = findViewById(R.id.edMaxPrice);
-
         btnToPetsFromHome = findViewById(R.id.btnToPetsFromHome);
         btnToReqFromHome = findViewById(R.id.btnToReqFromHome);
         btnToProfileFromHome = findViewById(R.id.btnToProfileFromHome);
         btnToInfoFromHome = findViewById(R.id.btnToInfoFromHome);
 
+        //navbar properties.
         btnToPetsFromHome.setOnClickListener(e -> {
 
             Intent i = new Intent(this, RequestsActivity.class);
@@ -118,14 +124,17 @@ public class WalkerList extends AppCompatActivity {
             Log.d("Main_Activity", result.getResultCode() + "");
         });
 
+        //create request.
         queue = Volley.newRequestQueue(this);
 
+        //get context.
         context = this;
         float lat = sharedPreferences.getFloat("lat",0);
         float lon = sharedPreferences.getFloat("lon", 0);
 
         Log.d("lat and lon", lat + " " + lon);
 
+        //initialize walker arraylist.
         walker = new ArrayList<>();
 
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetActiveWalkers";
@@ -194,6 +203,8 @@ public class WalkerList extends AppCompatActivity {
 
         // Add the request to the request queue
         queue.add(request);
+
+        //sleep thread to let data load.
         try {
             // Sleep for 3 seconds (3000 milliseconds)
             Thread.sleep(1000);
@@ -201,6 +212,7 @@ public class WalkerList extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //get walker value for current user.
         int tuid = sp.getInt("TUID", 1);
         for(int j = 0;j<walker.size();j++){
             if(walker.get(j).getTUID()==tuid){
@@ -208,13 +220,16 @@ public class WalkerList extends AppCompatActivity {
             }
         }
 
+        //apply adapter values
         adapter = new WalkerAdapter(this,walker);
 
+        //set the adapter to the lstview.
         lstWalkers.setAdapter(adapter);
 
-
+        //notify data changed for redundancy.
         adapter.notifyDataSetChanged();
 
+        //all filtering in the listview.
         lstWalkers.setTextFilterEnabled(true);
 
         if (Objects.isNull(getIntent()) == false) {
@@ -222,12 +237,17 @@ public class WalkerList extends AppCompatActivity {
             int walkerID = mapRecievedIntent.getIntExtra("walker_ID", -1);
         }
 
+        //on btnLocation selection.
         btnLocation.setOnClickListener(e->{
+            //get intent.
             Intent i = new Intent(this, Walker_Map.class);
+            //create arraylist to carry values.
             ArrayList<String> walkerArrayList = new ArrayList<>();
 
+            //create bundle.
             Bundle bundle = new Bundle();
 
+            //insert values into the walkerArrayList.
             for (Walker walker1 : walker) {
                 walkerArrayList.add(walker1.getfName() + "," + walker1.getlName() + "," +
                         walker1.getUserName() + "," +
@@ -237,19 +257,17 @@ public class WalkerList extends AppCompatActivity {
                         walker1.getPhoneNumber() +  "," +walker1.getEmail() + "," + walker1.getLatitude() + "," +
                         walker1.getLongitude() + "," + walker1.getTUID());
             }
+            //apply arraylist to bundle.
             bundle.putStringArrayList("walkerArrayList", walkerArrayList);
 
+            //apply bundle and start.
             i.putStringArrayListExtra("walkerArrayList", walkerArrayList);
             startActivity(i);
         });
 
-
+        //on filter clicked expand/contract when necessary.
         clFilter.setMaxHeight(0);
         btnFilter.setOnClickListener(e->{
-
-            for(int i = 0;i<walker.size();i++){
-                //Log.d("HESH",walker.get(i).getUserName()+"");
-            }
             if(clFilter.getMaxHeight()==1440){
                 clFilter.setMaxHeight(0);
 
@@ -259,6 +277,7 @@ public class WalkerList extends AppCompatActivity {
 
         });
 
+        //on edMaxPrice text changed.
         edMaxPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -267,6 +286,9 @@ public class WalkerList extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                //loop through the arraylist of walker and apply their values to a new arraylist.
+
                 ArrayList<Walker> f = new ArrayList<>();
                 try {
                     for (int i = 0; i < walker.size(); i++) {
@@ -312,6 +334,7 @@ public class WalkerList extends AppCompatActivity {
             }
         });
 
+        //prompts to occur when text changes in the name filter textfield.
         edFilter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -320,6 +343,8 @@ public class WalkerList extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //loop through all walkers and check by first name.
+
                 ArrayList<Walker> f = new ArrayList<>();
                 for(int i = 0;i<walker.size();i++){
                     if(walker.get(i).lName.toLowerCase().contains(edFilter.getText()+"".toLowerCase())||walker.get(i).fName.toLowerCase().contains(edFilter.getText()+"".toLowerCase())){
@@ -340,15 +365,20 @@ public class WalkerList extends AppCompatActivity {
 
             }
         });
+
+        //on sbdistance value changes.
         sbDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                //loop through walkers and apply only those within the required distance.
+
                 edDistance.setText(""+progress);
                 ArrayList<Walker> f = new ArrayList<>();
-                for(int i = 0;i<=walker.size() - 1;i++){
-                    if(Distance.calculateDistance(walker.get(i).getLatitude(),walker.get(i).getLongitude(),lat,lon) < progress){
+                for(int i = 0;i<=walker.size();i++){
+                    if(Distance.calculateDistance(walker.get(i).getLatitude(),walker.get(i).getLongitude(),w.getLatitude(),w.getLongitude()) < progress){
                         f.add(walker.get(i));
 
                     }
@@ -357,7 +387,6 @@ public class WalkerList extends AppCompatActivity {
                 ////Log.d("HESH",f.toString());
 
                 adapter = new WalkerAdapter(context,f);
-                adapter.notifyDataSetChanged();
                 lstWalkers.setAdapter(adapter);
             }
 
@@ -371,6 +400,9 @@ public class WalkerList extends AppCompatActivity {
 
             }
         });
+
+        //sbSpeed seekbar change listener for checking max speed.
+
     }
 
 

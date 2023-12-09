@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.cardview.widget.CardView;
 
 
 import com.android.volley.Request;
@@ -29,12 +31,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class WalkerAdapter extends BaseAdapter {
     RequestQueue queue;
 
+    //initialize variables.
     ArrayList<Walker> walkers;
     Context context;
     Walker w;
@@ -42,12 +43,14 @@ public class WalkerAdapter extends BaseAdapter {
     SharedPreferences sp;
     SharedPreferences sharedPreferences;
 
+
+    //get context and walkers.
     public WalkerAdapter(Context context, ArrayList<Walker> walkers){
         this.walkers = walkers;
         this.context = context;
     }
 
-
+    //get values
     @Override
     public int getCount() {
         return walkers.size();
@@ -63,6 +66,7 @@ public class WalkerAdapter extends BaseAdapter {
         return 0;
     }
 
+
     @Override
     public View getView(int i, View view, ViewGroup parent) {
         view = LayoutInflater.from(context).inflate(R.layout.layout_walker, parent, false);
@@ -74,23 +78,25 @@ public class WalkerAdapter extends BaseAdapter {
 
         queue = Volley.newRequestQueue(view.getContext());
 
+        //get current walker instance.
         Walker walker = walkers.get(i);
 
+        //apply textviews.
+        CardView cardViewWalker = view.findViewById(R.id.cardViewWalker);
         TextView txtName = view.findViewById(R.id.txtName);
         TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
         TextView txtDistanceAway = view.findViewById(R.id.txtDistanceAway);
         TextView txtCharge = view.findViewById(R.id.txtCharge);
-        ConstraintLayout clHousing = view.findViewById(R.id.clHousing);
         Button btnBook = view.findViewById(R.id.btnBook);
         TextView txtLongDesc = view.findViewById(R.id.txtLongDesc);
-        TextView txtEC = view.findViewById(R.id.txtExpand);
         txtName.setText("Name: " + walker.fName + " " + walker.lName);
         txtShortDesc.setText("" + walker.sDesc);
         //txtDistanceAway.setText("Name: "+walker.distanceAway);
         txtCharge.setText("Price: " + walker.walkRate);
         txtLongDesc.setText("" + walker.lDesc);
 
-            w = new Walker();
+
+        w = new Walker();
 
 //        for(int j = 0;j<walkers.size();j++){
 //            //Log.d("HESH","TUID: "+walkers.get(j).getTUID()+ " "+Profile_View.getTuid());
@@ -98,11 +104,14 @@ public class WalkerAdapter extends BaseAdapter {
 //                w = walkers.get(j);
 //            }
 //        }
+
+        //apply walker value.
             for (Walker walker1 : walkers) {
                 if (username.equals(walker1.getUserName())) {
                     w = walker1;
                 }
             }
+
 
         float lat = sharedPreferences.getFloat("lat",0);
         float lon = sharedPreferences.getFloat("lon", 0);
@@ -112,31 +121,54 @@ public class WalkerAdapter extends BaseAdapter {
 
             //Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");
 
-        clHousing.setMaxHeight(300);
-        btnBook.setVisibility(View.INVISIBLE);
+        ///clHousing.setMaxHeight(300);
+        //default max height
+        //clHousing.setMaxHeight(300);
+        //set button to invisible.
+        //btnBook.setVisibility(View.INVISIBLE);
 
-        txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
+        //allow scrolling in the textview.
+        //txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
 
+        //notify dataset changed.
         notifyDataSetChanged();
+        cardViewWalker.setOnClickListener(v->{
+            //Animation when the card expands
+            TransitionManager.beginDelayedTransition(cardViewWalker,new AutoTransition());
+
+            // checks if the description is currently visible and toggles the visibility
+            if (txtShortDesc.getVisibility() == View.VISIBLE&&txtLongDesc.getVisibility() == View.VISIBLE && btnBook.getVisibility() == View.VISIBLE) {
+                txtShortDesc.setVisibility(View.GONE);
+                txtLongDesc.setVisibility(View.GONE);
+                btnBook.setVisibility(View.GONE);
+
+            } else {
+                txtShortDesc.setVisibility(View.VISIBLE);
+                txtLongDesc.setVisibility(View.VISIBLE);
+                btnBook.setVisibility(View.VISIBLE);
+            }
+        });
 
 
-            clHousing.setOnClickListener(e -> {
-                //clHousing.setMaxHeight(300);
+//            clHousing.setOnClickListener(e -> {
+//                //clHousing.setMaxHeight(300);
+//
+//                if (clHousing.getMaxHeight() == 300) {
+//                    clHousing.setMaxHeight(1000);
+//                    //Log.d("HESH",txtLongDesc.getHeight()+"");
+//                    txtEC.setText("^");
+//                    btnBook.setVisibility(View.VISIBLE);
+//                } else if (clHousing.getMaxHeight() == 1000) {
+//                    clHousing.setMaxHeight(300);
+//                    txtEC.setText("v");
+//                    btnBook.setVisibility(View.INVISIBLE);
+//
+//                }
+//
+//            });
 
-                if (clHousing.getMaxHeight() == 300) {
-                    clHousing.setMaxHeight(1000);
-                    //Log.d("HESH",txtLongDesc.getHeight()+"");
-                    txtEC.setText("^");
-                    btnBook.setVisibility(View.VISIBLE);
-                } else if (clHousing.getMaxHeight() == 1000) {
-                    clHousing.setMaxHeight(300);
-                    txtEC.setText("v");
-                    btnBook.setVisibility(View.INVISIBLE);
-
-                }
-
-            });
-
+            //on btnbook beign clicked send the walker username, the walker selected, and
+        //start schedulewalk activity.
             btnBook.setOnClickListener(e -> {
 
                 JSONObject newReq = new JSONObject();
