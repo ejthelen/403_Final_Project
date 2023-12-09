@@ -129,8 +129,8 @@ public class WalkerList extends AppCompatActivity {
 
         //get context.
         context = this;
-        double lat = (double)sharedPreferences.getFloat("lat",0);
-        double lon = (double)sharedPreferences.getFloat("lon", 0);
+        float lat = sharedPreferences.getFloat("lat",0);
+        float lon = sharedPreferences.getFloat("lon", 0);
 
         Log.d("lat and lon", lat + " " + lon);
 
