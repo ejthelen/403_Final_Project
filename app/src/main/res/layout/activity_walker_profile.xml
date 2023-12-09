@@ -61,7 +61,7 @@
         android:hint="Phone Number (989-111-1111)"
         android:inputType="text"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnUpdate"
+        app:layout_constraintBottom_toTopOf="@+id/btnMakeRequest"
         app:layout_constraintEnd_toEndOf="@+id/eduserFirstName"
         app:layout_constraintStart_toStartOf="@+id/eduserFirstName"
         app:layout_constraintTop_toBottomOf="@+id/eduserMail" />
@@ -69,11 +69,12 @@
     <TextView
         android:id="@+id/eduserShort"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Short Description (50 character limit)"
-        android:inputType="text"
+        android:inputType="textMultiLine"
+        android:lines="2"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/eduserLong"
         app:layout_constraintEnd_toEndOf="@+id/eduserFirstName"
