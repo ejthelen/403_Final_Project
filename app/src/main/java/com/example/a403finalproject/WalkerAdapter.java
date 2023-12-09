@@ -21,8 +21,13 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -126,12 +131,11 @@ public class WalkerAdapter extends BaseAdapter {
             }
         });
 
+
         btnRequest.setOnClickListener(e -> {
                Intent intent = new Intent(context, WalkerProfile.class);
 
                 Bundle b = new Bundle();
-
-                Log.d("HESH", walker.getUserName() + " " + WalkerList.getUsername());
 
                 b.putString("walker_username", walker.userName);
                 b.putString("first", "" + walker.fName);
@@ -143,8 +147,6 @@ public class WalkerAdapter extends BaseAdapter {
                 b.putString("number", walker.PhoneNumber);
 
                 b.putString("client_username", username);
-
-                //Log.d("HESH",""+walker.getTUID());
 
                 intent.putExtras(b);
                 startActivity(context, intent, b);
