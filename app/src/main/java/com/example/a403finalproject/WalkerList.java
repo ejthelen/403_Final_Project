@@ -220,10 +220,10 @@ public class WalkerList extends AppCompatActivity {
             }
         }
 
-        //apply adapter values
+        //apply requestAdaptor values
         adapter = new WalkerAdapter(this,walker);
 
-        //set the adapter to the lstview.
+        //set the requestAdaptor to the lstview.
         lstWalkers.setAdapter(adapter);
 
         //notify data changed for redundancy.
