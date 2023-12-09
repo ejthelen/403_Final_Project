@@ -106,6 +106,7 @@
                     android:layout_height="match_parent"
                     android:ems="10"
                     android:inputType="textPassword"
+                    android:text="Password123"
                     android:textSize="16sp" />
 
 
@@ -137,6 +138,7 @@
                     android:drawableRight="@drawable/baseline_account_circle_24"
                     android:ems="10"
                     android:inputType="text"
+                    android:text="mikasa"
                     android:textSize="16sp" />
 
 

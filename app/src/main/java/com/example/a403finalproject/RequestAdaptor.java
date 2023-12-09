@@ -36,8 +36,9 @@ public class RequestAdaptor extends BaseAdapter {
     int reqTuID = 1;
 
     public RequestAdaptor(Context context, ArrayList<WalkerRequest> requests) {
-        this.requests = requests;
         this.context = context;
+        this.requests = requests;
+
     }
 
     @Override
@@ -61,45 +62,40 @@ public class RequestAdaptor extends BaseAdapter {
         WalkerRequest request = requests.get(i);
         CardView cardViewReq = view.findViewById(R.id.cardViewReq);
         TextView txtRequestName = view.findViewById(R.id.txtRequestName);
-        TextView txtRequestFor = view.findViewById(R.id.txtRequestFor);
-        TextView txtReqPetDesc = view.findViewById(R.id.txtReqPetDesc);
         TextView txtContactInfo = view.findViewById(R.id.txtContactInfo);
-        Button btnRemoveReq = view.findViewById(R.id.btnRemoveReq);
 
         // Initialize the RequestQueue
         queue = Volley.newRequestQueue(context);
 
 
         // Update the card to show the request information
-        txtRequestName.setText("Requested by:: "+request.requester_name);
-        txtRequestFor.setText("Requested for: "+request.petName+"");
-        txtReqPetDesc.setText("Pet description: "+request.pet_description+"");
+        txtRequestName.setText("Requested by: "+request.requester_name);
         txtContactInfo.setText("Contact info: "+request.phone_number+" or " + request.email);
 
-        // When button is clicked, the request will be removed from the database and the users list
-        btnRemoveReq.setOnClickListener(e -> {
-            JSONObject deleteReq = new JSONObject();
-            try {
-                deleteReq.put("TuID", reqTuID);
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
-            String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/DeleteRequest";
-
-            JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, deleteReq,
-                    response -> {
-                        // Handle successful update
-                        Log.d("Delete", "Data deleted successfully");
-                    },
-                    error -> {
-                        // Handle error
-                        Log.e("Delete", "Error deleted data: " + error.toString());
-                    });
-
-            queue.add(updateRequest);
-            notifyDataSetChanged();
-            resultLauncher.launch(i);
-        });
+//        // When button is clicked, the request will be removed from the database and the users list
+//        btnRemoveReq.setOnClickListener(e -> {
+//            JSONObject deleteReq = new JSONObject();
+//            try {
+//                deleteReq.put("TuID", reqTuID);
+//            } catch (JSONException ex) {
+//                ex.printStackTrace();
+//            }
+//            String updateUrl = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/DeleteRequest";
+//
+//            JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, updateUrl, deleteReq,
+//                    response -> {
+//                        // Handle successful update
+//                        Log.d("Delete", "Data deleted successfully");
+//                    },
+//                    error -> {
+//                        // Handle error
+//                        Log.e("Delete", "Error deleted data: " + error.toString());
+//                    });
+//
+//            queue.add(updateRequest);
+//            notifyDataSetChanged();
+//            resultLauncher.launch(i);
+//        });
        return view;
     }
 }

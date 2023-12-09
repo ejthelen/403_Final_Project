@@ -97,10 +97,10 @@ public class SignUp extends AppCompatActivity {
 
         Places.initialize(getApplicationContext(), "AIzaSyB93L6kI1kDueyE7lBAJXBEMJqAzv-Ithw");
 
-
+        //get the autocompletesupportfragment from the fragment manage
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
+        //specify the fields to be returned for a selected place
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG));
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -126,11 +126,13 @@ public class SignUp extends AppCompatActivity {
                     // Extract components from the address
                     List<AddressComponent> addressComponents = place.getAddressComponents().asList();
 
+                    //seperate each component of the addy into different varaibles
                     String zipCode = getAddressComponent(addressComponents, "postal_code");
                     String city = getAddressComponent(addressComponents, "locality");
                     String country = getAddressComponent(addressComponents, "country");
                     String state = getAddressComponent(addressComponents, "administrative_area_level_1");
 
+                    //display to user
                     etAddress.setText(address);
                     etCity.setText(city);
                     etCountry.setText(country);

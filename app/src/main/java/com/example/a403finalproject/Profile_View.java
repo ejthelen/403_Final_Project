@@ -177,8 +177,6 @@ public class Profile_View extends AppCompatActivity {
 
         // This is where the user will search for with address and the text views will be filled in
         Places.initialize(getApplicationContext(), "AIzaSyB93L6kI1kDueyE7lBAJXBEMJqAzv-Ithw");
-
-
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment2);
 
