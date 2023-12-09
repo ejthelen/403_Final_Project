@@ -22,9 +22,18 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class WalkerAdapter extends BaseAdapter {
+    RequestQueue queue;
 
     //initialize variables.
     ArrayList<Walker> walkers;
@@ -67,6 +76,7 @@ public class WalkerAdapter extends BaseAdapter {
         SharedPreferences.Editor ed = sp.edit();
         sharedPreferences = view.getContext().getSharedPreferences("MODE", Context.MODE_PRIVATE);
 
+        queue = Volley.newRequestQueue(view.getContext());
 
         //get current walker instance.
         Walker walker = walkers.get(i);
@@ -160,19 +170,45 @@ public class WalkerAdapter extends BaseAdapter {
             //on btnbook beign clicked send the walker username, the walker selected, and
         //start schedulewalk activity.
             btnBook.setOnClickListener(e -> {
-                Intent intent = new Intent(context, ScheduleWalk.class);
 
-                Bundle b = new Bundle();
+                JSONObject newReq = new JSONObject();
+                try {
+                    newReq.put("walker_username", walker.userName);
+                    newReq.put("client_username", username);
 
-                Log.d("HESH", walker.getUserName() + " " + WalkerList.getUsername());
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
 
-                b.putString("WU", "" + walker.getUserName());
-                b.putString("CU", "" + WalkerList.getUsername());
+                Log.d("request", newReq +"");
+                // URL for Create Request
+                String requestURL = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/SetRequest";
 
-                //Log.d("HESH",""+walker.getTUID());
+                // Send a post request with the newPet
+                JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, requestURL, newReq,
+                        response -> {
+                            // Handle successful update
+                            Log.d("Update", "Data updated successfully");
+                        },
+                        error -> {
+                            // Handle error
+                            Log.e("Update", "Error updating data: " + error.toString());
+                        });
 
-                intent.putExtras(b);
-                startActivity(context, intent, b);
+                queue.add(updateRequest);
+//                Intent intent = new Intent(context, ScheduleWalk.class);
+//
+//                Bundle b = new Bundle();
+//
+//                Log.d("HESH", walker.getUserName() + " " + WalkerList.getUsername());
+//
+//                b.putString("WU", "" + walker.getUserName());
+//                b.putString("CU", "" + WalkerList.getUsername());
+//
+//                //Log.d("HESH",""+walker.getTUID());
+//
+//                intent.putExtras(b);
+//                startActivity(context, intent, b);
             });
             return view;
         }

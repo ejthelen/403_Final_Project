@@ -56,6 +56,7 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     Distance distance;
     Walker currentWalker;
     SharedPreferences sp;
+    SharedPreferences sharedPreferences;
     String username;
     Button btnMapBack;
 
@@ -66,10 +67,14 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         binding = ActivityWalkerMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         distance = new Distance();
+        queue = Volley.newRequestQueue(this);
+
+        //Log.d("user", getUser()+"");
 
 
 
         sp = getSharedPreferences("HESH",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("MODE",MODE_PRIVATE);
         username = sp.getString("uname","err");
         SharedPreferences.Editor ed = sp.edit();
         btnMapBack = findViewById(R.id.btnMapBack);
@@ -127,7 +132,7 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         }
         for (Walker walker1 : walker) {
             if (username.equals(walker1.getUserName())) {
-                currentWalker = walker1;
+//                currentWalker = getUser();
             }
         }
 
@@ -144,22 +149,24 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
     }
 
     private void setWalkerMarkers() {
-        LatLng latLngCurrentWalker = new LatLng(currentWalker.getLatitude(),
-                currentWalker.getLongitude());
+        double lat = (double)sharedPreferences.getFloat("lat",0);
+        double lon = (double)sharedPreferences.getFloat("lon", 0);
+        LatLng latLngCurrentWalker = new LatLng(lat,
+                lon);
 
+        int tuid = sharedPreferences.getInt("userTUID", 1);
             for (Walker walker : walker) {
-                if (walker.getTUID() != currentWalker.getTUID()) {
+                if (walker.getTUID() != tuid) {
                     LatLng walkerPosition = new LatLng(walker.getLatitude(), walker.getLongitude());
                     Marker marker = mMap.addMarker(new MarkerOptions().position(walkerPosition));
                     marker.setTitle((walker.getfName()));
                     marker.setTag(walker);
                 } else {
                     int markerColor = Color.BLUE;
-                    addCustomMarker(latLngCurrentWalker, markerColor, currentWalker);
+                    addCustomMarker(latLngCurrentWalker, markerColor);
                 }
             }
-
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngCurrentWalker));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLngCurrentWalker));
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(latLngCurrentWalker)
                 .zoom(12)
@@ -167,14 +174,14 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    private void addCustomMarker(LatLng position, int color, Walker walker) {
+    private void addCustomMarker(LatLng position, int color) {
         BitmapDescriptor customMarker = getMarkerIconFromColor(color);
 
         Marker marker = mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .icon(customMarker));
-        marker.setTitle((walker.getfName()));
-        marker.setTag(walker);
+        marker.setTitle("You");
+        marker.setTag("user");
 
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
     }
@@ -217,25 +224,27 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
 
             txtWalkerName.setText("Name: " + walker1.getlName());
 
-            if (walker1.getTUID() != currentWalker.getTUID()) {
+            float lat = sharedPreferences.getFloat("lat",0);
+            float lon = sharedPreferences.getFloat("lon", 0);
+            int id = sharedPreferences.getInt("userTUID", 1);
+            if (walker1.getTUID() != id) {
                 txtPrice.setText(String.format(Locale.US, "Charge: $%,.2f",
                         walker1.getCharge()));
                 txtWalkerDistance.setText("Distance: " +
                         distance.calculateDistance(walker1.getLatitude(),
-                                walker1.getLongitude(), currentWalker.getLatitude(),
-                                currentWalker.getLongitude()) + " miles");
+                                walker1.getLongitude(), lat,
+                                lon) + " miles");
                 txtWalkerRate.setText(String.format(Locale.US, "Rate: $%,.2f per walk",
                         walker1.getWalkRate()));
             } else {
-                txtWalkerName.setText(txtWalkerName.getText() + " (Me)");
-                txtPrice.setText("City: " + walker1.getCity().substring(0,1).toUpperCase() +
-                        walker1.getCity().substring(1, walker1.getCity().length()));
-                txtWalkerDistance.setText("State: " + walker1.getState().toUpperCase());
-                txtWalkerRate.setText("Country: " + walker1.getCountry());
+//                txtWalkerName.setText(txtWalkerName.getText());
+//                txtPrice.setText("City: " + walker1.getCity().substring(0,1).toUpperCase() +
+//                        walker1.getCity().substring(1, walker1.getCity().length()));
+//                txtWalkerDistance.setText("State: " + walker1.getState().toUpperCase());
+//                txtWalkerRate.setText("Country: " + walker1.getCountry());
             }
 
             return v;
         }
     }
-
 }
