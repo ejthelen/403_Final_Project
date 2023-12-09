@@ -98,13 +98,13 @@ public class WalkerList extends AppCompatActivity {
         //navbar properties.
         btnToPetsFromHome.setOnClickListener(e -> {
 
-            Intent i = new Intent(this, RequestsActivity.class);
+            Intent i = new Intent(this, PetsActivity.class);
 
             resultLauncher.launch(i);
         });
 
         btnToReqFromHome.setOnClickListener(e -> {
-            Intent i = new Intent(this, WalkerList.class);
+            Intent i = new Intent(this, RequestsActivity.class);
             resultLauncher.launch(i);
         });
 
@@ -377,8 +377,8 @@ public class WalkerList extends AppCompatActivity {
 
                 edDistance.setText(""+progress);
                 ArrayList<Walker> f = new ArrayList<>();
-                for(int i = 0;i<=walker.size();i++){
-                    if(Distance.calculateDistance(walker.get(i).getLatitude(),walker.get(i).getLongitude(),w.getLatitude(),w.getLongitude()) < progress){
+                for(int i = 0;i<=walker.size() - 1;i++){
+                    if(Distance.calculateDistance(walker.get(i).getLatitude(),walker.get(i).getLongitude(),lat,lon) < progress){
                         f.add(walker.get(i));
 
                     }
