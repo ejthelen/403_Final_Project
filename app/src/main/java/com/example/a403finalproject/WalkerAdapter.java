@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -87,7 +86,7 @@ public class WalkerAdapter extends BaseAdapter {
         TextView txtShortDesc = view.findViewById(R.id.txtShortDesc);
         TextView txtDistanceAway = view.findViewById(R.id.txtDistanceAway);
         TextView txtCharge = view.findViewById(R.id.txtCharge);
-        Button btnBook = view.findViewById(R.id.btnBook);
+        Button btnRequest = view.findViewById(R.id.btnRequest);
         TextView txtLongDesc = view.findViewById(R.id.txtLongDesc);
         txtName.setText("Name: " + walker.fName + " " + walker.lName);
         txtShortDesc.setText("" + walker.sDesc);
@@ -98,12 +97,6 @@ public class WalkerAdapter extends BaseAdapter {
 
         w = new Walker();
 
-//        for(int j = 0;j<walkers.size();j++){
-//            //Log.d("HESH","TUID: "+walkers.get(j).getTUID()+ " "+Profile_View.getTuid());
-//            if(walkers.get(j).getTUID()==Profile_View.getTuid()){
-//                w = walkers.get(j);
-//            }
-//        }
 
         //apply walker value.
             for (Walker walker1 : walkers) {
@@ -119,17 +112,6 @@ public class WalkerAdapter extends BaseAdapter {
         Log.d("lat and lon", lat + " " + lon);
             txtDistanceAway.setText("Distance: " + Distance.calculateDistance(walker.getLatitude(), walker.getLongitude(), lat, lon));
 
-            //Log.d("HESH",Distance.calculateDistance(walker.getLatitude(),walker.getLongitude(),w.getLatitude(),w.getLongitude())+"");
-
-        ///clHousing.setMaxHeight(300);
-        //default max height
-        //clHousing.setMaxHeight(300);
-        //set button to invisible.
-        //btnBook.setVisibility(View.INVISIBLE);
-
-        //allow scrolling in the textview.
-        //txtLongDesc.setMovementMethod(new ScrollingMovementMethod());
-
         //notify dataset changed.
         notifyDataSetChanged();
         cardViewWalker.setOnClickListener(v->{
@@ -137,78 +119,37 @@ public class WalkerAdapter extends BaseAdapter {
             TransitionManager.beginDelayedTransition(cardViewWalker,new AutoTransition());
 
             // checks if the description is currently visible and toggles the visibility
-            if (txtShortDesc.getVisibility() == View.VISIBLE&&txtLongDesc.getVisibility() == View.VISIBLE && btnBook.getVisibility() == View.VISIBLE) {
+            if (txtShortDesc.getVisibility() == View.VISIBLE&&txtLongDesc.getVisibility() == View.VISIBLE && btnRequest.getVisibility() == View.VISIBLE) {
                 txtShortDesc.setVisibility(View.GONE);
                 txtLongDesc.setVisibility(View.GONE);
-                btnBook.setVisibility(View.GONE);
+                btnRequest.setVisibility(View.GONE);
 
             } else {
                 txtShortDesc.setVisibility(View.VISIBLE);
                 txtLongDesc.setVisibility(View.VISIBLE);
-                btnBook.setVisibility(View.VISIBLE);
+                btnRequest.setVisibility(View.VISIBLE);
             }
         });
 
 
-//            clHousing.setOnClickListener(e -> {
-//                //clHousing.setMaxHeight(300);
-//
-//                if (clHousing.getMaxHeight() == 300) {
-//                    clHousing.setMaxHeight(1000);
-//                    //Log.d("HESH",txtLongDesc.getHeight()+"");
-//                    txtEC.setText("^");
-//                    btnBook.setVisibility(View.VISIBLE);
-//                } else if (clHousing.getMaxHeight() == 1000) {
-//                    clHousing.setMaxHeight(300);
-//                    txtEC.setText("v");
-//                    btnBook.setVisibility(View.INVISIBLE);
-//
-//                }
-//
-//            });
+        btnRequest.setOnClickListener(e -> {
+               Intent intent = new Intent(context, WalkerProfile.class);
 
-            //on btnbook beign clicked send the walker username, the walker selected, and
-        //start schedulewalk activity.
-            btnBook.setOnClickListener(e -> {
+                Bundle b = new Bundle();
 
-                JSONObject newReq = new JSONObject();
-                try {
-                    newReq.put("walker_username", walker.userName);
-                    newReq.put("client_username", username);
+                b.putString("walker_username", walker.userName);
+                b.putString("first", "" + walker.fName);
+                b.putString("last", "" + walker.lName);
+                b.putString("short", walker.sDesc);
+                b.putString("long", walker.lDesc);
+                b.putString("rate", ""+walker.walkRate);
+                b.putString("email", walker.Email);
+                b.putString("number", walker.PhoneNumber);
 
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
+                b.putString("client_username", username);
 
-                Log.d("request", newReq +"");
-                // URL for Create Request
-                String requestURL = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/SetRequest";
-
-                // Send a post request with the newPet
-                JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, requestURL, newReq,
-                        response -> {
-                            // Handle successful update
-                            Log.d("Update", "Data updated successfully");
-                        },
-                        error -> {
-                            // Handle error
-                            Log.e("Update", "Error updating data: " + error.toString());
-                        });
-
-                queue.add(updateRequest);
-//                Intent intent = new Intent(context, ScheduleWalk.class);
-//
-//                Bundle b = new Bundle();
-//
-//                Log.d("HESH", walker.getUserName() + " " + WalkerList.getUsername());
-//
-//                b.putString("WU", "" + walker.getUserName());
-//                b.putString("CU", "" + WalkerList.getUsername());
-//
-//                //Log.d("HESH",""+walker.getTUID());
-//
-//                intent.putExtras(b);
-//                startActivity(context, intent, b);
+                intent.putExtras(b);
+                startActivity(context, intent, b);
             });
             return view;
         }

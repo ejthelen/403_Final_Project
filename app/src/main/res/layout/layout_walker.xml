@@ -102,12 +102,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/txtShortDesc" />
 
                 <Button
-                    android:id="@+id/btnBook"
+                    android:id="@+id/btnRequest"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/primary_color"
                     android:shadowColor="#FFFFFF"
-                    android:text="Book"
+                    android:text="View Profile"
                     android:textColor="#FFFFFF"
                     android:textColorHighlight="#FFEB3B"
                     android:textColorLink="#FFFFFF"
