@@ -97,35 +97,6 @@ public class RequestsActivity extends AppCompatActivity {
         // Will get all of users requests
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetClientinfo";
 
-//        JsonRequest request = new JsonArrayRequest(Request.Method.GET, url, newWalker,
-//                response -> {
-//                    try {
-//                        // Go through each pet in the database
-//                        for (int i = 0; i < response.length(); i++) {
-//                            JsonSerializer categoryObj = response.getJSONObject(i);
-//
-//                            // Get username from database
-//                            String username = categoryObj.getString("person_username");
-//
-//                            // Check if the request is owned by user and add request to list
-//                                WalkerRequest p = new WalkerRequest(categoryObj.getString("req_username"), categoryObj.getString("req_name"), categoryObj.getString("walker_username"), categoryObj.getString("pet_name"), categoryObj.getString("phone_number"), categoryObj.getString("email"), categoryObj.getString("pet_description"));
-//                                requests.add(p);
-//
-//                        }
-//
-//                        requestAdaptor = new RequestAdaptor(this, requests);
-//
-//                        lstRequests = findViewById(R.id.lstRequests);
-//                        lstRequests.setAdapter(requestAdaptor);
-//                    } catch (JSONException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                },
-//                error -> Log.d("DDD", error.toString()));
-//
-//        queue.add(request);
-
-
         // Initialize the resultLauncher
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Log.d("Main_Activity", "Activity was finished.");

@@ -79,8 +79,6 @@ public class WalkerList extends AppCompatActivity {
         SharedPreferences.Editor ed = sp.edit();
 
 
-        Log.d("HESH",uname+"");
-
         //apply field values.
         lstWalkers = findViewById(R.id.lstWalkers);
         edFilter = findViewById(R.id.edFilter);
@@ -132,7 +130,6 @@ public class WalkerList extends AppCompatActivity {
         float lat = sharedPreferences.getFloat("lat",0);
         float lon = sharedPreferences.getFloat("lon", 0);
 
-        Log.d("lat and lon", lat + " " + lon);
 
         //initialize walker arraylist.
         walker = new ArrayList<>();
@@ -384,7 +381,6 @@ public class WalkerList extends AppCompatActivity {
                     }
 
                 }
-                ////Log.d("HESH",f.toString());
 
                 adapter = new WalkerAdapter(context,f);
                 lstWalkers.setAdapter(adapter);

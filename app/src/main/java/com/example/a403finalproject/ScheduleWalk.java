@@ -133,16 +133,12 @@ public class ScheduleWalk extends AppCompatActivity {
 
                     }
 
-//                Log.d("Appointment date",  appointmentDate +"");
-//                Log.d("Appointment date",  appointmentEndTime +"");
 
 
-                    Log.d("HESH", walkerUsername + " " + clientUsername + " " + appointmentDate + " " + edTime.getText() + ":0" + " " + appointmentEndTime);
 
                     requestData.put("appointment_endtime", appointmentEndTime + "");
                     requestData.put("status", "Scheduled");
 
-                    Log.d("In If", requestData + "");
 
                 } catch (JSONException ex) {
                     ex.printStackTrace();
@@ -156,19 +152,13 @@ public class ScheduleWalk extends AppCompatActivity {
                         response -> {
                             try {
                                 // Handle the response, e.g., log success or update UI
-                                Log.d("HESH", "Response: " + response.toString());
                                 Toast.makeText(this, "appointment created successfully", Toast.LENGTH_SHORT).show();
-                                //
-                                //                                Intent i = new Intent(this,Profile_View.class);
-                                //
-                                //                                startActivity(i);
                             } catch (Exception excep) {
                                 Log.d("ERROr", ":(");
                             }
                         },
                         error -> {
                             // Handle the error, e.g., log error or update UI
-                            Log.d("HESH", "Error creating appointment: " + error.toString());
                             Toast.makeText(this, "appointment failed to create", Toast.LENGTH_SHORT);
                         });
 
@@ -236,16 +226,10 @@ public class ScheduleWalk extends AppCompatActivity {
 
                 }
 
-//                Log.d("Appointment date",  appointmentDate +"");
-//                Log.d("Appointment date",  appointmentEndTime +"");
-
-
-                Log.d("HESH", walkerUsername + " " + clientUsername + " " + appointmentDate + " " + edTime.getText() + ":0" + " " + appointmentEndTime);
 
                 requestData.put("appointment_endtime", appointmentEndTime + "");
                 requestData.put("status", "Scheduled");
 
-                Log.d("In If", requestData + "");
 
             } catch (JSONException e) {
                 e.printStackTrace();
