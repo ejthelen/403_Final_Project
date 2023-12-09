@@ -95,8 +95,6 @@ public class Profile_View extends AppCompatActivity {
         username = sharedPreferences.getString("username","default_val");
         Log.d("USERNAME IN PROFILE","PASSED FROM LOGIN: " + username);
 
-
-
         String url = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/GetAllWalkers";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -106,9 +104,9 @@ public class Profile_View extends AppCompatActivity {
                             JSONObject categoryObj = response.getJSONObject(i);
 
                             int id = categoryObj.getInt("TuID");
+                            editor.putInt("userTUID", id);
 
                             // Set preferences for lat and lon of user
-                            editor.putInt("TUID", id);
                             editor.putFloat("lat", Float.parseFloat(categoryObj.getString("latitude")));
                             editor.putFloat("lon", Float.parseFloat(categoryObj.getString("longitude")));
                             editor.apply();
@@ -308,6 +306,32 @@ public class Profile_View extends AppCompatActivity {
             editor.putFloat("lat", (float)latitude);
             editor.putFloat("lon", (float)longitude);
             editor.apply();
+
+            JSONObject newReq = new JSONObject();
+            try {
+                newReq.put("walker_username", "mikasa");
+                newReq.put("client_username", "hrmox");
+
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+
+            Log.d("request", newReq +"");
+            // URL for Create Request
+            String requestURL = "https://cs403api20231121223109.azurewebsites.net/SVSU_CS403/SetRequest";
+
+            // Send a post request with the newPet
+            JsonObjectRequest updateRequest = new JsonObjectRequest(Request.Method.POST, requestURL, newReq,
+                    response -> {
+                        // Handle successful update
+                        Log.d("Update", "Data updated successfully");
+                    },
+                    error -> {
+                        // Handle error
+                        Log.e("Update", "Error updating data: " + error.toString());
+                    });
+
+            queue.add(updateRequest);
         });
     }
 
