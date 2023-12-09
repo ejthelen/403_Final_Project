@@ -46,6 +46,7 @@ public class StartupLogin extends AppCompatActivity {
     SharedPreferences.Editor editor;
     String message;
 
+//Get Permission to send notifications
     public void checkPermissions() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Permissions NOT granted, requesting....");
@@ -130,8 +131,8 @@ public class StartupLogin extends AppCompatActivity {
                 },
                 error -> {
                     if (error != null) {
-                        if (((VolleyError) error).networkResponse != null) {
-                            int statusCode = ((VolleyError) error).networkResponse.statusCode;
+                        if (error.networkResponse != null) {
+                            int statusCode = error.networkResponse.statusCode;
 
                             if (statusCode == 404) {
                                 // Handle 404 error
