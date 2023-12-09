@@ -69,7 +69,6 @@ public class Walker_Map extends FragmentActivity implements OnMapReadyCallback {
         distance = new Distance();
         queue = Volley.newRequestQueue(this);
 
-        //Log.d("user", getUser()+"");
 
 
 

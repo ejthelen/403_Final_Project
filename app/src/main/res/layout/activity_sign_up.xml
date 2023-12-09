@@ -57,7 +57,6 @@
             android:hint="@string/username"
             android:inputType="text"
             android:maxLength="40"
-            android:text="erwinsmith"
             app:layout_constraintBottom_toTopOf="@+id/etPasswordSignUp"
             app:layout_constraintEnd_toEndOf="@+id/etLastName"
             app:layout_constraintHorizontal_bias="0.5"
@@ -77,8 +76,7 @@
             app:layout_constraintEnd_toEndOf="@+id/etSignUpUserName"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/etSignUpUserName"
-            app:layout_constraintTop_toBottomOf="@+id/etSignUpUserName"
-            tools:text="Password123" />
+            app:layout_constraintTop_toBottomOf="@+id/etSignUpUserName" />
 
         <EditText
             android:id="@+id/etLongDescription"
@@ -93,8 +91,7 @@
             app:layout_constraintEnd_toEndOf="@+id/etShortDescription"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/etShortDescription"
-            app:layout_constraintTop_toBottomOf="@+id/etShortDescription"
-            tools:text="test description" />
+            app:layout_constraintTop_toBottomOf="@+id/etShortDescription" />
 
         <EditText
             android:id="@+id/etShortDescription"
@@ -110,8 +107,7 @@
             app:layout_constraintEnd_toEndOf="@+id/etWalkRate"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/etWalkRate"
-            app:layout_constraintTop_toBottomOf="@+id/etWalkRate"
-            tools:text="test description" />
+            app:layout_constraintTop_toBottomOf="@+id/etWalkRate" />
 
         <EditText
             android:id="@+id/etWalkRate"
@@ -202,7 +198,6 @@
             android:hint="@string/phone_number"
             android:inputType="phone"
             android:maxLength="18"
-            android:text="123-123-1234"
             app:layout_constraintBottom_toTopOf="@+id/etStreetAddy"
             app:layout_constraintEnd_toEndOf="@+id/etSignUpEmail"
             app:layout_constraintHorizontal_bias="0.0"
@@ -217,7 +212,6 @@
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:text="lol@yahoo.com"
             app:layout_constraintBottom_toTopOf="@+id/etSignUpPhoneNumber"
             app:layout_constraintEnd_toEndOf="@+id/etPasswordSignUp"
             app:layout_constraintHorizontal_bias="0.0"
@@ -245,7 +239,6 @@
             android:hint="@string/first_name"
             android:inputType="text"
             android:maxLength="20"
-            android:text="Jackie"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnBackToLogin" />
         <!-- AutocompleteSupportFragment for place autocomplete -->
