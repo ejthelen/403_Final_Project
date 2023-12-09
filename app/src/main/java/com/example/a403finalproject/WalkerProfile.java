@@ -57,7 +57,7 @@ public class WalkerProfile extends AppCompatActivity {
 
         btnBackToWalkerList.setOnClickListener(e -> {
             Intent i = new Intent(this, WalkerList.class);
-            startActivity(intent);
+            startActivity(i);
         });
 
         btnMakeRequest.setOnClickListener(e -> {
@@ -86,8 +86,9 @@ public class WalkerProfile extends AppCompatActivity {
                     });
 
             queue.add(updateRequest);
+            Intent i = new Intent(this, WalkerList.class);
+            startActivity(i);
         });
-        Intent i = new Intent(this, WalkerList.class);
-        startActivity(intent);
+
     }
 }

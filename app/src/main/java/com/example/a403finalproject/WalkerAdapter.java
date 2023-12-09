@@ -44,7 +44,7 @@ public class WalkerAdapter extends BaseAdapter {
 
 
     //get context and walkers.
-    public WalkerAdapter(Context context, ArrayList<Walker> walkers){
+    public WalkerAdapter(Context context, ArrayList<Walker> walkers) {
         this.walkers = walkers;
         this.context = context;
     }
@@ -99,27 +99,27 @@ public class WalkerAdapter extends BaseAdapter {
 
 
         //apply walker value.
-            for (Walker walker1 : walkers) {
-                if (username.equals(walker1.getUserName())) {
-                    w = walker1;
-                }
+        for (Walker walker1 : walkers) {
+            if (username.equals(walker1.getUserName())) {
+                w = walker1;
             }
+        }
 
 
-        float lat = sharedPreferences.getFloat("lat",0);
+        float lat = sharedPreferences.getFloat("lat", 0);
         float lon = sharedPreferences.getFloat("lon", 0);
 
         Log.d("lat and lon", lat + " " + lon);
-            txtDistanceAway.setText("Distance: " + Distance.calculateDistance(walker.getLatitude(), walker.getLongitude(), lat, lon));
+        txtDistanceAway.setText("Distance: " + Distance.calculateDistance(walker.getLatitude(), walker.getLongitude(), lat, lon));
 
         //notify dataset changed.
         notifyDataSetChanged();
-        cardViewWalker.setOnClickListener(v->{
+        cardViewWalker.setOnClickListener(v -> {
             //Animation when the card expands
-            TransitionManager.beginDelayedTransition(cardViewWalker,new AutoTransition());
+            TransitionManager.beginDelayedTransition(cardViewWalker, new AutoTransition());
 
             // checks if the description is currently visible and toggles the visibility
-            if (txtShortDesc.getVisibility() == View.VISIBLE&&txtLongDesc.getVisibility() == View.VISIBLE && btnRequest.getVisibility() == View.VISIBLE) {
+            if (txtShortDesc.getVisibility() == View.VISIBLE && txtLongDesc.getVisibility() == View.VISIBLE && btnRequest.getVisibility() == View.VISIBLE) {
                 txtShortDesc.setVisibility(View.GONE);
                 txtLongDesc.setVisibility(View.GONE);
                 btnRequest.setVisibility(View.GONE);
@@ -133,26 +133,27 @@ public class WalkerAdapter extends BaseAdapter {
 
 
         btnRequest.setOnClickListener(e -> {
-               Intent intent = new Intent(context, WalkerProfile.class);
+            Intent intent = new Intent(context, WalkerProfile.class);
 
-                Bundle b = new Bundle();
+            Bundle b = new Bundle();
 
-                b.putString("walker_username", walker.userName);
-                b.putString("first", "" + walker.fName);
-                b.putString("last", "" + walker.lName);
-                b.putString("short", walker.sDesc);
-                b.putString("long", walker.lDesc);
-                b.putString("rate", ""+walker.walkRate);
-                b.putString("email", walker.Email);
-                b.putString("number", walker.PhoneNumber);
+            b.putString("walker_username", walker.userName);
+            b.putString("first", "" + walker.fName);
+            b.putString("last", "" + walker.lName);
+            b.putString("short", walker.sDesc);
+            b.putString("long", walker.lDesc);
+            b.putString("rate", "" + walker.walkRate);
+            b.putString("email", walker.Email);
+            b.putString("number", walker.PhoneNumber);
 
-                b.putString("client_username", username);
+            b.putString("client_username", username);
 
-                intent.putExtras(b);
-                startActivity(context, intent, b);
-            });
-            return view;
-        }
+            intent.putExtras(b);
+            startActivity(context, intent, b);
+            Log.d("here", "jijij");
+        });
+        return view;
+    }
 
 
 }
